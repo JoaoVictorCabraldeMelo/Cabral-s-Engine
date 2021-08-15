@@ -17,7 +17,12 @@ Game::Game(std::string title, int width, int height)
   {
     throw std::runtime_error("More than one game instance running !!");
   }
+
   Game::instance = this;
+
+  this->title = title;
+  this->width = width;
+  this->height = height;
 
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0)
   {
@@ -40,19 +45,43 @@ Game::Game(std::string title, int width, int height)
 
     std::cout << "Error Load Image: " << IMG_GetError() << std::endl;
   }
-  
+
   int sound_flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_OGG;
 
   int initiated_sound = Mix_Init(sound_flags);
 
-  if((initiated_sound & sound_flags) != sound_flags){
+  if ((initiated_sound & sound_flags) != sound_flags)
+  {
     std::cout << "Failed to load mp3, flac, mod and ogg support !!" << std::endl;
     std::cout << "Error Load Sound: " << Mix_GetError() << std::endl;
   }
 
-  
-  
+  if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) != 0)
+  {
+    std::cout << "Couldn't open Audio format configuration !!" << std::endl;
+  }
 
+  Mix_AllocateChannels(32);
+
+  this.window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+
+  if (this.window == nullptr)
+  {
+    std::ofstream logfile("Erros.log");
+
+    logfile << SDL_GetError() << std::endl;
+
+    logfile.close();
+
+    std::cout << "Couldn't create Window!!" << std::endl;
+    std::cout << "Error creating window: " << SDL_GetError() << std::endl;
+
+    throw std::runtime_error(SDL_GetError());
+  }
+
+  // int renderer_flags = 
+
+  // SDL_Renderer *renderer = 
 }
 
 Game::~Game()
