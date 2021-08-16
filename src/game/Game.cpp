@@ -2,7 +2,7 @@
 #include <fstream>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include "../lib/Game.h"
+#include "../lib/Game.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
@@ -79,13 +79,39 @@ Game::Game(std::string title, int width, int height)
     throw std::runtime_error(SDL_GetError());
   }
 
-  // int renderer_flags = 
+  int renderer_flags = SDL_RENDERER_ACCELERATED;
 
-  // SDL_Renderer *renderer = 
+  this->renderer = SDL_CreateRenderer(this->window, -1, renderer_flags);
+
+  if (this->renderer == nullptr)
+  {
+    std::ofstream logfile("Erros.log");
+
+    logfile << SDL_GetError() << std::endl;
+
+    logfile.close();
+
+    std::cout << "Couldn't create Renderer for Window !!" << std::endl;
+    std::cout << "Error creating Renderer: " << SDL_GetError() << std::endl;
+
+    throw std::runtime_error(SDL_GetError());
+  }
 }
 
 Game::~Game()
 {
+
+  SDL_DestroyRenderer(this->renderer);
+
+  SDL_DestroyWindow(this->window);
+
+  Mix_CloseAudio();
+
+  Mix_Quit();
+
+  IMG_Quit();
+
+  SDL_Quit();
 }
 
 Game &Game::GetInstance()
@@ -100,4 +126,9 @@ Game &Game::GetInstance()
     Game &instance = *Game::instance;
     return instance;
   }
+}
+
+SDL_Renderer *Game::GetRenderer()
+{
+  return this->renderer;
 }
