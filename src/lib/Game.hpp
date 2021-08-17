@@ -1,3 +1,4 @@
+#pragma once
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -10,7 +11,7 @@ private:
   int width;
   int height;
 
-  static constexpr Game *instance = nullptr;
+  static Game *instance;
   SDL_Window *window;
   SDL_Renderer *renderer;
   State *state;
@@ -29,4 +30,6 @@ public:
 
   State &GetState();
 };
+
+Game *Game::instance = nullptr;
 

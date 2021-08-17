@@ -82,7 +82,7 @@ bool Music::IsOpen()
 int main(int agrc, char **argv)
 {
 
-  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0)
+  if (SDL_Init(SDL_INIT_AUDIO) != 0)
   {
     std::ofstream logfile("Errors.log");
 
@@ -111,11 +111,9 @@ int main(int agrc, char **argv)
 
   Mix_AllocateChannels(32);
 
-  Music *music = new Music();
+  Music *music = new Music("./src/assets/music/hells.ogg");
 
-  music->Open("teste.mp3");
-
-  music->Play(-1);
+  music->Play();
 
   std::chrono::milliseconds timespan(30000);
 

@@ -18,7 +18,7 @@ Game::Game(std::string title, int width, int height)
     throw std::runtime_error("More than one game instance running !!");
   }
 
-  Game::instance = this;
+  this->instance= this;
 
   this->title = title;
   this->width = width;
@@ -63,9 +63,9 @@ Game::Game(std::string title, int width, int height)
 
   Mix_AllocateChannels(32);
 
-  this.window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+  this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 
-  if (this.window == nullptr)
+  if (this->window == nullptr)
   {
     std::ofstream logfile("Erros.log");
 
@@ -135,13 +135,14 @@ SDL_Renderer *Game::GetRenderer()
 
 State &Game::GetState()
 {
-  return this->state;
+  State &state = *this->state;
+  return state;
 }
 
 void Game::Run() {
   while (this->state->QuitRequested())
   {
-    this-state->Update(2.0);
+    this->state->Update(2.0);
     this->state->Render();
 
     SDL_RenderPresent(this->renderer);

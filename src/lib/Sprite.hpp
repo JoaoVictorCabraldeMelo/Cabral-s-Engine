@@ -1,3 +1,4 @@
+#pragma once
 
 #include <SDL2/SDL_image.h>
 #include <iostream>
@@ -8,7 +9,7 @@ private:
   SDL_Texture *texture;
   int width;
   int height;
-  SDL_Rect clipRect;
+  const SDL_Rect *clipRect;
 
 public:
 

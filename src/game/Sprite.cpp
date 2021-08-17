@@ -14,7 +14,7 @@
 Sprite::Sprite()
 {
   std::cout << "Image not loaded" << std::endl;
-  return nullptr;
+  this->texture = nullptr;
 }
 
 Sprite::Sprite(std::string file)
@@ -39,9 +39,11 @@ void Sprite::Open(std::string file)
     SDL_DestroyTexture(this->texture);
   }
 
-  SDL_Renderer *renderer = Game::GetRenderer();
+  Game game = Game::GetInstance();
 
-  SDL_Texture *texture = IMG_LoadTexture(renderer, file);
+  SDL_Renderer *renderer = game.GetRenderer();
+
+  SDL_Texture *texture = IMG_LoadTexture(renderer, file.c_str());
 
   if (texture == nullptr)
   {
@@ -67,7 +69,7 @@ void Sprite::Open(std::string file)
 
     logifle.close();
 
-    std::cout << "Couldn't load Query Texture !! " << std::endl;
+    std::cout << "Couldn't load Query Texture !!" << std::endl;
     std::cout << "Error Query Texture: " << SDL_GetError() << std::endl;
 
     throw std::runtime_error(SDL_GetError());
@@ -78,25 +80,45 @@ void Sprite::Open(std::string file)
 
 void Sprite::SetClip(int x, int y, int h, int w)
 {
-  this->clipRect.h = h;
-  this->clipRect.w = w;
-  this->clipRect.x = x;
-  this->clipRect.y = y;
+  SDL_Rect clip;
+  clip.x = x;
+  clip.y = y;
+  clip.h = h;
+  clip.w = w;
+  this->clipRect = &clip;
 }
 
 void Sprite::Render(int x, int y)
 {
 
-  SDL_Renderer *renderer = Game::GetRenderer();
+  Game game = Game::GetInstance();
 
-  SDL_Rect dstClip;
+  SDL_Renderer *renderer = game.GetRenderer();
 
-  dstClip.h = this->clipRect.h;
-  dstClip.w = this->clipRect.w;
-  dstClip.x = x;
-  dstClip.y = y;
+  SDL_Rect newClip;
+
+  newClip.h = this->clipRect->h;
+  newClip.w = this->clipRect->w;
+  newClip.x = x;
+  newClip.y = y;
+
+  const SDL_Rect *dstClip = &newClip;
 
   int render_flag = SDL_RenderCopy(renderer, this->texture, this->clipRect, dstClip);
+
+  if (render_flag != 0)
+  {
+    std::fstream logfile("Erros.log");
+
+    logfile << SDL_GetError() << std::endl;
+
+    logfile.close();
+
+    std::cout << "Couldn't Render Copy !!" << std::endl;
+    std::cout << "Error Render Copy: " << SDL_GetError() << std::endl;
+
+    throw std::runtime_error(SDL_GetError());
+  }
 }
 
 bool Sprite::IsOpen()
@@ -106,4 +128,15 @@ bool Sprite::IsOpen()
     return true;
   }
   return false;
+}
+
+int main(int argc, char **argv)
+{
+
+  Sprite *sprite = new Sprite("./src/assets/sprites/monk.png");
+
+  sprite->Render(100, 100);
+
+  return 0;
+  
 }

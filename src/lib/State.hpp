@@ -1,4 +1,6 @@
-#include "./Sprite.hpp"
+#pragma once
+
+#include "Sprite.hpp"
 #include "Music.hpp"
 
 
