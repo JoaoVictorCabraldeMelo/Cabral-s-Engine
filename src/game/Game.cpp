@@ -132,3 +132,20 @@ SDL_Renderer *Game::GetRenderer()
 {
   return this->renderer;
 }
+
+State &Game::GetState()
+{
+  return this->state;
+}
+
+void Game::Run() {
+  while (this->state->QuitRequested())
+  {
+    this-state->Update(2.0);
+    this->state->Render();
+
+    SDL_RenderPresent(this->renderer);
+
+    SDL_Delay(33);
+  }
+}
