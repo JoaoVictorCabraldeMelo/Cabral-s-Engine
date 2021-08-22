@@ -12,14 +12,14 @@
 State::State()
 {
   this->quitRequested = false;
-  this->bg = new Sprite();
-  this->music = new Music();
+  this->bg = *new Sprite("./src/assets/sprites/monk.png");
+  this->music = *new Music("./src/assets/music/hells.ogg");
 }
 
-void State::LoadAssets(std::string fileMusic, std::string fileImage)
+void State::LoadAssets()
 {
-  this->bg.Open(fileImage);
-  this->music.Open(fileMusic);
+  this->bg.Open("./src/assets/sprites/monk.png");
+  this->music.Open("./src/assets/music/hells.ogg");
 }
 
 void State::Update(float dt)

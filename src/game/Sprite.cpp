@@ -39,11 +39,7 @@ void Sprite::Open(std::string file)
     SDL_DestroyTexture(this->texture);
   }
 
-  Game game = Game::GetInstance();
-
-  SDL_Renderer *renderer = game.GetRenderer();
-
-  SDL_Texture *texture = IMG_LoadTexture(renderer, file.c_str());
+  SDL_Texture *texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
 
   if (texture == nullptr)
   {
@@ -91,10 +87,6 @@ void Sprite::SetClip(int x, int y, int h, int w)
 void Sprite::Render(int x, int y)
 {
 
-  Game game = Game::GetInstance();
-
-  SDL_Renderer *renderer = game.GetRenderer();
-
   SDL_Rect newClip;
 
   newClip.h = this->clipRect->h;
@@ -104,7 +96,7 @@ void Sprite::Render(int x, int y)
 
   const SDL_Rect *dstClip = &newClip;
 
-  int render_flag = SDL_RenderCopy(renderer, this->texture, this->clipRect, dstClip);
+  int render_flag = SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, this->clipRect, dstClip);
 
   if (render_flag != 0)
   {
@@ -128,15 +120,4 @@ bool Sprite::IsOpen()
     return true;
   }
   return false;
-}
-
-int main(int argc, char **argv)
-{
-
-  Sprite *sprite = new Sprite("./src/assets/sprites/monk.png");
-
-  sprite->Render(100, 100);
-
-  return 0;
-  
 }

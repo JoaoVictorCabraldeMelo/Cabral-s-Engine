@@ -11,6 +11,9 @@
 #define INCLUDE_SDL_NET
 #include "../lib/SDL_include.h"
 
+Game *Game::instance = nullptr;
+
+
 Game::Game(std::string title, int width, int height)
 {
   if (Game::instance != nullptr)
@@ -96,6 +99,8 @@ Game::Game(std::string title, int width, int height)
 
     throw std::runtime_error(SDL_GetError());
   }
+
+  this->state = new State();
 }
 
 Game::~Game()
@@ -118,7 +123,7 @@ Game &Game::GetInstance()
 {
   if (Game::instance == nullptr)
   {
-    Game &game = *new Game("Teste oi", 500, 500);
+    Game &game = *new Game("160127670", 1024, 600);
     return game;
   }
   else
@@ -149,4 +154,13 @@ void Game::Run() {
 
     SDL_Delay(33);
   }
+}
+
+int main() {
+
+  Game game = Game::GetInstance();
+
+  game.Run();
+
+  return 0;
 }

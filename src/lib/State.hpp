@@ -22,7 +22,7 @@ public:
 
   bool QuitRequested();
 
-  void LoadAssets(std::string fileMusic, std::string fileImage);
+  void LoadAssets();
 
   void Update(float dt);
 

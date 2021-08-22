@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "./State.hpp"
+
 class Game
 {
 
@@ -15,11 +16,10 @@ private:
   SDL_Window *window;
   SDL_Renderer *renderer;
   State *state;
-  
+
   Game(std::string title, int width, int height);
 
 public:
-
   ~Game();
 
   void Run();
@@ -30,6 +30,4 @@ public:
 
   State &GetState();
 };
-
-Game *Game::instance = nullptr;
 
