@@ -9,6 +9,7 @@ class Game
 
 private:
   std::string title;
+
   int width;
   int height;
 
@@ -20,6 +21,8 @@ private:
   Game(std::string title, int width, int height);
 
 public:
+
+
   ~Game();
 
   void Run();
@@ -29,5 +32,10 @@ public:
   static Game &GetInstance();
 
   State &GetState();
+
+  int GetHeight();
+
+  int GetWidth();
+  
 };
 

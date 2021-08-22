@@ -144,8 +144,17 @@ State &Game::GetState()
   return state;
 }
 
+int Game::GetHeight(){
+  return this->height;
+}
+
+int Game::GetWidth() {
+  return this->width;
+}
+
 void Game::Run() {
-  while (this->state->QuitRequested())
+
+  while (!this->state->QuitRequested())
   {
     this->state->Update(2.0);
     this->state->Render();

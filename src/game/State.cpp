@@ -11,15 +11,18 @@
 
 State::State()
 {
-  this->quitRequested = false;
-  this->bg = *new Sprite("./src/assets/sprites/monk.png");
-  this->music = *new Music("./src/assets/music/hells.ogg");
+  this->quitRequested = false; 
+  this->bg = *new Sprite();
+  this->music = *new Music();
+
+  this->LoadAssets(); 
 }
 
 void State::LoadAssets()
 {
-  this->bg.Open("./src/assets/sprites/monk.png");
+  this->bg.Open("./src/assets/sprites/sky.png");
   this->music.Open("./src/assets/music/hells.ogg");
+  this->music.Play();
 }
 
 void State::Update(float dt)
@@ -32,7 +35,8 @@ void State::Update(float dt)
 
 void State::Render()
 {
-  this->bg.Render(100, 100);
+  this->bg.Render(0, 0);
+  
 }
 
 bool State::QuitRequested()

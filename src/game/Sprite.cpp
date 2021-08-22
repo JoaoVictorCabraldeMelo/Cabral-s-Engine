@@ -13,7 +13,6 @@
 
 Sprite::Sprite()
 {
-  std::cout << "Image not loaded" << std::endl;
   this->texture = nullptr;
 }
 
@@ -55,6 +54,8 @@ void Sprite::Open(std::string file)
     throw std::runtime_error(SDL_GetError());
   }
 
+  this->texture = texture;
+
   int query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
 
   if (query != 0)
@@ -71,32 +72,31 @@ void Sprite::Open(std::string file)
     throw std::runtime_error(SDL_GetError());
   }
 
-  Sprite::SetClip(0, 0, this->width, this->height);
+  Sprite::SetClip(0, 0, this->height, this->width);
 }
 
 void Sprite::SetClip(int x, int y, int h, int w)
 {
-  SDL_Rect clip;
-  clip.x = x;
-  clip.y = y;
-  clip.h = h;
-  clip.w = w;
-  this->clipRect = &clip;
+  this->clipRect.x = x;
+  this->clipRect.y = y;
+  this->clipRect.h = h;
+  this->clipRect.w = w;
 }
 
 void Sprite::Render(int x, int y)
 {
 
-  SDL_Rect newClip;
+  SDL_Rect SpriteOnFrame;
 
-  newClip.h = this->clipRect->h;
-  newClip.w = this->clipRect->w;
-  newClip.x = x;
-  newClip.y = y;
+  SpriteOnFrame.h = Game::GetInstance().GetHeight();
+  SpriteOnFrame.w = Game::GetInstance().GetWidth();
+  SpriteOnFrame.x = 0;
+  SpriteOnFrame.y = 0;
 
-  const SDL_Rect *dstClip = &newClip;
+  const SDL_Rect *dstClip = &SpriteOnFrame;
 
-  int render_flag = SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, this->clipRect, dstClip);
+
+  int render_flag = SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &this->clipRect, dstClip);
 
   if (render_flag != 0)
   {
