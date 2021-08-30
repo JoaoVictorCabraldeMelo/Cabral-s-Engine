@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "./State.hpp"
+#include "State.hpp"
 
 class Game
 {

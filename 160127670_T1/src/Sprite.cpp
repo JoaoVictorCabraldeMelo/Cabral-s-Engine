@@ -1,15 +1,15 @@
 #include <iostream>
 #include <fstream>
 #include <SDL2/SDL_image.h>
-#include "../lib/Sprite.hpp"
-#include "../lib/Game.hpp"
+#include "../include/Sprite.hpp"
+#include "../include/Game.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
 #define INCLUDE_SDL_TTF
 #define INCLUDE_SDL_NET
-#include "../lib/SDL_include.h"
+#include "../include/SDL_include.hpp"
 
 Sprite::Sprite()
 {

@@ -1,4 +1,4 @@
-#include "../lib/State.hpp"
+#include "../include/State.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -7,7 +7,7 @@
 #define INCLUDE_SDL_MIXER
 #define INCLUDE_SDL_TTF
 #define INCLUDE_SDL_NET
-#include "../lib/SDL_include.h"
+#include "../include/SDL_include.hpp"
 
 State::State()
 {
@@ -20,8 +20,8 @@ State::State()
 
 void State::LoadAssets()
 {
-  this->bg.Open("./src/assets/sprites/sky.png");
-  this->music.Open("./src/assets/music/hells.ogg");
+  this->bg.Open("./assets/img/ocean.jpg");
+  this->music.Open("./assets/audio/stageState.ogg");
   this->music.Play();
 }
 

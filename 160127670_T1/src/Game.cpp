@@ -2,14 +2,14 @@
 #include <fstream>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
-#include "../lib/Game.hpp"
+#include "../include/Game.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
 #define INCLUDE_SDL_TTF
 #define INCLUDE_SDL_NET
-#include "../lib/SDL_include.h"
+#include "../include/SDL_include.hpp"
 
 Game *Game::instance = nullptr;
 
@@ -165,11 +165,4 @@ void Game::Run() {
   }
 }
 
-int main() {
 
-  Game game = Game::GetInstance();
-
-  game.Run();
-
-  return 0;
-}
