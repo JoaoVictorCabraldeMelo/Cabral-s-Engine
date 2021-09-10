@@ -11,11 +11,16 @@
 #define INCLUDE_SDL_NET
 #include "../include/SDL_include.hpp"
 
+#include <cstdlib>
+#include <ctime>
+
 Game *Game::instance = nullptr;
 
 
 Game::Game(std::string title, int width, int height)
 {
+  srand(time(NULL));
+
   if (Game::instance != nullptr)
   {
     throw std::runtime_error("More than one game instance running !!");

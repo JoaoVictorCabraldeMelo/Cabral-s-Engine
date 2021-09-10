@@ -1,0 +1,11 @@
+bin/
+
+dep/
+
+doc/
+
+Errors.log
+
+.vscode/
+
+

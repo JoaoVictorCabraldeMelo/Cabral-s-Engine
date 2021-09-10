@@ -1,7 +1,11 @@
-#pragma once
+
+#ifndef _STATE_H_
+#define _STATE_H_
 
 #include "Sprite.hpp"
 #include "Music.hpp"
+
+#include <memory>
 
 
 class State
@@ -13,6 +17,12 @@ private:
   Music music;
 
   bool quitRequested;
+
+  void Input();
+
+  void AddObject(int mouseX, int mouseY);
+
+  std::vector<std::unique_ptr<GameObject>> objectArray;
 
 public:
 
@@ -30,4 +40,5 @@ public:
 
 };
 
+#endif
 

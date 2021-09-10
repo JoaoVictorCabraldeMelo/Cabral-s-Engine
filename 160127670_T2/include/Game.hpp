@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _GAME_H_
+#define _GAME_H_
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -39,3 +40,4 @@ public:
   
 };
 
+#endif

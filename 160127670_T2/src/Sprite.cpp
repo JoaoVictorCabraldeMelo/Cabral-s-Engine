@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include "../include/Sprite.hpp"
 #include "../include/Game.hpp"
+#include "../include/Component.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
@@ -11,12 +12,16 @@
 #define INCLUDE_SDL_NET
 #include "../include/SDL_include.hpp"
 
-Sprite::Sprite()
+using namespace std;
+
+Sprite::Sprite() : Component()
 {
+  this->width = this->associated.box.w;
+  this->height = this->associated.box.h;
   this->texture = nullptr;
 }
 
-Sprite::Sprite(std::string file)
+Sprite::Sprite(string file) : Component()
 {
   this->texture = nullptr;
   this->Open(file);
@@ -75,7 +80,7 @@ void Sprite::Open(std::string file)
   Sprite::SetClip(0, 0, this->height, this->width);
 }
 
-void Sprite::SetClip(int x, int y, int h, int w)
+void Sprite::SetClip(int x, int y, int w, int h)
 {
   this->clipRect.x = x;
   this->clipRect.y = y;
@@ -83,7 +88,7 @@ void Sprite::SetClip(int x, int y, int h, int w)
   this->clipRect.w = w;
 }
 
-void Sprite::Render(int x, int y)
+void Sprite::Render()
 {
 
   SDL_Rect SpriteOnFrame;
@@ -94,7 +99,6 @@ void Sprite::Render(int x, int y)
   SpriteOnFrame.y = 0;
 
   const SDL_Rect *dstClip = &SpriteOnFrame;
-
 
   int render_flag = SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &this->clipRect, dstClip);
 
@@ -120,4 +124,17 @@ bool Sprite::IsOpen()
     return true;
   }
   return false;
+}
+
+void Sprite::Update(float dt)
+{
+  cout << dt << endl;
+}
+
+bool Sprite::Is(const string type)
+{
+  if (type == "Image")
+    return true;
+  else
+    return false;
 }

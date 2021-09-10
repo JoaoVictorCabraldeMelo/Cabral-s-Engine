@@ -1,5 +1,5 @@
 ###############
-# 	 Linux   	#
+#    Linux    #
 ###############
 
 COMPILER = g++
@@ -35,7 +35,7 @@ OBJ_FILES  = $(addprefix $(BIN_PATH)/, $(notdir $(CPP_FILES:.cpp=.o)))
 EXEC = JOGO
 
 ###############
-# 	Windows 	#
+#   Windows   #
 ###############
 
 
@@ -61,7 +61,7 @@ UNAME_S := $(shell uname -s)
 
 
 ###############
-# 	  MAC		  #
+#     MAC     #
 ###############
 
 ifeq ($(UNAME_S), Darwin)

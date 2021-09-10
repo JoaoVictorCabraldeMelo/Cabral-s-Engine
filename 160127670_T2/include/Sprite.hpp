@@ -1,9 +1,12 @@
-#pragma once
+#ifndef _SPRITE_H_
+#define _SPRITE_H_
 
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include "Component.hpp"
+#include "GameObject.hpp"
 
-class Sprite
+class Sprite : public Component
 {
 private:
   SDL_Texture *texture;
@@ -12,23 +15,27 @@ private:
   SDL_Rect clipRect;
 
 public:
-
   Sprite();
 
-  Sprite(std::string file);
-
+  explicit Sprite(std::string file);
+  
   ~Sprite();
 
   void Open(std::string file);
 
   void SetClip(int x, int y, int w, int h);
 
-  void Render(int x, int y);
+  void Render() override;
 
   int GetWidth() const { return this->width; }
 
   int GetHeight() const { return this->height; }
 
   bool IsOpen();
-  
+
+  void Update(float dt) override;
+
+  bool Is(std::string  type) override;
 };
+
+#endif
