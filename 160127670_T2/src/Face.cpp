@@ -8,6 +8,9 @@ Face::Face() : Component()
   this->hitpoints = 30;
 }
 
+Face::~Face() {
+}
+
 void Face::Damage(int damage)
 {
   this->hitpoints -= damage;

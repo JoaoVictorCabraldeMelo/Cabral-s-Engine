@@ -9,17 +9,9 @@ class Rect
 public:
   float x, y, w, h;
 
+  Rect();
+
   Rect(float x, float y, float w, float h);
-
-  Rect operator-(Rect box);
-
-  Rect operator+(Rect box);
-
-  Rect operator*(int scalar);
-
-  float magnitude(Rect box);
-
-  Rect normalize(Rect box);
 
   float distance(float x, float y);
 

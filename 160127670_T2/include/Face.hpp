@@ -13,7 +13,7 @@ public:
   Face();
 
   ~Face();
-
+  
   void Damage(int damage);
 
   void Update(float dt) override;

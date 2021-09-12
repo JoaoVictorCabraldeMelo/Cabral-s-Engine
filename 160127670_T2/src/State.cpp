@@ -20,22 +20,22 @@ State::State()
 {
   this->quitRequested = false;
 
-  GameObject initilize = *new GameObject();
+  unique_ptr<GameObject> initialize = unique_ptr<GameObject>(new GameObject());
 
-  Sprite *bg = new Sprite();
+  unique_ptr<Component >bg = unique_ptr<Component>(new Sprite());
 
-  initilize.AddComponent(static_cast<Component *> (bg));
+  initialize->AddComponent(bg);
 
-  initilize.box.x = 0;
-  initilize.box.y = 0;
-  initilize.box.w = Game::GetInstance().GetWidth();
-  initilize.box.h = Game::GetInstance().GetHeight();
+  initialize->box.x = 0;
+  initialize->box.y = 0;
+  initialize->box.w = Game::GetInstance().GetWidth();
+  initialize->box.h = Game::GetInstance().GetHeight();
   
-  Music *music = new Music();
+  unique_ptr<Component> music = unique_ptr<Component>(new Music());
 
-  initilize.AddComponent(static_cast<Component *>(music));
+  initialize->AddComponent(music);
 
-  this->objectArray.emplace_back(initilize);
+  this->objectArray.emplace_back(initialize.get());
 
   this->LoadAssets();
 }
@@ -107,8 +107,19 @@ void State::Input()
 
 void State::LoadAssets()
 {
-  // TODO Load Assets 
-  // this->objectArray.find()
+  GameObject* initialize = static_cast<GameObject*> (this->objectArray[0].get());
+
+  Sprite* bg = static_cast<Sprite *> (initialize->GetComponent("Image"));
+
+  bg->Open("./assets/img/ocean.jpg");
+
+  bg->Render();
+
+  Music* music = static_cast<Music *> (initialize->GetComponent("Sound"));
+
+  music->Open("./assets/audio/stageState.ogg");
+
+  music->Play(-1);
 }
 
 void State::Update(float dt)
@@ -118,7 +129,9 @@ void State::Update(float dt)
 
 void State::Render()
 {
-  this->bg.Render();
+
+  State::Input();
+
 }
 
 bool State::QuitRequested()
@@ -128,29 +141,26 @@ bool State::QuitRequested()
 
 void State::AddObject(int mouseX, int mouseY)
 {
-  cout << mouseX << endl;
-  cout << mouseY << endl;
 
-  GameObject enemy = *new GameObject();
+  unique_ptr<GameObject> enemy = unique_ptr<GameObject>(new GameObject());
 
-  Sprite *peguin = new Sprite("../assets/peguinface.png");
+  unique_ptr<Component> peguin = unique_ptr<Component>(new Sprite("./assets/image/peguinface.png"));
 
-  enemy.AddComponent(static_cast<Component *> (peguin));
+  enemy->AddComponent(peguin);
 
-  enemy.box.x = 0;
+  enemy->box.x = mouseX;
   
-  enemy.box.y = 0;
+  enemy->box.y = mouseY;
 
-  Music *music = new Music("../assets/boom.wav");
+  unique_ptr<Component> music = unique_ptr<Component>(new Music("./assets/sound/boom.wav"));
 
-  enemy.AddComponent(static_cast<Component *> (music));
+  enemy->AddComponent(music);
 
-  Face *face = new Face();
+  unique_ptr<Component> face = unique_ptr<Component>(new Face());
 
-  enemy.AddComponent(static_cast<Component *> (face));
-  
-  this->objectArray.emplace_back(enemy);
+  enemy->AddComponent(face);
 
+  this->objectArray.emplace_back(enemy.get());
 
-
+  peguin->Render();
 }

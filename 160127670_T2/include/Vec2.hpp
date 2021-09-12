@@ -17,7 +17,7 @@ public:
 
   float magnitude(Vec2 vector);
 
-  Vec2 normalise(Vec2 vector);
+  Vec2 normalise();
 
   float distance(float x, float y);
 

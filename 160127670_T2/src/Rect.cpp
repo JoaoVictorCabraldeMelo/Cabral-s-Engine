@@ -6,6 +6,14 @@
 
 using namespace std;
 
+Rect::Rect()
+{
+  this->x = 0;
+  this->y = 0;
+  this->w = 0;
+  this->h = 0;
+}
+
 Rect::Rect(float x, float y, float w, float h)
 {
   this->x = x;
@@ -14,76 +22,9 @@ Rect::Rect(float x, float y, float w, float h)
   this->h = h;
 }
 
-Rect Rect::operator+(Rect box)
-{
-  this->x += box.x;
-  this->y += box.y;
-
-  return *this;
-}
-
-Rect Rect::operator-(Rect box)
-{
-  this->x -= box.x;
-  this->y -= box.y;
-
-  return *this;
-}
-
-Rect Rect::operator*(int scalar)
-{
-  this->x *= scalar;
-  this->y *= scalar;
-
-  return *this;
-}
-
-float Rect::magnitude(Rect box)
-{
-  float x1 = this->x;
-  float y1 = this->y;
-
-  float x2 = box.x;
-  float y2 = box.y;
-
-  float magnitude = sqrt(pow((x1 - x2), 2) + pow(y1 - y2, 2));
-
-  return magnitude;
-}
-
-Rect Rect::normalize(Rect box)
-{
-
-  float magnitude = Rect::magnitude(box);
-
-  this->x /= magnitude;
-  this->y /= magnitude;
-
-  return *this;
-}
-
 float Rect::distance(float x, float y)
 {
   return sqrt(pow(x - this->x, 2) + pow(y - this->y, 2));
-}
-
-double Rect::inclination()
-{
-  double result = atan2(this->x, this->y) * 180 / PI;
-
-  return result;
-}
-
-double Rect::inclination_two_points(Rect box)
-{
-  Rect diference = Rect(0, 0, 0, 0);
-
-  diference.x = box.x - this->x;
-  diference.y = box.y - this->y;
-
-  double result = atan2(diference.x, diference.y) * 180 / PI;
-
-  return result;
 }
 
 Rect Rect::rotate(double angle)
@@ -104,7 +45,7 @@ pair<float, float> Rect::get_center()
 {
   pair<float, float> center;
 
-  float x2 = this->x - this->h;
+  float x2 = this->x + this->h;
   float y2 = this->y + this->w;
 
   center.first = (this->x + x2) / 2;
@@ -125,9 +66,9 @@ pair<float, float> Rect::distance_between_centers(Rect box)
 
 bool Rect::is_point_in(float x, float y)
 {
-  if (x >= (this->x - h))
+  if (x <= (this->x + h) && x >= this->x)
   {
-    if (y <= (this->y + w))
+    if (y <= (this->y + w) && y >= this->y)
       return true;
     else
       return false;

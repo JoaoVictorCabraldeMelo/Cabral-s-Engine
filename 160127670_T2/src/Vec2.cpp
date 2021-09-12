@@ -34,7 +34,7 @@ Vec2 Vec2::operator*(const int &scalar)
   return *this;
 }
 
-float Vec2::magnitude(Vec2 vector)
+float Vec2::magnitude(Vec2 vector = {0, 0})
 {
   float x1 = this->x;
   float y1 = this->y;
@@ -47,9 +47,9 @@ float Vec2::magnitude(Vec2 vector)
   return magnitude;
 }
 
-Vec2 Vec2::normalise(Vec2 vector)
+Vec2 Vec2::normalise()
 {
-  float magnitude = Vec2::magnitude(vector);
+  float magnitude = this->magnitude();
 
   this->x /= magnitude;
   this->y /= magnitude;
@@ -59,7 +59,9 @@ Vec2 Vec2::normalise(Vec2 vector)
 
 float Vec2::distance(float x, float y)
 {
-  return sqrt(pow(x - this->x, 2) + pow(y - this->y, 2));
+  Vec2 vector = Vec2(x, y);
+
+  return this->magnitude(vector);
 }
 
 double Vec2::inclination()
@@ -76,7 +78,7 @@ double Vec2::inclination_two_points(Vec2 vector)
   diference.x = vector.x - this->x;
   diference.y = vector.y - this->y;
 
-  double result = atan2(diference.x, diference.y) * 180 / PI;
+  double result = diference.inclination();
 
   return result;
 }

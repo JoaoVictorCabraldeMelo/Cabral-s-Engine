@@ -3,6 +3,7 @@
 #include "../include/GameObject.hpp"
 
 #include <algorithm>
+#include <memory>
 
 using namespace std;
 
@@ -13,8 +14,15 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
-  for (auto component : this->components)
-    delete component;
+  vector<unique_ptr<Component>>::iterator it;
+
+  auto begin = this->components.begin();
+
+  auto end = this->components.end();
+
+  for (it = end; it != begin; --it)
+    it->reset();
+
   this->components.clear();
 }
 
@@ -40,22 +48,22 @@ void GameObject::RequestDelete()
   this->isDead = true;
 }
 
-void GameObject::AddComponent(Component *cpt)
+void GameObject::AddComponent(std::unique_ptr<Component> &cpt)
 {
-  this->components.push_back(cpt);
+  this->components.emplace_back(cpt.get());
 }
 
-void GameObject::RemoveComponent(Component *cpt)
+void GameObject::RemoveComponent(std::unique_ptr<Component> &cpt)
 {
-  vector<Component *>::iterator position = find(this->components.begin(), this->components.end(), cpt);
+  vector<unique_ptr<Component>>::iterator position = find(this->components.begin(), this->components.end(), cpt);
 
   if (position != this->components.end())
     this->components.erase(position);
 }
 
-Component *GameObject::GetComponent(string type)
+Component* GameObject::GetComponent(string type)
 {
-  vector<Component *>::iterator it;
+  vector<unique_ptr<Component>>::iterator it;
 
   for (it = this->components.begin(); it != this->components.end() && !(*it)->Is(type); ++it)
   {
@@ -64,5 +72,5 @@ Component *GameObject::GetComponent(string type)
   if (it == this->components.end())
     return nullptr;
   else
-    return *it;
+    return it->get();
 }
