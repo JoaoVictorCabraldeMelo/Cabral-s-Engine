@@ -14,15 +14,6 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
-  vector<unique_ptr<Component>>::iterator it;
-
-  auto begin = this->components.begin();
-
-  auto end = this->components.end();
-
-  for (it = end; it != begin; --it)
-    it->reset();
-
   this->components.clear();
 }
 
@@ -48,20 +39,18 @@ void GameObject::RequestDelete()
   this->isDead = true;
 }
 
-void GameObject::AddComponent(std::unique_ptr<Component> &cpt)
+void GameObject::AddComponent(Component *cpt)
 {
-  this->components.emplace_back(cpt.get());
+  this->components.emplace_back(cpt);
 }
 
-void GameObject::RemoveComponent(std::unique_ptr<Component> &cpt)
+void GameObject::RemoveComponent(Component *cpt_recebido)
 {
-  vector<unique_ptr<Component>>::iterator position = find(this->components.begin(), this->components.end(), cpt);
-
-  if (position != this->components.end())
-    this->components.erase(position);
+  remove_if(this->components.begin(), this->components.end(), [=](unique_ptr<Component> &cpt_alocado)
+            { return cpt_recebido == cpt_alocado.get(); });
 }
 
-Component* GameObject::GetComponent(string type)
+Component *GameObject::GetComponent(string type)
 {
   vector<unique_ptr<Component>>::iterator it;
 

@@ -29,7 +29,7 @@ void Face::Damage(int damage)
 
 void Face::Update(float dt)
 {
-  cout << dt << endl;
+  // cout << dt << endl;
 }
 
 void Face::Render()

@@ -93,10 +93,10 @@ void Sprite::Render()
 
   SDL_Rect SpriteOnFrame;
 
-  SpriteOnFrame.h = Game::GetInstance().GetHeight();
-  SpriteOnFrame.w = Game::GetInstance().GetWidth();
-  SpriteOnFrame.x = 0;
-  SpriteOnFrame.y = 0;
+  SpriteOnFrame.h = this->clipRect.h;
+  SpriteOnFrame.w = this->clipRect.w;
+  SpriteOnFrame.x = this->clipRect.x;
+  SpriteOnFrame.y = this->clipRect.y;
 
   const SDL_Rect *dstClip = &SpriteOnFrame;
 
@@ -128,7 +128,7 @@ bool Sprite::IsOpen()
 
 void Sprite::Update(float dt)
 {
-  cout << dt << endl;
+  // cout << dt << endl;
 }
 
 bool Sprite::Is(const string type)

@@ -88,7 +88,7 @@ bool Music::IsOpen()
 
 void Music::Update(float dt)
 {
-  cout << dt << endl;
+  // cout << dt << endl;
 }
 
 bool Music::Is(const string type)

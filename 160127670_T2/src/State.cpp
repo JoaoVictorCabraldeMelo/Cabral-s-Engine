@@ -20,22 +20,17 @@ State::State()
 {
   this->quitRequested = false;
 
-  unique_ptr<GameObject> initialize = unique_ptr<GameObject>(new GameObject());
+  GameObject* initialize = new GameObject();
 
-  unique_ptr<Component >bg = unique_ptr<Component>(new Sprite());
+  Component* bg = new Sprite();
 
   initialize->AddComponent(bg);
-
-  initialize->box.x = 0;
-  initialize->box.y = 0;
-  initialize->box.w = Game::GetInstance().GetWidth();
-  initialize->box.h = Game::GetInstance().GetHeight();
   
-  unique_ptr<Component> music = unique_ptr<Component>(new Music());
+  Component* music = new Music();
 
   initialize->AddComponent(music);
 
-  this->objectArray.emplace_back(initialize.get());
+  this->objectArray.emplace_back(initialize);
 
   this->LoadAssets();
 }
@@ -113,6 +108,8 @@ void State::LoadAssets()
 
   bg->Open("./assets/img/ocean.jpg");
 
+  bg->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
+
   bg->Render();
 
   Music* music = static_cast<Music *> (initialize->GetComponent("Sound"));
@@ -124,7 +121,7 @@ void State::LoadAssets()
 
 void State::Update(float dt)
 {
-  cout << dt << endl;
+  // cout << dt << endl;
 }
 
 void State::Render()
@@ -142,25 +139,27 @@ bool State::QuitRequested()
 void State::AddObject(int mouseX, int mouseY)
 {
 
-  unique_ptr<GameObject> enemy = unique_ptr<GameObject>(new GameObject());
+  GameObject* enemy = new GameObject();
 
-  unique_ptr<Component> peguin = unique_ptr<Component>(new Sprite("./assets/image/peguinface.png"));
+  Component* peguin = new Sprite("./assets/img/penguinface.png");
 
   enemy->AddComponent(peguin);
-
-  enemy->box.x = mouseX;
   
-  enemy->box.y = mouseY;
+  Sprite* newEnemy = nullptr;
 
-  unique_ptr<Component> music = unique_ptr<Component>(new Music("./assets/sound/boom.wav"));
+  newEnemy = static_cast<Sprite *>(peguin);
+
+  newEnemy->SetClip(mouseX, mouseY, 100, 150);
+
+  Component* music = new Music("./assets/audio/boom.wav");
 
   enemy->AddComponent(music);
 
-  unique_ptr<Component> face = unique_ptr<Component>(new Face());
+  Component* face = new Face();
 
   enemy->AddComponent(face);
 
-  this->objectArray.emplace_back(enemy.get());
+  this->objectArray.emplace_back(enemy);
 
-  peguin->Render();
+  newEnemy->Render();
 }
