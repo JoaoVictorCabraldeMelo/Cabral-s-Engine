@@ -127,13 +127,12 @@ void State::Update(float dt)
 
   this->Input();
 
-  for (auto &component : this->objectArray)
+  for (auto it = this->objectArray.begin(); it < this->objectArray.end(); ++it)
   {
-    if (component->IsDead())
-    
-
-      else 
-        component->Update(dt);
+    if ((*it)->IsDead())
+      this->RemoveObject(it);
+    else
+      (*it)->Update(dt);
   }
 }
 
@@ -178,10 +177,7 @@ void State::AddObject(int mouseX, int mouseY)
   this->objectArray.emplace_back(enemy);
 }
 
-void State::RemoveObject(GameObject *go)
+void State::RemoveObject(vector<unique_ptr<GameObject>>::iterator it)
 {
-  for (auto it = this->objectArray.begin(); it != this->objectArray.end(); ++it)
-  {
-    this->objectArray.erase(it,it +1);
-  }
+  this->objectArray.erase(it);
 }

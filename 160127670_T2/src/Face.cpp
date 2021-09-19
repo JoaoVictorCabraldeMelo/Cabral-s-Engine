@@ -1,6 +1,9 @@
 #include "../include/Face.hpp"
 #include "../include/Music.hpp"
 
+#include <chrono>
+#include <thread>
+
 using namespace std;
 
 Face::Face(GameObject &associated) : Component(associated)
@@ -8,22 +11,31 @@ Face::Face(GameObject &associated) : Component(associated)
   this->hitpoints = 30;
 }
 
-Face::~Face() {
+Face::~Face()
+{
 }
 
 void Face::Damage(int damage)
 {
-  this->hitpoints -= damage;
   if (this->hitpoints <= 0)
   {
-    this->associated.RequestDelete();
 
-    Music *Sound = static_cast<Music *> (this->associated.GetComponent("Sound"));
+    Music *Sound = static_cast<Music *>(this->associated.GetComponent("Sound"));
 
     if (Sound != nullptr)
     {
       Sound->Play();
     }
+    
+    this_thread::sleep_for(chrono::nanoseconds(10));
+
+    this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(1));
+
+    this->associated.RequestDelete();
+  }
+  else
+  {
+    this->hitpoints -= damage;
   }
 }
 
