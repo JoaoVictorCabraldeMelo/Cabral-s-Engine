@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Face::Face() : Component()
+Face::Face(GameObject &associated) : Component(associated)
 {
   this->hitpoints = 30;
 }

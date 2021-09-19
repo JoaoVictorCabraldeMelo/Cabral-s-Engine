@@ -20,13 +20,13 @@ State::State()
 {
   this->quitRequested = false;
 
-  GameObject* initialize = new GameObject();
+  GameObject *initialize = new GameObject();
 
-  Component* bg = new Sprite();
+  Component *bg = new Sprite(*initialize);
 
   initialize->AddComponent(bg);
-  
-  Component* music = new Music();
+
+  Component *music = new Music(*initialize);
 
   initialize->AddComponent(music);
 
@@ -102,17 +102,20 @@ void State::Input()
 
 void State::LoadAssets()
 {
-  GameObject* initialize = static_cast<GameObject*> (this->objectArray[0].get());
+  GameObject *initialize = static_cast<GameObject *>(this->objectArray[0].get());
 
-  Sprite* bg = static_cast<Sprite *> (initialize->GetComponent("Image"));
+  Sprite *bg = static_cast<Sprite *>(initialize->GetComponent("Image"));
 
   bg->Open("./assets/img/ocean.jpg");
 
   bg->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
 
+  initialize->box.x = 0;
+  initialize->box.y = 0;
+
   bg->Render();
 
-  Music* music = static_cast<Music *> (initialize->GetComponent("Sound"));
+  Music *music = static_cast<Music *>(initialize->GetComponent("Sound"));
 
   music->Open("./assets/audio/stageState.ogg");
 
@@ -121,14 +124,24 @@ void State::LoadAssets()
 
 void State::Update(float dt)
 {
-  // cout << dt << endl;
+
+  this->Input();
+
+  for (auto &component : this->objectArray)
+  {
+    if (component->IsDead())
+    
+
+      else 
+        component->Update(dt);
+  }
 }
 
 void State::Render()
 {
 
-  State::Input();
-
+  for (auto &object : objectArray)
+    object->Render();
 }
 
 bool State::QuitRequested()
@@ -139,27 +152,36 @@ bool State::QuitRequested()
 void State::AddObject(int mouseX, int mouseY)
 {
 
-  GameObject* enemy = new GameObject();
+  GameObject *enemy = new GameObject();
 
-  Component* peguin = new Sprite("./assets/img/penguinface.png");
+  Component *peguin = new Sprite(*enemy, "./assets/img/penguinface.png");
 
   enemy->AddComponent(peguin);
-  
-  Sprite* newEnemy = nullptr;
+
+  Sprite *newEnemy = nullptr;
 
   newEnemy = static_cast<Sprite *>(peguin);
 
-  newEnemy->SetClip(mouseX, mouseY, 100, 150);
+  enemy->box.x = mouseX;
+  enemy->box.y = mouseY;
 
-  Component* music = new Music("./assets/audio/boom.wav");
+  newEnemy->Render();
+
+  Component *music = new Music(*enemy, "./assets/audio/boom.wav");
 
   enemy->AddComponent(music);
 
-  Component* face = new Face();
+  Component *face = new Face(*enemy);
 
   enemy->AddComponent(face);
 
   this->objectArray.emplace_back(enemy);
+}
 
-  newEnemy->Render();
+void State::RemoveObject(GameObject *go)
+{
+  for (auto it = this->objectArray.begin(); it != this->objectArray.end(); ++it)
+  {
+    this->objectArray.erase(it,it +1);
+  }
 }

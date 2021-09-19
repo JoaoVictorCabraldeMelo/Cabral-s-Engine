@@ -14,14 +14,14 @@
 
 using namespace std;
 
-Sprite::Sprite() : Component()
+Sprite::Sprite(GameObject &associated) : Component(associated)
 {
   this->width = this->associated.box.w;
   this->height = this->associated.box.h;
   this->texture = nullptr;
 }
 
-Sprite::Sprite(string file) : Component()
+Sprite::Sprite(GameObject &associated, string file) : Component(associated)
 {
   this->texture = nullptr;
   this->Open(file);
@@ -93,10 +93,10 @@ void Sprite::Render()
 
   SDL_Rect SpriteOnFrame;
 
-  SpriteOnFrame.h = this->clipRect.h;
-  SpriteOnFrame.w = this->clipRect.w;
-  SpriteOnFrame.x = this->clipRect.x;
-  SpriteOnFrame.y = this->clipRect.y;
+  SpriteOnFrame.h = this->height;
+  SpriteOnFrame.w = this->width;
+  SpriteOnFrame.x = associated.box.x;
+  SpriteOnFrame.y = associated.box.y;
 
   const SDL_Rect *dstClip = &SpriteOnFrame;
 

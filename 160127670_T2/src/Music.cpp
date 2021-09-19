@@ -15,13 +15,13 @@
 
 using namespace std;
 
-Music::Music() : Component()
+Music::Music(GameObject &associated) : Component(associated)
 {
   this->chunk = nullptr;
   this->channel = 0;
 }
 
-Music::Music(const string &file) : Component()
+Music::Music(GameObject &associated, const string &file) : Component(associated)
 {
   this->chunk = nullptr;
   this->channel = 0;

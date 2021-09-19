@@ -34,6 +34,8 @@ public:
 
   void Render();
 
+  void RemoveObject(GameObject *go);
+
 };
 
 #endif

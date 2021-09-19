@@ -13,9 +13,9 @@ private:
   int channel;
 
 public:
-  explicit Music();
+  explicit Music(GameObject &associated);
 
-  explicit Music(const std::string &file);
+  explicit Music(GameObject &associated, const std::string &file);
 
   ~Music();
 

@@ -13,8 +13,6 @@ protected:
 
 public:
 
-  Component();
-
   explicit Component(GameObject &associated);
 
   virtual ~Component();

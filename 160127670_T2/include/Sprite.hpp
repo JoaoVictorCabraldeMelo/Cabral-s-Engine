@@ -15,9 +15,9 @@ private:
   SDL_Rect clipRect;
 
 public:
-  Sprite();
+  explicit Sprite(GameObject &associated);
 
-  explicit Sprite(std::string file);
+  explicit Sprite(GameObject &associated, std::string file);
   
   ~Sprite();
 

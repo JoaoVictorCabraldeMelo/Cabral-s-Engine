@@ -10,7 +10,7 @@ private:
   int hitpoints;
 
 public:
-  Face();
+  Face(GameObject &associated);
 
   ~Face();
   
