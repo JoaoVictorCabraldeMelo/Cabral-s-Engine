@@ -117,6 +117,14 @@ void Sprite::Render()
   }
 }
 
+void Sprite::Render(float x, float y)
+{
+  this->associated.box.x = x;
+  this->associated.box.y = y;
+
+  this->Render();
+}
+
 bool Sprite::IsOpen()
 {
   if (this->texture != nullptr)

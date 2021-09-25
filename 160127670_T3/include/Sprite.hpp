@@ -15,6 +15,7 @@ private:
   SDL_Rect clipRect;
 
 public:
+
   explicit Sprite(GameObject &associated);
 
   explicit Sprite(GameObject &associated, std::string file);
@@ -26,6 +27,8 @@ public:
   void SetClip(int x, int y, int w, int h);
 
   void Render() override;
+
+  void Render(float x, float y);
 
   int GetWidth() const { return this->width; }
 

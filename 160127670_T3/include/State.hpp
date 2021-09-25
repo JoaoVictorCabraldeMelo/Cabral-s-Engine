@@ -35,7 +35,6 @@ public:
   void Render();
 
   void RemoveObject(std::vector<std::unique_ptr<GameObject>>::iterator it);
-
 };
 
 #endif
