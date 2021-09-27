@@ -74,15 +74,14 @@ int &TileMap::At(int x, int y, int z)
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
 {
-  int tilesToRender = this->mapHeight * this->mapWidth;
-  int beginRender = 0;
+  for (int i = 0; i < this->mapHeight; i++) {
+    for (int j = 0; j < this->mapWidth; j++)
+    {
+      int x = i * this->tileset->GetTileHeight();
+      int y = j * this->tileset->GetTileWidth();
 
-  beginRender = layer * tilesToRender;
-  tilesToRender += beginRender;
-
-  for (int i = beginRender; i < tilesToRender; i++)
-  {
-    this->tileset->RenderTile(this->tileMatrix[i], cameraX, cameraY);
+      this->tileset->RenderTile(this->At(i, j, layer), x, y);
+    }
   }
 }
 

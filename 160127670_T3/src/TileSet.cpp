@@ -31,7 +31,9 @@ void TileSet::RenderTile(unsigned int index, float x, float y)
 
   if (index <= (unsigned int)((rows * columns) - 1))
   {
-    this->tileSet->SetClip(x, y, this->tileHeight, this->tileWidth);
+    int xFor = (index % this->columns) * this->tileWidth;
+    int yFor = (index / this->columns) * this->tileHeight;
+    this->tileSet->SetClip(xFor, yFor, this->tileHeight, this->tileWidth);
     this->tileSet->Render(x, y);
     return;
   }
@@ -40,6 +42,7 @@ void TileSet::RenderTile(unsigned int index, float x, float y)
   logfile.close();
 
   cout << "Index out of TileSet" << endl;
+
 }
 
 int TileSet::GetTileWidth()
