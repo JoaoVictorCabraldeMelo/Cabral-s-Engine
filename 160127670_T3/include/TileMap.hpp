@@ -21,7 +21,7 @@ public:
 
   TileMap(GameObject &associated, std::string file, TileSet *tileSet);
 
-  void Load(std::string file);
+  void Load(const std::string &file);
 
   void SetTileSet(TileSet *TileSet);
 
@@ -36,6 +36,10 @@ public:
   int GetHeight();
 
   int GetDepth();
+
+  void Update(float dt) override;
+
+  bool Is(std::string  type) override;
 };
 
 

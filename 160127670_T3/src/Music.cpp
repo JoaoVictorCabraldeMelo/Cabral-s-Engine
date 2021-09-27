@@ -5,6 +5,7 @@
 #include <SDL2/SDL_mixer.h>
 #include "../include/Music.hpp"
 #include "../include/Component.hpp"
+#include "../include/Resource.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
@@ -31,8 +32,6 @@ Music::Music(GameObject &associated, const string &file) : Component(associated)
 Music::~Music()
 {
   Music::Stop();
-
-  Mix_FreeChunk(this->chunk);
 }
 
 void Music::Play(int times)
@@ -61,19 +60,7 @@ void Music::Open(string file)
 {
   Mix_Chunk *music;
 
-  music = Mix_LoadWAV(file.c_str());
-
-  if (music == nullptr)
-  {
-    ofstream logfile("Errors.log");
-
-    logfile << Mix_GetError() << std::endl;
-
-    logfile.close();
-
-    cout << "Couldn't load the music" << std::endl;
-    cout << "Error while loading the music: " << Mix_GetError() << std::endl;
-  }
+  music = Resource::GetSound(file);
 
   this->chunk = music;
 }

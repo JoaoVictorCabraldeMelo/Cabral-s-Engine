@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include "../include/Game.hpp"
+#include "../include/Resource.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
@@ -168,6 +169,10 @@ void Game::Run() {
 
     SDL_Delay(33);
   }
+
+  Resource::ClearImages();
+  Resource::ClearMusic();
+  Resource::ClearSounds();
 }
 
 

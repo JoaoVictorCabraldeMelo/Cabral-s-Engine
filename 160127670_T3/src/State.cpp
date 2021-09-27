@@ -2,6 +2,7 @@
 #include "../include/Vec2.hpp"
 #include "../include/Face.hpp"
 #include "../include/Game.hpp"
+#include "../include/TileMap.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -22,6 +23,17 @@ State::State()
 
   GameObject *initialize = new GameObject();
 
+  GameObject *tileMapObject = new GameObject();
+
+  TileSet *tileSet = new TileSet(64, 64, "./assets/img/tileset.png");
+
+  Component *tileMap = new TileMap(*tileMapObject, "assets/map/tileMap.txt", tileSet);
+
+  tileMapObject->box.x = 0;
+  tileMapObject->box.y = 0;
+
+  tileMapObject->AddComponent(tileMap);
+
   Component *bg = new Sprite(*initialize);
 
   initialize->AddComponent(bg);
@@ -32,7 +44,10 @@ State::State()
 
   this->objectArray.emplace_back(initialize);
 
+  this->objectArray.emplace_back(tileMapObject);
+
   this->LoadAssets();
+
 }
 
 State::~State()
