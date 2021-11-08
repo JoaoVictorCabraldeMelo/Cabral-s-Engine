@@ -45,7 +45,7 @@ void TileMap::Load(const string &file)
         }
         else if (number != "\r" && number != "\n")
         {
-          this->tileMatrix.push_back(stoi(number) - 1);
+          this->tileMatrix.push_back(stoi(number));
         }
       }
       count++;
@@ -66,16 +66,16 @@ void TileMap::SetTileSet(TileSet *tileSet)
 
 int &TileMap::At(int x, int y, int z)
 {
-  int xCalculated = x * this->mapWidth;
   int zCalculated = (this->mapHeight * this->mapWidth) * z;
 
-  return this->tileMatrix[xCalculated + zCalculated + y];
+  return this->tileMatrix[x + zCalculated + y];
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
 {
-  for (int i = 0; i < this->mapHeight; i++) {
-    for (int j = 0; j < this->mapWidth; j++)
+  for (int i = 0; i < this->mapWidth; i++)
+  {
+    for (int j = 0; j < this->mapHeight; j++)
     {
       int x = i * this->tileset->GetTileHeight();
       int y = j * this->tileset->GetTileWidth();
