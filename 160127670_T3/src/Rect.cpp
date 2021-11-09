@@ -66,9 +66,10 @@ pair<float, float> Rect::distance_between_centers(Rect box)
 
 bool Rect::is_point_in(float x, float y)
 {
-  if (x <= (this->x + h) && x >= this->x)
+
+  if (x <= (this->x + w) && x >= this->x)
   {
-    if (y <= (this->y + w) && y >= this->y)
+    if (y <= (this->y + h) && y >= this->y)
       return true;
     else
       return false;

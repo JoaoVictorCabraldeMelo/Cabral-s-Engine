@@ -1,5 +1,13 @@
 #include "../include/Face.hpp"
 #include "../include/Music.hpp"
+#include "../include/InputManager.hpp"
+
+#define INCLUDE_SDL
+#define INCLUDE_SDL_IMAGE
+#define INCLUDE_SDL_MIXER
+#define INCLUDE_SDL_TTF
+#define INCLUDE_SDL_NET
+#include "../include/SDL_include.hpp"
 
 #include <chrono>
 #include <thread>
@@ -26,7 +34,7 @@ void Face::Damage(int damage)
     {
       Sound->Play();
     }
-    
+
     this_thread::sleep_for(chrono::nanoseconds(10));
 
     this_thread::sleep_until(chrono::system_clock::now() + chrono::seconds(1));
@@ -41,7 +49,16 @@ void Face::Damage(int damage)
 
 void Face::Update(float dt)
 {
-  // cout << dt << endl;
+
+  if (InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON) || InputManager::GetInstance().MousePress(SDL_BUTTON_RIGHT))
+  {
+    bool is_in = this->associated.box.is_point_in((float)InputManager::GetInstance().GetMouseX(), (float)InputManager::GetInstance().GetMouseY());
+    cout << is_in << endl;
+    if (is_in)
+    {
+      this->Damage(rand() % 10 + 10);
+    }
+  }
 }
 
 void Face::Render()

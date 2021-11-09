@@ -14,8 +14,6 @@ private:
 
   bool quitRequested;
 
-  void Input();
-
   void AddObject(int mouseX, int mouseY);
 
   std::vector<std::unique_ptr<GameObject>> objectArray;
