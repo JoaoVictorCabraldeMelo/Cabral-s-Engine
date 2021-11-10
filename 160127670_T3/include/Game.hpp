@@ -14,12 +14,19 @@ private:
   int width;
   int height;
 
+  /*Temporização */
+  int frameStart { 0 };
+  float dt { 0.0 };
+  
+
   static Game *instance;
   SDL_Window *window;
   SDL_Renderer *renderer;
   State *state;
 
   Game(std::string title, int width, int height);
+
+  void CalculateDeltaTime();
 
 public:
 
@@ -33,6 +40,8 @@ public:
   static Game &GetInstance();
 
   State &GetState();
+
+  float GetDeltaTime();
 
   int GetHeight();
 

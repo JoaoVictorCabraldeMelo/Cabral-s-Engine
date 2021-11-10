@@ -4,6 +4,8 @@
 #include "../include/Game.hpp"
 #include "../include/TileMap.hpp"
 #include "../include/InputManager.hpp"
+#include "../include/Camera.hpp"
+#include "../include/CameraFollower.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -38,6 +40,10 @@ State::State()
   Component *bg = new Sprite(*initialize);
 
   initialize->AddComponent(bg);
+
+  Component *cameraFollower = new CameraFollower(*initialize);
+  
+  initialize->AddComponent(cameraFollower);
 
   Component *music = new Music(*initialize);
 
@@ -80,6 +86,7 @@ void State::LoadAssets()
 void State::Update(float dt)
 {
 
+  Camera::Update(dt);
 
   InputManager::GetInstance().Update();
 

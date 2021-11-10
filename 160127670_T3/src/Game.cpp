@@ -17,7 +17,6 @@
 
 Game *Game::instance = nullptr;
 
-
 Game::Game(std::string title, int width, int height)
 {
   srand(time(NULL));
@@ -27,7 +26,7 @@ Game::Game(std::string title, int width, int height)
     throw std::runtime_error("More than one game instance running !!");
   }
 
-  this->instance= this;
+  this->instance = this;
 
   this->title = title;
   this->width = width;
@@ -150,19 +149,23 @@ State &Game::GetState()
   return state;
 }
 
-int Game::GetHeight(){
+int Game::GetHeight()
+{
   return this->height;
 }
 
-int Game::GetWidth() {
+int Game::GetWidth()
+{
   return this->width;
 }
 
-void Game::Run() {
+void Game::Run()
+{
 
   while (!this->state->QuitRequested())
   {
-    this->state->Update(2.0);
+    this->CalculateDeltaTime();
+    this->state->Update(this->GetDeltaTime());
     this->state->Render();
 
     SDL_RenderPresent(this->renderer);
@@ -175,4 +178,16 @@ void Game::Run() {
   Resource::ClearSounds();
 }
 
+void Game::CalculateDeltaTime()
+{
+  unsigned int currentTime = SDL_GetTicks() / 1000;
 
+  this->dt = currentTime - frameStart;
+
+  this->frameStart = currentTime;
+}
+
+float Game::GetDeltaTime()
+{
+  return this->dt;
+}

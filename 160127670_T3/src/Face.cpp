@@ -1,6 +1,7 @@
 #include "../include/Face.hpp"
 #include "../include/Music.hpp"
 #include "../include/InputManager.hpp"
+#include "../include/Camera.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
@@ -53,7 +54,6 @@ void Face::Update(float dt)
   if (InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON) || InputManager::GetInstance().MousePress(SDL_BUTTON_RIGHT))
   {
     bool is_in = this->associated.box.is_point_in((float)InputManager::GetInstance().GetMouseX(), (float)InputManager::GetInstance().GetMouseY());
-    cout << is_in << endl;
     if (is_in)
     {
       this->Damage(rand() % 10 + 10);

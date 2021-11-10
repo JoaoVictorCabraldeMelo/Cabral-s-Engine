@@ -2,6 +2,7 @@
 #include "../include/GameObject.hpp"
 #include "../include/TileSet.hpp"
 #include "../include/Component.hpp"
+#include "../include/Camera.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -77,8 +78,8 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
   {
     for (int j = 0; j < this->mapHeight; j++)
     {
-      int x = i * this->tileset->GetTileHeight();
-      int y = j * this->tileset->GetTileWidth();
+      int x = i * this->tileset->GetTileHeight() - cameraX;
+      int y = j * this->tileset->GetTileWidth() - cameraY;
 
       this->tileset->RenderTile(this->At(i, j, layer), x, y);
     }
@@ -90,7 +91,7 @@ void TileMap::Render()
 
   for (int i = 0; i < this->mapDepth; i++)
   {
-    this->RenderLayer(i);
+    this->RenderLayer(i, Camera::pos.x, Camera::pos.y);
   }
 }
 
