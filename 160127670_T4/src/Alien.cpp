@@ -1,6 +1,7 @@
 #include "../include/Alien.hpp"
 #include "../include/Sprite.hpp"
 #include "../include/InputManager.hpp"
+#include "../include/Camera.hpp"
 
 using namespace std;
 
@@ -34,6 +35,7 @@ Alien::Action::Action(ActionType type, float x, float y)
 
 void Alien::Update(float dt)
 {
+
   bool left_click = InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON);
   bool right_click = InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON);
 
@@ -43,9 +45,27 @@ void Alien::Update(float dt)
     int mouse_x = InputManager::GetInstance().GetMouseX();
     int mouse_y = InputManager::GetInstance().GetMouseY();
 
+    Camera::pos.x += mouse_x;
+    Camera::pos.y += mouse_y;
+
     if (left_click)
-      Alien::Action new_action = Alien::Action::Action(SHOOT, mouse_x, mouse_y);
-    else 
-      Alien::Action new_action = Alien::Action::Action(MOVE, mouse_x, mouse_y);
+    {
+      Alien::Action new_action = Alien::Action::Action(Action::SHOOT, mouse_x, mouse_y);
+      this->taskAction.push(new_action);
+    }
+    else
+    {
+      Alien::Action new_action = Alien::Action::Action(Action::MOVE, mouse_x, mouse_y);
+      this->taskAction.push(new_action);
+    }
+
+    if (!this->taskAction.empty)
+    {
+      auto action = this->taskAction.front();
+      if (action.type == Action::MOVE)
+      {
+        this->speed = Vec2(action.pos.x, action.pos.y);
+      }
+    }
   }
 }

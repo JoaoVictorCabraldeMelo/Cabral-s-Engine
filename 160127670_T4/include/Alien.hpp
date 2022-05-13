@@ -23,6 +23,7 @@ public:
 
   bool Is(std::string type);
 
+
 private:
   class Action
   {
@@ -39,13 +40,13 @@ private:
 
     Vec2 pos;
   }
-
-  Vec2 speed;
   
   int hp;
 
   std::queue<Action> taskAction;
 
   std::vector<std::weak_ptr<GameObject>> minionArray;
+
+  Vec2 speed;
 
 }
