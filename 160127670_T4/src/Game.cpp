@@ -162,6 +162,8 @@ int Game::GetWidth()
 void Game::Run()
 {
 
+  this->state->Start();
+
   while (!this->state->QuitRequested())
   {
     this->CalculateDeltaTime();

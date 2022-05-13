@@ -14,9 +14,9 @@ private:
 
   bool quitRequested;
 
-  void AddObject(int mouseX, int mouseY);
+  bool started;
 
-  std::vector<std::unique_ptr<GameObject>> objectArray;
+  std::vector<std::shared_ptr<GameObject>> objectArray;
 
 public:
 
@@ -30,9 +30,15 @@ public:
 
   void Update(float dt);
 
+  void Start();
+
   void Render();
 
-  void RemoveObject(std::vector<std::unique_ptr<GameObject>>::iterator it);
+  void RemoveObject(std::vector<std::shared_ptr<GameObject>>::iterator it);
+
+  std::weak_ptr<GameObject> AddObject(GameObject *go);
+
+  std::weak_ptr<GameObject> GetObjectPtr(GameObject *go);
 };
 
 #endif

@@ -10,6 +10,7 @@ using namespace std;
 GameObject::GameObject()
 {
   this->isDead = false;
+  this->started = false;
 }
 
 GameObject::~GameObject()
@@ -42,12 +43,22 @@ void GameObject::RequestDelete()
 void GameObject::AddComponent(Component *cpt)
 {
   this->components.emplace_back(cpt);
+  if (this->started)
+    cpt->Start();
 }
 
 void GameObject::RemoveComponent(Component *cpt_recebido)
 {
-  remove_if(this->components.begin(), this->components.end(), [=](unique_ptr<Component> &cpt_alocado)
-            { return cpt_recebido == cpt_alocado.get(); });
+  remove_if(this->components.begin(), this->components.end(), [=](unique_ptr<Component> &cpt_alocado) { return cpt_recebido == cpt_alocado.get(); });
+}
+
+void GameObject::Start()
+{
+  for (auto &component : this->components)
+  {
+    component->Start();
+  }
+  this->started = true;
 }
 
 Component *GameObject::GetComponent(string type)

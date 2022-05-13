@@ -21,6 +21,8 @@ private:
 
 public:
 
+  bool started;
+
   GameObject();
 
   ~GameObject();
@@ -30,6 +32,8 @@ public:
   void Render();
 
   bool IsDead();
+
+  void Start();
 
   void RequestDelete();
 

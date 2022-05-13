@@ -22,6 +22,8 @@ public:
   virtual void Render() = 0;
 
   virtual bool Is(std::string type) = 0;
+
+  virtual void Start();
 };
 
 #endif

@@ -24,6 +24,8 @@ State::State()
 {
   this->quitRequested = false;
 
+  this->started = true //Inicializando started no constructor
+
   GameObject *initialize = new GameObject();
 
   GameObject *tileMapObject = new GameObject();
@@ -42,7 +44,7 @@ State::State()
   initialize->AddComponent(bg);
 
   Component *cameraFollower = new CameraFollower(*initialize);
-  
+
   initialize->AddComponent(cameraFollower);
 
   Component *music = new Music(*initialize);
@@ -122,38 +124,48 @@ bool State::QuitRequested()
   return this->quitRequested;
 }
 
-void State::AddObject(int mouseX, int mouseY)
+weak_ptr<GameObject> State::AddObject(GameObject *go)
 {
 
-  GameObject *enemy = new GameObject();
+  shared_ptr<GameObject> shared_go = make_shared<GameObject>(*go);
 
-  Component *peguin = new Sprite(*enemy, "./assets/img/penguinface.png");
+  this->objectArray.push_back(shared_go);
 
-  enemy->AddComponent(peguin);
+  if (this->started)
+    shared_go->Start();
 
-  Sprite *newEnemy = nullptr;
+  weak_ptr<GameObject> weak_go = shared_go;
 
-  newEnemy = static_cast<Sprite *>(peguin);
+  return weak_go;
+}
 
-  enemy->box.x = mouseX;
-  enemy->box.y = mouseY;
-  enemy->box.w = newEnemy->GetWidth();
-  enemy->box.h = newEnemy->GetHeight();
+weak_ptr<GameObject> State::GetObjectPtr(GameObject *go)
+{
 
-  newEnemy->Render();
+  weak_ptr<GameObject> found_object = nullptr;
 
-  Component *music = new Music(*enemy, "./assets/audio/boom.wav");
+  for (auto &object : this->objectArray)
+  {
+    if (object == *go)
+      found_object = object;
+  }
 
-  enemy->AddComponent(music);
-
-  Component *face = new Face(*enemy);
-
-  enemy->AddComponent(face);
-
-  this->objectArray.emplace_back(enemy);
+  return found_object;
 }
 
 void State::RemoveObject(vector<unique_ptr<GameObject>>::iterator it)
 {
   this->objectArray.erase(it);
+}
+
+void State::Start()
+{
+
+  this->LoadAssets();
+
+  for (auto &go : this->objectArray)
+  {
+    go->Start();
+  }
+  this->started = true;
 }
