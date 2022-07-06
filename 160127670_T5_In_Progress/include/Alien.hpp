@@ -4,9 +4,7 @@
 #include "Component.hpp"
 #include "Vec2.hpp"
 
-
 #include <queue>
-
 
 class Alien : public Component
 {
@@ -23,7 +21,6 @@ public:
 
   bool Is(std::string type);
 
-
 private:
   class Action
   {
@@ -38,15 +35,15 @@ private:
 
     ActionType type;
 
-    Vec2 pos;
-  }
-  
+    static Vec2 pos;
+  };
+
   int hp;
 
   std::queue<Action> taskAction;
 
   std::vector<std::weak_ptr<GameObject>> minionArray;
 
-  Vec2 speed;
-
-}
+  static Vec2 speed;
+};
+#endif

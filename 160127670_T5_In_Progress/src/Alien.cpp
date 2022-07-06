@@ -2,6 +2,7 @@
 #include "../include/Sprite.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Vec2.hpp"
 
 using namespace std;
 
@@ -28,9 +29,9 @@ void Alien::Start()
 
 Alien::Action::Action(ActionType type, float x, float y)
 {
+
   this->type = type;
-  this->pos.x = x;
-  this->pos.y = y;
+  this->pos = Vec2(x, y);
 }
 
 void Alien::Update(float dt)
@@ -50,16 +51,16 @@ void Alien::Update(float dt)
 
     if (left_click)
     {
-      Alien::Action new_action = Alien::Action::Action(Action::SHOOT, mouse_x, mouse_y);
+      Alien::Action new_action = Alien::Action(Action::SHOOT, mouse_x, mouse_y);
       this->taskAction.push(new_action);
     }
     else
     {
-      Alien::Action new_action = Alien::Action::Action(Action::MOVE, mouse_x, mouse_y);
+      Alien::Action new_action = Alien::Action(Action::MOVE, mouse_x, mouse_y);
       this->taskAction.push(new_action);
     }
 
-    if (!this->taskAction.empty)
+    if (!this->taskAction.empty())
     {
       auto action = this->taskAction.front();
       if (action.type == Action::MOVE)
