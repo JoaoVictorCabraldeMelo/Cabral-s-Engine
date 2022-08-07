@@ -1,11 +1,11 @@
 #include "../include/State.hpp"
 #include "../include/Vec2.hpp"
-#include "../include/Face.hpp"
 #include "../include/Game.hpp"
 #include "../include/TileMap.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/CameraFollower.hpp"
+#include "../include/Alien.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -24,7 +24,7 @@ State::State()
 {
   this->quitRequested = false;
 
-  this->started = true //Inicializando started no constructor
+  this->started = false;
 
   GameObject *initialize = new GameObject();
 
@@ -54,6 +54,14 @@ State::State()
   this->objectArray.emplace_back(initialize);
 
   this->objectArray.emplace_back(tileMapObject);
+
+  GameObject *alienObject = new GameObject();
+
+  Component *alien = new Alien(*alienObject, 0);
+
+  alienObject->AddComponent(alien);
+
+  this->objectArray.emplace_back(alienObject);
 
   this->LoadAssets();
 }
@@ -97,12 +105,6 @@ void State::Update(float dt)
     this->quitRequested = true;
   }
 
-  if (InputManager::GetInstance().KeyPress(SDLK_SPACE))
-  {
-    Vec2 objPos = Vec2(200, 0).rotate(-PI + PI * (rand() % 1001) / 500.0) + Vec2(InputManager::GetInstance().GetMouseX(), InputManager::GetInstance().GetMouseY());
-    AddObject((int)objPos.x, (int)objPos.y);
-  }
-
   for (auto it = this->objectArray.begin(); it < this->objectArray.end(); ++it)
   {
     if ((*it)->IsDead())
@@ -127,7 +129,7 @@ bool State::QuitRequested()
 weak_ptr<GameObject> State::AddObject(GameObject *go)
 {
 
-  shared_ptr<GameObject> shared_go = make_shared<GameObject>(*go);
+  shared_ptr<GameObject> shared_go(go);
 
   this->objectArray.push_back(shared_go);
 
@@ -142,18 +144,18 @@ weak_ptr<GameObject> State::AddObject(GameObject *go)
 weak_ptr<GameObject> State::GetObjectPtr(GameObject *go)
 {
 
-  weak_ptr<GameObject> found_object = nullptr;
+  weak_ptr<GameObject> found_object;
+
+  shared_ptr<GameObject> sp_go(go);
 
   for (auto &object : this->objectArray)
-  {
-    if (object == *go)
+    if (object == sp_go)
       found_object = object;
-  }
 
   return found_object;
 }
 
-void State::RemoveObject(vector<unique_ptr<GameObject>>::iterator it)
+void State::RemoveObject(vector<shared_ptr<GameObject>>::iterator it)
 {
   this->objectArray.erase(it);
 }

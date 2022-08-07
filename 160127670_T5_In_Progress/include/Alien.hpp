@@ -40,10 +40,14 @@ private:
 
   int hp;
 
-  std::queue<Action> taskAction;
+  static Vec2 speed;
+
+  std::queue<Action> taskQueue;
 
   std::vector<std::weak_ptr<GameObject>> minionArray;
 
-  static Vec2 speed;
+  
 };
+
+
 #endif

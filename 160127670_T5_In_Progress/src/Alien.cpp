@@ -29,9 +29,9 @@ void Alien::Start()
 
 Alien::Action::Action(ActionType type, float x, float y)
 {
-
   this->type = type;
-  this->pos = Vec2(x, y);
+  this->pos.x = x;
+  this->pos.y = y;
 }
 
 void Alien::Update(float dt)
@@ -40,11 +40,11 @@ void Alien::Update(float dt)
   bool left_click = InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON);
   bool right_click = InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON);
 
+  int mouse_x = InputManager::GetInstance().GetMouseX();
+  int mouse_y = InputManager::GetInstance().GetMouseY();
+
   if (left_click || right_click)
   {
-
-    int mouse_x = InputManager::GetInstance().GetMouseX();
-    int mouse_y = InputManager::GetInstance().GetMouseY();
 
     Camera::pos.x += mouse_x;
     Camera::pos.y += mouse_y;
@@ -52,21 +52,54 @@ void Alien::Update(float dt)
     if (left_click)
     {
       Alien::Action new_action = Alien::Action(Action::SHOOT, mouse_x, mouse_y);
-      this->taskAction.push(new_action);
+      this->taskQueue.push(new_action);
     }
     else
     {
       Alien::Action new_action = Alien::Action(Action::MOVE, mouse_x, mouse_y);
-      this->taskAction.push(new_action);
-    }
-
-    if (!this->taskAction.empty())
-    {
-      auto action = this->taskAction.front();
-      if (action.type == Action::MOVE)
-      {
-        this->speed = Vec2(action.pos.x, action.pos.y);
-      }
+      this->taskQueue.push(new_action);
     }
   }
+
+  if (!this->taskQueue.empty())
+  {
+
+    Alien::Action pendent_action = this->taskQueue.front();
+
+    float alien_x = this->associated.box.x;
+    float alien_y = this->associated.box.y;
+
+    float distance = pendent_action.pos.distance(alien_x, alien_y);
+
+    if (distance < 1.0)
+    {
+      this->associated.box.x = pendent_action.pos.x;
+      this->associated.box.y = pendent_action.pos.y;
+      this->taskQueue.pop();
+    }
+    else if (pendent_action.type == Action::MOVE)
+    {
+      this->speed.x = (1 / distance) * (pendent_action.pos.x - alien_x);
+      this->speed.y = (1 / distance) * (pendent_action.pos.y - alien_y);
+      this->taskQueue.pop();
+    }
+    else if (pendent_action.type == Action::SHOOT)
+    {
+      this->taskQueue.pop();
+    }
+  }
+
+  if (this->hp == 0)
+    this->associated.RequestDelete();
+}
+
+void Alien::Render()
+{
+}
+
+bool Alien::Is(string type)
+{
+  if (type == "Alien")
+    return true;
+  return false;
 }

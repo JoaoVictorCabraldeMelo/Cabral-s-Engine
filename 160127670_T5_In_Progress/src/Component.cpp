@@ -9,6 +9,6 @@ Component::~Component()
 {
 }
 
-Component::Start()
+void Component::Start()
 {
 }

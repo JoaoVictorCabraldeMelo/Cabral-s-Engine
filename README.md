@@ -1,4 +1,4 @@
-# Cabralesca Engine 
+# Cabralesca Engine
 
 - [X] Primeiro Passo desenvolver base para rendererização dos sprites e música na tela
 
