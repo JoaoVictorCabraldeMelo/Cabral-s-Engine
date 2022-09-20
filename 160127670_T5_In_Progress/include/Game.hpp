@@ -15,9 +15,8 @@ private:
   int height;
 
   /*Temporização */
-  int frameStart { 0 };
-  float dt { 0.0 };
-  
+  Uint32 frameStart = SDL_GetTicks() * .001;
+  float dt{0.0};
 
   static Game *instance;
   SDL_Window *window;
@@ -29,8 +28,6 @@ private:
   void CalculateDeltaTime();
 
 public:
-
-
   ~Game();
 
   void Run();
@@ -46,7 +43,6 @@ public:
   int GetHeight();
 
   int GetWidth();
-  
 };
 
 #endif

@@ -3,11 +3,10 @@
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Vec2.hpp"
-
-using namespace std;
-
 #include <iostream>
 #include <fstream>
+
+using namespace std;
 
 Alien::Alien(GameObject &associated, int nMinions) : Component(associated)
 {
@@ -46,9 +45,9 @@ void Alien::Update(float dt)
   if (left_click || right_click)
   {
 
-    Camera::pos.x += mouse_x;
-    Camera::pos.y += mouse_y;
-
+    Camera::pos.x = mouse_x;
+    Camera::pos.y = mouse_y;
+  
     if (left_click)
     {
       Alien::Action new_action = Alien::Action(Action::SHOOT, mouse_x, mouse_y);
@@ -69,9 +68,15 @@ void Alien::Update(float dt)
     float alien_x = this->associated.box.x;
     float alien_y = this->associated.box.y;
 
+    this->speed.x = (pendent_action.pos.x - alien_x) / 5;
+    this->speed.y = (pendent_action.pos.y - alien_y) / 5;
+
     float distance = pendent_action.pos.distance(alien_x, alien_y);
 
-    if (distance < 1.0)
+    cout << "atualmente em x:" << this->associated.box.x << endl;
+    cout << "atualmente em y:" << this->associated.box.y << endl;
+
+    if (distance < 100.00)
     {
       this->associated.box.x = pendent_action.pos.x;
       this->associated.box.y = pendent_action.pos.y;
@@ -79,9 +84,8 @@ void Alien::Update(float dt)
     }
     else if (pendent_action.type == Action::MOVE)
     {
-      this->speed.x = (1 / distance) * (pendent_action.pos.x - alien_x);
-      this->speed.y = (1 / distance) * (pendent_action.pos.y - alien_y);
-      this->taskQueue.pop();
+      this->associated.box.x += this->speed.x * dt;
+      this->associated.box.y += this->speed.y * dt;
     }
     else if (pendent_action.type == Action::SHOOT)
     {

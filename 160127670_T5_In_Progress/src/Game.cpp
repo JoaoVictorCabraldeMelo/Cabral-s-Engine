@@ -15,6 +15,8 @@
 #include <cstdlib>
 #include <ctime>
 
+using namespace std;
+
 Game *Game::instance = nullptr;
 
 Game::Game(std::string title, int width, int height)
@@ -182,9 +184,10 @@ void Game::Run()
 
 void Game::CalculateDeltaTime()
 {
-  unsigned int currentTime = SDL_GetTicks() / 1000;
 
-  this->dt = currentTime - frameStart;
+  Uint32 currentTime = SDL_GetTicks();
+
+  this->dt = (float) (currentTime - frameStart);
 
   this->frameStart = currentTime;
 }

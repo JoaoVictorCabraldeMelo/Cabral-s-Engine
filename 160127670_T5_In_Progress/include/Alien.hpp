@@ -35,12 +35,12 @@ private:
 
     ActionType type;
 
-    static Vec2 pos;
+    Vec2 pos;
   };
 
   int hp;
 
-  static Vec2 speed;
+  Vec2 speed;
 
   std::queue<Action> taskQueue;
 
