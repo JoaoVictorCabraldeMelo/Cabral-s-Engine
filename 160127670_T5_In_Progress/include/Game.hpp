@@ -15,7 +15,7 @@ private:
   int height;
 
   /*Temporização */
-  Uint32 frameStart = SDL_GetTicks() * .001;
+  int frameStart = (int) SDL_GetTicks();
   float dt{0.0};
 
   static Game *instance;

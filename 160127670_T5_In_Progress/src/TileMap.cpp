@@ -43,10 +43,15 @@ void TileMap::Load(const string &file)
           this->mapHeight = stoi(number);
           getline(numbers, number, ',');
           this->mapDepth = stoi(number);
+          // cout << "Largura do Tile Map: " << this->mapWidth << endl;
+          // cout << "Altura do TileMap: " << this->mapHeight << endl;
+          // cout << "Profundidade do TileMap " << this->mapDepth << endl;
         }
         else if (number != "\r" && number != "\n")
         {
-          this->tileMatrix.push_back(stoi(number));
+          if(this->tileMatrix.empty())
+            this->tileMatrix.push_back(0);
+          this->tileMatrix.push_back(stoi(number) - 1);
         }
       }
       count++;
@@ -67,9 +72,10 @@ void TileMap::SetTileSet(TileSet *tileSet)
 
 int &TileMap::At(int x, int y, int z)
 {
-  int zCalculated = (this->mapHeight * this->mapWidth) * z;
+  int zCalculated = this->mapHeight * this->mapWidth * z;
+  int xCalculated = this->mapWidth * x;
 
-  return this->tileMatrix[x + zCalculated + y];
+  return this->tileMatrix[xCalculated + zCalculated + y];
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
@@ -78,8 +84,8 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
   {
     for (int j = 0; j < this->mapHeight; j++)
     {
-      int x = i * this->tileset->GetTileHeight() - cameraX;
-      int y = j * this->tileset->GetTileWidth() - cameraY;
+      int x = i * this->tileset->GetTileWidth() - cameraX;
+      int y = j * this->tileset->GetTileHeight() - cameraY;
 
       this->tileset->RenderTile(this->At(i, j, layer), x, y);
     }

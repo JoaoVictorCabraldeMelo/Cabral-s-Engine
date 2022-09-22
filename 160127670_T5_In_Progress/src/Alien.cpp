@@ -35,6 +35,7 @@ Alien::Action::Action(ActionType type, float x, float y)
 
 void Alien::Update(float dt)
 {
+  cout << "Delta :" << dt << endl;
 
   bool left_click = InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON);
   bool right_click = InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON);
@@ -68,14 +69,14 @@ void Alien::Update(float dt)
     float alien_x = this->associated.box.x;
     float alien_y = this->associated.box.y;
 
-    this->speed.x = (pendent_action.pos.x - alien_x) / 5;
-    this->speed.y = (pendent_action.pos.y - alien_y) / 5;
+    this->speed.x = (pendent_action.pos.x - alien_x) / dt;
+    this->speed.y = (pendent_action.pos.y - alien_y) / dt;
+
+    cout << "Velocidade eixo X e eixo Y: " << this->speed.x << " " << this->speed.y << endl;
 
     float distance = pendent_action.pos.distance(alien_x, alien_y);
 
-    cout << "atualmente em x:" << this->associated.box.x << endl;
-    cout << "atualmente em y:" << this->associated.box.y << endl;
-
+    // cout << "Distância: " << distance << endl;
     if (distance < 100.00)
     {
       this->associated.box.x = pendent_action.pos.x;
@@ -84,8 +85,8 @@ void Alien::Update(float dt)
     }
     else if (pendent_action.type == Action::MOVE)
     {
-      this->associated.box.x += this->speed.x * dt;
-      this->associated.box.y += this->speed.y * dt;
+      // this->associated.box.x += this->speed.x * dt;
+      // this->associated.box.y += this->speed.y * dt;
     }
     else if (pendent_action.type == Action::SHOOT)
     {

@@ -26,10 +26,11 @@ TileSet::TileSet(int tileWidth, int tileHeight, string file)
   this->tileWidth = tileWidth;
 }
 
-void TileSet::RenderTile(unsigned int index, float x, float y)
+void TileSet::RenderTile(int index, float x, float y)
 {
-
-  if (index <= (unsigned int)((rows * columns) - 1))
+  // cout << "Index TileSet: " << index << endl;
+  
+  if (index <= ((rows * columns) - 1) && index >= -1)
   {
     int xFor = (index % this->columns) * this->tileWidth;
     int yFor = (index / this->columns) * this->tileHeight;

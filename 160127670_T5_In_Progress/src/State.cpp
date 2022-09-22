@@ -116,7 +116,6 @@ void State::Update(float dt)
 
 void State::Render()
 {
-
   for (auto &object : objectArray)
     object->Render();
 }
