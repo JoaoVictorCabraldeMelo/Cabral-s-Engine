@@ -21,7 +21,7 @@ SDL_Texture *Resource::GetImage(const string file)
 
   if (texture == nullptr)
   {
-    ofstream logfile("Errors.log");
+    ofstream logfile("Errors.log", ofstream::app);
 
     logfile << SDL_GetError() << endl;
 
@@ -58,7 +58,7 @@ Mix_Music *Resource::GetMusic(const string file)
 
   if (music == nullptr)
   {
-    ofstream logfile("Errors.log");
+    ofstream logfile("Errors.log", ofstream::app);
 
     logfile << Mix_GetError() << endl;
 
@@ -92,7 +92,7 @@ Mix_Chunk *Resource::GetSound(const string file)
 
   if (chunk == nullptr)
   {
-    ofstream logfile("Errors.log");
+    ofstream logfile("Errors.log", ofstream::app);
 
     logfile << Mix_GetError() << endl;
 

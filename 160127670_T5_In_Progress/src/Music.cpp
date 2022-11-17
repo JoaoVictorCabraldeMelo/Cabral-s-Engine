@@ -39,7 +39,7 @@ void Music::Play(int times)
   this->channel = Mix_PlayChannel(-1, this->chunk, times);
   if (this->channel == -1)
   {
-    ofstream logfile("Erros.log");
+    ofstream logfile("Erros.log", ofstream::app);
 
     logfile << Mix_GetError() << endl;
 

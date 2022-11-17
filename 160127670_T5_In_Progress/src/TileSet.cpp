@@ -28,21 +28,19 @@ TileSet::TileSet(int tileWidth, int tileHeight, string file)
 
 void TileSet::RenderTile(int index, float x, float y)
 {
-  // cout << "Index TileSet: " << index << endl;
   
-  if (index <= ((rows * columns) - 1) && index >= -1)
+  if (index <= ((rows * columns) - 1) && index >= 0)
   {
-    int xFor = (index % this->columns) * this->tileWidth;
-    int yFor = (index / this->columns) * this->tileHeight;
-    this->tileSet->SetClip(xFor, yFor, this->tileHeight, this->tileWidth);
+    int xFor = (index % this->columns) * this->tileHeight;
+    int yFor = (index / this->columns) * this->tileWidth;
+    this->tileSet->SetClip(xFor, yFor, this->tileWidth, this->tileHeight);
     this->tileSet->Render(x, y);
     return;
   }
-  fstream logfile("Erros.log");
-  logfile << "Index out of TileSet" << endl;
-  logfile.close();
 
-  cout << "Index out of TileSet" << endl;
+  ofstream logfile("Erros.log", ofstream::app);
+  logfile << "Index: "<< index << " out of TileSet" << endl;
+
 
 }
 

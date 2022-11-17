@@ -35,7 +35,7 @@ Alien::Action::Action(ActionType type, float x, float y)
 
 void Alien::Update(float dt)
 {
-  cout << "Delta :" << dt << endl;
+  // cout << "Delta :" << dt << endl;
 
   bool left_click = InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON);
   bool right_click = InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON);
@@ -72,7 +72,7 @@ void Alien::Update(float dt)
     this->speed.x = (pendent_action.pos.x - alien_x) / dt;
     this->speed.y = (pendent_action.pos.y - alien_y) / dt;
 
-    cout << "Velocidade eixo X e eixo Y: " << this->speed.x << " " << this->speed.y << endl;
+    // cout << "Velocidade eixo X e eixo Y: " << this->speed.x << " " << this->speed.y << endl;
 
     float distance = pendent_action.pos.distance(alien_x, alien_y);
 

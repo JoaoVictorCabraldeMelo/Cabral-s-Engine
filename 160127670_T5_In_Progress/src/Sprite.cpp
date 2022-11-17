@@ -44,11 +44,9 @@ void Sprite::Open(std::string file)
 
   if (query != 0)
   {
-    std::ofstream logifle("Errors.log");
+    std::ofstream logfile("Errors.log", std::ofstream::app);
 
-    logifle << SDL_GetError() << std::endl;
-
-    logifle.close();
+    logfile << SDL_GetError() << std::endl;
 
     std::cout << "Couldn't load Query Texture !!" << std::endl;
     std::cout << "Error Query Texture: " << SDL_GetError() << std::endl;
@@ -67,27 +65,20 @@ void Sprite::SetClip(int x, int y, int w, int h)
   this->clipRect.w = w;
 }
 
-void Sprite::Render()
+void Sprite::Render(int x, int y, int w, int h)
 {
 
-  SDL_Rect SpriteOnFrame;
+  SDL_Renderer *render = Game::GetInstance().GetRenderer();
 
-  SpriteOnFrame.h = this->height;
-  SpriteOnFrame.w = this->width;
-  SpriteOnFrame.x = associated.box.x;
-  SpriteOnFrame.y = associated.box.y;
+  const SDL_Rect dstClip = {x, y, w, h};
 
-  const SDL_Rect *dstClip = &SpriteOnFrame;
-
-  int render_flag = SDL_RenderCopy(Game::GetInstance().GetRenderer(), this->texture, &this->clipRect, dstClip);
+  int render_flag = SDL_RenderCopy(render,this->texture, &this->clipRect, &dstClip);
 
   if (render_flag != 0)
   {
-    std::fstream logfile("Erros.log");
+    std::fstream logfile("Erros.log", fstream::app);
 
     logfile << SDL_GetError() << std::endl;
-
-    logfile.close();
 
     std::cout << "Couldn't Render Copy !!" << std::endl;
     std::cout << "Error Render Copy: " << SDL_GetError() << std::endl;
@@ -96,12 +87,9 @@ void Sprite::Render()
   }
 }
 
-void Sprite::Render(float x, float y)
+void Sprite::Render(int x, int y)
 {
-  this->associated.box.x = x;
-  this->associated.box.y = y;
-
-  this->Render();
+  this->Render(x, y, this->width, this->height);
 }
 
 bool Sprite::IsOpen()

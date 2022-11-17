@@ -49,9 +49,9 @@ void TileMap::Load(const string &file)
         }
         else if (number != "\r" && number != "\n")
         {
-          if(this->tileMatrix.empty())
-            this->tileMatrix.push_back(0);
-          this->tileMatrix.push_back(stoi(number) - 1);
+          // if(this->tileMatrix.empty())
+          //   this->tileMatrix.push_back(0);
+          this->tileMatrix.push_back(stoi(number));
         }
       }
       count++;
@@ -59,9 +59,16 @@ void TileMap::Load(const string &file)
   }
   else
   {
-    ofstream logfile("Errors.log");
+    ofstream logfile("Errors.log", ofstream::app);
 
     logfile << "TileMap cannot be read" << endl;
+  }
+
+  for (auto number : this->tileMatrix)
+  {
+    ofstream logfile("Errors.log", ofstream::app);
+    
+    logfile << number << endl;
   }
 }
 
@@ -73,23 +80,31 @@ void TileMap::SetTileSet(TileSet *tileSet)
 int &TileMap::At(int x, int y, int z)
 {
   int zCalculated = this->mapHeight * this->mapWidth * z;
-  int xCalculated = this->mapWidth * x;
+  int xCalculated = x;
+  // int xCalculated = this->mapWidth * x;
+  int yCalculated = this->mapWidth * y;
 
-  return this->tileMatrix[xCalculated + zCalculated + y];
+  return this->tileMatrix[xCalculated + zCalculated + yCalculated];
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
 {
+  if(layer > 0)
+    return;
+  
   for (int i = 0; i < this->mapWidth; i++)
   {
     for (int j = 0; j < this->mapHeight; j++)
     {
-      int x = i * this->tileset->GetTileWidth() - cameraX;
-      int y = j * this->tileset->GetTileHeight() - cameraY;
+      int x = i * this->tileset->GetTileWidth() + cameraX;
+      int y = j * this->tileset->GetTileHeight() + cameraY;
+
+      // cout << "X: " << x << "Y: " << y << endl;
 
       this->tileset->RenderTile(this->At(i, j, layer), x, y);
     }
   }
+  this->tileset->RenderTile(5, 1, 1);
 }
 
 void TileMap::Render()

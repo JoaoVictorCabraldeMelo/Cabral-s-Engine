@@ -26,9 +26,9 @@ public:
 
   void SetClip(int x, int y, int w, int h);
 
-  void Render() override;
+  void Render(int x, int y, int w, int h);
 
-  void Render(float x, float y);
+  void Render(int x, int y);
 
   int GetWidth() const { return this->width; }
 

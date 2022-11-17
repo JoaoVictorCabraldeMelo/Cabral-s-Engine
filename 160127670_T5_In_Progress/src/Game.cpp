@@ -36,7 +36,7 @@ Game::Game(std::string title, int width, int height)
 
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0)
   {
-    std::ofstream logfile("Errors.log");
+    std::ofstream logfile("Errors.log", std::ofstream::app);
 
     logfile << SDL_GetError() << std::endl;
 
@@ -77,7 +77,7 @@ Game::Game(std::string title, int width, int height)
 
   if (this->window == nullptr)
   {
-    std::ofstream logfile("Erros.log");
+    std::ofstream logfile("Erros.log", std::ofstream::app);
 
     logfile << SDL_GetError() << std::endl;
 
@@ -95,7 +95,7 @@ Game::Game(std::string title, int width, int height)
 
   if (this->renderer == nullptr)
   {
-    std::ofstream logfile("Erros.log");
+    std::ofstream logfile("Erros.log", std::ofstream::app);
 
     logfile << SDL_GetError() << std::endl;
 
