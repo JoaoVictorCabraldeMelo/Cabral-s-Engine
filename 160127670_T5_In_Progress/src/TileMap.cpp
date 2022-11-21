@@ -1,3 +1,4 @@
+
 #include "../include/TileMap.hpp"
 #include "../include/GameObject.hpp"
 #include "../include/TileSet.hpp"
@@ -51,7 +52,7 @@ void TileMap::Load(const string &file)
         {
           // if(this->tileMatrix.empty())
           //   this->tileMatrix.push_back(0);
-          this->tileMatrix.push_back(stoi(number));
+          this->tileMatrix.push_back(stoi(number)-1);
         }
       }
       count++;
@@ -89,22 +90,19 @@ int &TileMap::At(int x, int y, int z)
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
 {
-  if(layer > 0)
-    return;
   
   for (int i = 0; i < this->mapWidth; i++)
   {
     for (int j = 0; j < this->mapHeight; j++)
     {
-      int x = i * this->tileset->GetTileWidth() + cameraX;
-      int y = j * this->tileset->GetTileHeight() + cameraY;
-
-      // cout << "X: " << x << "Y: " << y << endl;
+      int x = i * this->tileset->GetTileWidth() - cameraX;
+      int y = j * this->tileset->GetTileHeight() - cameraY;
 
       this->tileset->RenderTile(this->At(i, j, layer), x, y);
     }
   }
-  this->tileset->RenderTile(5, 1, 1);
+
+  // this->tileset->RenderTile(this->At(0, 0, 0), 1, 1);
 }
 
 void TileMap::Render()

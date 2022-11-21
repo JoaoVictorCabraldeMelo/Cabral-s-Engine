@@ -26,6 +26,8 @@ public:
 
   void SetClip(int x, int y, int w, int h);
 
+  void Render();
+
   void Render(int x, int y, int w, int h);
 
   void Render(int x, int y);

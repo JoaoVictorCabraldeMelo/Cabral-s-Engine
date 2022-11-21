@@ -31,10 +31,10 @@ void TileSet::RenderTile(int index, float x, float y)
   
   if (index <= ((rows * columns) - 1) && index >= 0)
   {
-    int xFor = (index % this->columns) * this->tileHeight;
-    int yFor = (index / this->columns) * this->tileWidth;
+    int xFor = (index % this->columns) * this->tileWidth;
+    int yFor = (index / this->columns) * this->tileHeight;
     this->tileSet->SetClip(xFor, yFor, this->tileWidth, this->tileHeight);
-    this->tileSet->Render(x, y);
+    this->tileSet->Render(x, y,64,64);
     return;
   }
 

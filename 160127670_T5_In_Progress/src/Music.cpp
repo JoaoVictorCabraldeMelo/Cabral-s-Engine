@@ -37,6 +37,9 @@ Music::~Music()
 void Music::Play(int times)
 {
   this->channel = Mix_PlayChannel(-1, this->chunk, times);
+
+  // ControlVolume(-1, 0);
+
   if (this->channel == -1)
   {
     ofstream logfile("Erros.log", ofstream::app);
@@ -88,4 +91,8 @@ bool Music::Is(const string type)
 
 void Music::Render()
 {
+}
+
+void Music::ControlVolume(int channel, int volume){
+  Mix_Volume(channel, volume);
 }

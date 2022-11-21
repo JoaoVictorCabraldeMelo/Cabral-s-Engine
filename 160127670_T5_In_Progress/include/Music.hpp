@@ -32,5 +32,7 @@ public:
   void Render() override;
 
   bool Is(std::string type) override;
+
+  void ControlVolume(int channel, int volume);
 };
 #endif

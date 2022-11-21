@@ -6,6 +6,7 @@
 #include "../include/Sprite.hpp"
 #include "../include/Game.hpp"
 #include "../include/Component.hpp"
+#include "../include/Camera.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
@@ -53,7 +54,6 @@ void Sprite::Open(std::string file)
 
     throw std::runtime_error(SDL_GetError());
   }
-
   Sprite::SetClip(0, 0, this->height, this->width);
 }
 
@@ -72,7 +72,7 @@ void Sprite::Render(int x, int y, int w, int h)
 
   const SDL_Rect dstClip = {x, y, w, h};
 
-  int render_flag = SDL_RenderCopy(render,this->texture, &this->clipRect, &dstClip);
+  int render_flag = SDL_RenderCopy(render, this->texture, &this->clipRect, &dstClip);
 
   if (render_flag != 0)
   {
@@ -90,6 +90,11 @@ void Sprite::Render(int x, int y, int w, int h)
 void Sprite::Render(int x, int y)
 {
   this->Render(x, y, this->width, this->height);
+}
+
+void Sprite::Render()
+{
+  this->Render(this->associated.box.x - Camera::pos.x, this->associated.box.y - Camera::pos.y);
 }
 
 bool Sprite::IsOpen()
