@@ -50,8 +50,6 @@ void TileMap::Load(const string &file)
         }
         else if (number != "\r" && number != "\n")
         {
-          // if(this->tileMatrix.empty())
-          //   this->tileMatrix.push_back(0);
           this->tileMatrix.push_back(stoi(number)-1);
         }
       }
@@ -82,7 +80,6 @@ int &TileMap::At(int x, int y, int z)
 {
   int zCalculated = this->mapHeight * this->mapWidth * z;
   int xCalculated = x;
-  // int xCalculated = this->mapWidth * x;
   int yCalculated = this->mapWidth * y;
 
   return this->tileMatrix[xCalculated + zCalculated + yCalculated];
@@ -90,19 +87,20 @@ int &TileMap::At(int x, int y, int z)
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
 {
-  
+
+  int parallax_x = cameraX * (layer + 1);
+  int parallax_y = cameraY * (layer + 1);
+
   for (int i = 0; i < this->mapWidth; i++)
   {
     for (int j = 0; j < this->mapHeight; j++)
     {
-      int x = i * this->tileset->GetTileWidth() - cameraX;
-      int y = j * this->tileset->GetTileHeight() - cameraY;
+      int x = i * this->tileset->GetTileWidth() - parallax_x;
+      int y = j * this->tileset->GetTileHeight() - parallax_y;
 
       this->tileset->RenderTile(this->At(i, j, layer), x, y);
     }
   }
-
-  // this->tileset->RenderTile(this->At(0, 0, 0), 1, 1);
 }
 
 void TileMap::Render()
