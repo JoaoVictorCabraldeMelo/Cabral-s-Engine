@@ -54,7 +54,7 @@ void Sprite::Open(std::string file)
 
     throw std::runtime_error(SDL_GetError());
   }
-  Sprite::SetClip(0, 0, this->height, this->width);
+  Sprite::SetClip(0, 0, this->width, this->height);
 }
 
 void Sprite::SetClip(int x, int y, int w, int h)

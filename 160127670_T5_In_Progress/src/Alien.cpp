@@ -14,6 +14,7 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated)
   Component *alien_sprite = new Sprite(associated, "assets/img/alien.png");
 
   this->associated.AddComponent(alien_sprite);
+
 }
 
 Alien::~Alien()
@@ -38,25 +39,26 @@ void Alien::Update(float dt)
   // cout << "Delta :" << dt << endl;
 
   bool left_click = InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON);
+
   bool right_click = InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON);
 
   int mouse_x = InputManager::GetInstance().GetMouseX();
+
   int mouse_y = InputManager::GetInstance().GetMouseY();
 
   if (left_click || right_click)
   {
+    int camera_x = Camera::pos.x;
+    int camera_y = Camera::pos.y;
 
-    Camera::pos.x = mouse_x;
-    Camera::pos.y = mouse_y;
-  
     if (left_click)
     {
-      Alien::Action new_action = Alien::Action(Action::SHOOT, mouse_x, mouse_y);
+      Alien::Action new_action = Alien::Action(Action::SHOOT, mouse_x - camera_x, mouse_y - camera_y);
       this->taskQueue.push(new_action);
     }
     else
     {
-      Alien::Action new_action = Alien::Action(Action::MOVE, mouse_x, mouse_y);
+      Alien::Action new_action = Alien::Action(Action::MOVE, mouse_x - camera_x, mouse_y + camera_y);
       this->taskQueue.push(new_action);
     }
   }
@@ -85,8 +87,8 @@ void Alien::Update(float dt)
     }
     else if (pendent_action.type == Action::MOVE)
     {
-      // this->associated.box.x += this->speed.x * dt;
-      // this->associated.box.y += this->speed.y * dt;
+      this->associated.box.x += this->speed.x * dt;
+      this->associated.box.y += this->speed.y * dt;
     }
     else if (pendent_action.type == Action::SHOOT)
     {
