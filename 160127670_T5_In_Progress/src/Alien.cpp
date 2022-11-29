@@ -58,7 +58,7 @@ void Alien::Update(float dt)
     }
     else
     {
-      Alien::Action new_action = Alien::Action(Action::MOVE, mouse_x - camera_x, mouse_y + camera_y);
+      Alien::Action new_action = Alien::Action(Action::MOVE, mouse_x - camera_x, mouse_y - camera_y);
       this->taskQueue.push(new_action);
     }
   }
@@ -68,18 +68,20 @@ void Alien::Update(float dt)
 
     Alien::Action pendent_action = this->taskQueue.front();
 
+    // cout << "Posicao pendente eixo X e eixo Y: " << pendent_action.pos.x << " " << pendent_action.pos.y << endl; 
+
     float alien_x = this->associated.box.x;
     float alien_y = this->associated.box.y;
-
-    this->speed.x = (pendent_action.pos.x - alien_x) / dt;
-    this->speed.y = (pendent_action.pos.y - alien_y) / dt;
+    
+    this->speed.x =  (pendent_action.pos.x - alien_x) * dt;
+    this->speed.y =  (pendent_action.pos.y - alien_y) * dt;
 
     // cout << "Velocidade eixo X e eixo Y: " << this->speed.x << " " << this->speed.y << endl;
 
     float distance = pendent_action.pos.distance(alien_x, alien_y);
 
     // cout << "Distância: " << distance << endl;
-    if (distance < 100.00)
+    if (distance <= 10.0)
     {
       this->associated.box.x = pendent_action.pos.x;
       this->associated.box.y = pendent_action.pos.y;
@@ -87,8 +89,8 @@ void Alien::Update(float dt)
     }
     else if (pendent_action.type == Action::MOVE)
     {
-      this->associated.box.x += this->speed.x * dt;
-      this->associated.box.y += this->speed.y * dt;
+      this->associated.box.x += this->speed.x;
+      this->associated.box.y += this->speed.y;
     }
     else if (pendent_action.type == Action::SHOOT)
     {
@@ -96,7 +98,7 @@ void Alien::Update(float dt)
     }
   }
 
-  if (this->hp == 0)
+  if (this->hp <= 0)
     this->associated.RequestDelete();
 }
 
