@@ -67,7 +67,7 @@ void Alien::Update(float dt)
   {
 
     Alien::Action pendent_action = this->taskQueue.front();
-
+    
     // cout << "Posicao pendente eixo X e eixo Y: " << pendent_action.pos.x << " " << pendent_action.pos.y << endl; 
 
     float alien_x = this->associated.box.x;
@@ -75,6 +75,11 @@ void Alien::Update(float dt)
     
     this->speed.x =  (pendent_action.pos.x - alien_x) * dt;
     this->speed.y =  (pendent_action.pos.y - alien_y) * dt;
+
+    // pendent_action.pos.normalise();
+
+    // this->speed.x = pendent_action.pos.x * dt;
+    // this->speed.y = pendent_action.pos.y * dt;
 
     // cout << "Velocidade eixo X e eixo Y: " << this->speed.x << " " << this->speed.y << endl;
 
