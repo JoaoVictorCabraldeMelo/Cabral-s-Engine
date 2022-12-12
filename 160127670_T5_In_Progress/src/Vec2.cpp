@@ -2,7 +2,7 @@
 #include "../include/Vec2.hpp"
 #include <math.h>
 
-#define PI 3.14159265
+extern const float PI = 3.14159265;
 
 Vec2::Vec2() {
   this->x = 0;

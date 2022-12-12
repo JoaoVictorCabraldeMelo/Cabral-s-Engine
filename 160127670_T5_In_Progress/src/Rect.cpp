@@ -27,10 +27,17 @@ float Rect::distance(float x, float y)
   return sqrt(pow(x - this->x, 2) + pow(y - this->y, 2));
 }
 
+//Vec a e Vec b sao utilizados na rotacao de matriz 
 Rect Rect::rotate(double angle)
 {
-  this->x = this->x * cos(angle) - this->y * sin(angle);
-  this->y = this->y * cos(angle) - this->y * sin(angle);
+
+  Vec2 a = {cos(angle), sin(angle)};
+  Vec2 b = {-sin(angle), cos(angle)};
+
+
+  this->x = this->x * a.x + this->x * a.y;
+
+  this->y = this->y * b.x + this->y * b.y;
 
   return *this;
 }
