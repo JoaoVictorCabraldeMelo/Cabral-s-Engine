@@ -7,7 +7,7 @@
 class Minion : public Component
 {
 public:
-    Minion(GameObject &associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg = 0);
+    Minion(GameObject &associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg);
     void Update(float dt);
     void Render();
     bool Is(std::string type);
