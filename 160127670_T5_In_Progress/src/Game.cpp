@@ -77,7 +77,7 @@ Game::Game(std::string title, int width, int height)
 
   if (this->window == nullptr)
   {
-    std::ofstream logfile("Erros.log", std::ofstream::app);
+    std::ofstream logfile("Errors.log", std::ofstream::app);
 
     logfile << SDL_GetError() << std::endl;
 
@@ -95,7 +95,7 @@ Game::Game(std::string title, int width, int height)
 
   if (this->renderer == nullptr)
   {
-    std::ofstream logfile("Erros.log", std::ofstream::app);
+    std::ofstream logfile("Errors.log", std::ofstream::app);
 
     logfile << SDL_GetError() << std::endl;
 

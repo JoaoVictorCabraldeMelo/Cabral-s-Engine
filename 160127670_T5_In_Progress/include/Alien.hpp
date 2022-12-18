@@ -40,6 +40,8 @@ private:
 
   int hp;
 
+  int nMinions;
+
   Vec2 speed;
 
   std::queue<Action> taskQueue;

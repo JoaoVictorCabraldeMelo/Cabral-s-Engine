@@ -91,7 +91,7 @@ double Vec2::inclination_two_points(Vec2 vector)
 Vec2 Vec2::rotate(double angle)
 {
   this->x = this->x * cos(angle) - this->y * sin(angle);
-  this->y = this->y * cos(angle) - this->y * sin(angle);
+  this->y = this->x * sin(angle) + this->y * cos(angle);
 
   return *this;
 }

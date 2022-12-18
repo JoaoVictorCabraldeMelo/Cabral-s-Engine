@@ -38,7 +38,7 @@ void TileSet::RenderTile(int index, float x, float y)
     return;
   }
 
-  ofstream logfile("Erros.log", ofstream::app);
+  ofstream logfile("Errors.log", ofstream::app);
   logfile << "Index: "<< index << " out of TileSet" << endl;
 
 

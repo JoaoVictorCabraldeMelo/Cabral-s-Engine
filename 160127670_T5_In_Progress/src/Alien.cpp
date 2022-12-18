@@ -3,6 +3,9 @@
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Vec2.hpp"
+#include "../include/Minion.hpp"
+#include "../include/State.hpp"
+
 #include <iostream>
 #include <fstream>
 
@@ -15,6 +18,7 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated)
 
   this->associated.AddComponent(alien_sprite);
 
+  this->nMinions = nMinions;
 }
 
 Alien::~Alien()
@@ -25,6 +29,32 @@ Alien::~Alien()
 
 void Alien::Start()
 {
+  State state;
+
+  // weak_ptr<GameObject> alien_go = state.GetObjectPtr(&(this->associated));
+
+  // shared_ptr<GameObject> shared_alien_go = alien_go.lock();
+
+  // for (int i = 0; i < this->nMinions; i++)
+  // {
+  //   GameObject *minion_go = new GameObject();
+
+  //   if (shared_alien_go.get() != nullptr) // found the object
+  //   { 
+  //     new Minion(*minion_go, alien_go, 0.0F);
+
+  //     weak_ptr<GameObject> new_minion_go = state.AddObject(minion_go);
+
+  //     this->minionArray.push_back(new_minion_go);
+  //   }
+  //   else
+  //   {
+  //     ofstream logfile("Errors.log", ofstream::app);
+  //     logfile << "Alien Object is null !!!" << endl;
+  //     logfile << "Please don't attach a Minion to a NULL GameObject !!!" << endl;
+  //     break;
+  //   }
+  // }
 }
 
 Alien::Action::Action(ActionType type, float x, float y)
@@ -53,12 +83,12 @@ void Alien::Update(float dt)
 
     if (left_click)
     {
-      Alien::Action new_action = Alien::Action(Action::SHOOT, mouse_x - camera_x, mouse_y - camera_y);
+      Alien::Action new_action = Alien::Action(Action::SHOOT, mouse_x + camera_x, mouse_y + camera_y);
       this->taskQueue.push(new_action);
     }
     else
     {
-      Alien::Action new_action = Alien::Action(Action::MOVE, mouse_x - camera_x, mouse_y - camera_y);
+      Alien::Action new_action = Alien::Action(Action::MOVE, mouse_x + camera_x, mouse_y + camera_y);
       this->taskQueue.push(new_action);
     }
   }
@@ -67,21 +97,27 @@ void Alien::Update(float dt)
   {
 
     Alien::Action pendent_action = this->taskQueue.front();
-    
-    // cout << "Posicao pendente eixo X e eixo Y: " << pendent_action.pos.x << " " << pendent_action.pos.y << endl; 
+
+    // cout << "Posicao pendente eixo X e eixo Y: " << pendent_action.pos.x << " " << pendent_action.pos.y << endl;
 
     float alien_x = this->associated.box.x;
     float alien_y = this->associated.box.y;
-    
-    this->speed.x =  (pendent_action.pos.x - alien_x) * dt;
-    this->speed.y =  (pendent_action.pos.y - alien_y) * dt;
 
-    // pendent_action.pos.normalise();
+    this->speed.x = 175;
+    this->speed.y = 175;
 
-    // this->speed.x = pendent_action.pos.x * dt;
-    // this->speed.y = pendent_action.pos.y * dt;
+    Vec2 inital_position{alien_x, alien_y};
+    Vec2 final_position{pendent_action.pos.x, pendent_action.pos.y};
+    Vec2 result_position;
 
-    // cout << "Velocidade eixo X e eixo Y: " << this->speed.x << " " << this->speed.y << endl;
+    result_position.x = final_position.x - inital_position.x;
+    result_position.y = final_position.y - inital_position.y;
+
+    Vec2 base{0, 0};
+
+    float length_vector = result_position.magnitude(base);
+
+    Vec2 normalized_vector{result_position.x / length_vector, result_position.y / length_vector};
 
     float distance = pendent_action.pos.distance(alien_x, alien_y);
 
@@ -94,8 +130,8 @@ void Alien::Update(float dt)
     }
     else if (pendent_action.type == Action::MOVE)
     {
-      this->associated.box.x += this->speed.x;
-      this->associated.box.y += this->speed.y;
+      this->associated.box.x += normalized_vector.x * this->speed.x * dt;
+      this->associated.box.y += normalized_vector.y * this->speed.y * dt;
     }
     else if (pendent_action.type == Action::SHOOT)
     {

@@ -34,6 +34,8 @@ OBJ_FILES  = $(addprefix $(BIN_PATH)/, $(notdir $(CPP_FILES:.cpp=.o)))
 
 EXEC = JOGO
 
+ERROR = Errors.log
+
 ###############
 #   Windows   #
 ###############
@@ -89,6 +91,7 @@ clean:
 	-$(RMDIR) $(DEP_PATH)
 	-$(RMDIR) $(BIN_PATH)
 	-$(RM) $(EXEC)
+	-$(RM) $(ERROR)
 
 .PRECIOUS: $(DEP_FILES)
 .PHONY: release debug clean folders help

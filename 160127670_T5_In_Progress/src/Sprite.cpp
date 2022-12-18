@@ -76,7 +76,7 @@ void Sprite::Render(int x, int y, int w, int h)
 
   if (render_flag != 0)
   {
-    std::fstream logfile("Erros.log", fstream::app);
+    std::fstream logfile("Errors.log", fstream::app);
 
     logfile << SDL_GetError() << std::endl;
 

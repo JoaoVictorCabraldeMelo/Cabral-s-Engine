@@ -57,7 +57,7 @@ State::State()
 
   GameObject *alienObject = new GameObject();
 
-  Component *alien = new Alien(*alienObject, 0);
+  Component *alien = new Alien(*alienObject, 7);
 
   alienObject->AddComponent(alien);
 
@@ -147,9 +147,22 @@ weak_ptr<GameObject> State::GetObjectPtr(GameObject *go)
 
   shared_ptr<GameObject> sp_go(go);
 
+  bool flag = false;
+
   for (auto &object : this->objectArray)
+  {
     if (object == sp_go)
+    {
       found_object = object;
+      flag = true;
+    }
+  }
+
+  if (!flag)
+  {
+    sp_go = nullptr;
+    found_object = sp_go;
+  }
 
   return found_object;
 }

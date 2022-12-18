@@ -31,13 +31,9 @@ float Rect::distance(float x, float y)
 Rect Rect::rotate(double angle)
 {
 
-  Vec2 a = {(float) cos(angle), (float) sin(angle)};
-  Vec2 b = {(float) -sin(angle),(float) cos(angle)};
+  this->x = this->x * cos(angle) - this->y * sin(angle);
 
-
-  this->x = this->x * a.x + this->x * a.y;
-
-  this->y = this->y * b.x + this->y * b.y;
+  this->y = this->x * sin(angle) + this->y * cos(angle);
 
   return *this;
 }

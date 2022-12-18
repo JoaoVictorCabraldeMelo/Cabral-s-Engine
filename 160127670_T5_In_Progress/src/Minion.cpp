@@ -29,18 +29,19 @@ Minion::Minion(GameObject &associated, weak_ptr<GameObject> alienCenter, float a
 
 void Minion::Update(float dt)
 {
+    Vec2 distance_minion_origen {0, 0};
 
     if (this->arc == 0)
     {
-        this->associated.box.x = 200;
-        this->associated.box.y = 0;
+        distance_minion_origen.x = 200;
+        distance_minion_origen.y = 0;
     }
 
     float speed = degree30 * dt;
 
     this->arc += speed;
 
-    this->associated.box.rotate(this->arc);
+    distance_minion_origen.rotate(arc);
 
     shared_ptr<GameObject> new_alien_center = this->alienCenter.lock();
 
@@ -48,8 +49,11 @@ void Minion::Update(float dt)
     {
         GameObject &updt_alien_center = *new_alien_center.get();
 
-        this->associated.box.x += updt_alien_center.box.x;
-        this->associated.box.y += updt_alien_center.box.y;
+        distance_minion_origen.x += updt_alien_center.box.x;
+        distance_minion_origen.y += updt_alien_center.box.y;
+
+        this->associated.box.x = distance_minion_origen.x;
+        this->associated.box.y = distance_minion_origen.y;
     }
     else
     {
