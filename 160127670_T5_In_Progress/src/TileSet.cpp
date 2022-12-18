@@ -38,10 +38,8 @@ void TileSet::RenderTile(int index, float x, float y)
     return;
   }
 
-  ofstream logfile("Errors.log", ofstream::app);
-  logfile << "Index: "<< index << " out of TileSet" << endl;
-
-
+  // ofstream logfile("Errors.log", ofstream::app);
+  // logfile << "Index: "<< index << " out of TileSet" << endl;
 }
 
 int TileSet::GetTileWidth()

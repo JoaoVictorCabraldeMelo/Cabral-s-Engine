@@ -49,7 +49,8 @@ void GameObject::AddComponent(Component *cpt)
 
 void GameObject::RemoveComponent(Component *cpt_recebido)
 {
-  remove_if(this->components.begin(), this->components.end(), [=](unique_ptr<Component> &cpt_alocado) { return cpt_recebido == cpt_alocado.get(); });
+  remove_if(this->components.begin(), this->components.end(), [=](unique_ptr<Component> &cpt_alocado)
+            { return cpt_recebido == cpt_alocado.get(); });
 }
 
 void GameObject::Start()

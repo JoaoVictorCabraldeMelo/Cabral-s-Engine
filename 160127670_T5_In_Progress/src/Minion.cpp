@@ -45,7 +45,7 @@ void Minion::Update(float dt)
 
     shared_ptr<GameObject> new_alien_center = this->alienCenter.lock();
 
-    if (new_alien_center != nullptr)
+    if (new_alien_center.get() != nullptr)
     {
         GameObject &updt_alien_center = *new_alien_center.get();
 

@@ -4,7 +4,7 @@
 #include "../include/Camera.hpp"
 #include "../include/Vec2.hpp"
 #include "../include/Minion.hpp"
-#include "../include/State.hpp"
+#include "../include/Game.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -29,32 +29,42 @@ Alien::~Alien()
 
 void Alien::Start()
 {
-  State state;
 
-  // weak_ptr<GameObject> alien_go = state.GetObjectPtr(&(this->associated));
+  Game instance = Game::GetInstance();
 
-  // shared_ptr<GameObject> shared_alien_go = alien_go.lock();
+  State game_state = instance.GetState();
 
-  // for (int i = 0; i < this->nMinions; i++)
-  // {
-  //   GameObject *minion_go = new GameObject();
+  weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&(this->associated));
 
-  //   if (shared_alien_go.get() != nullptr) // found the object
-  //   { 
-  //     new Minion(*minion_go, alien_go, 0.0F);
+  shared_ptr<GameObject> shared_alien_go = alien_go.lock();
 
-  //     weak_ptr<GameObject> new_minion_go = state.AddObject(minion_go);
+  cout << "Objeto retornado: " << shared_alien_go.get() << endl;
 
-  //     this->minionArray.push_back(new_minion_go);
-  //   }
-  //   else
-  //   {
-  //     ofstream logfile("Errors.log", ofstream::app);
-  //     logfile << "Alien Object is null !!!" << endl;
-  //     logfile << "Please don't attach a Minion to a NULL GameObject !!!" << endl;
-  //     break;
-  //   }
-  // }
+  for (int i = 0; i < this->nMinions; i++)
+  {
+    GameObject *minion_go = new GameObject();
+
+    if (shared_alien_go.get() != nullptr) // found the object
+    {
+
+      cout << "Vou criar um novo minion !!" << endl;
+
+      Component *minion = new Minion(*minion_go, alien_go, 0.0F);
+
+      minion_go->AddComponent(minion);
+
+      weak_ptr<GameObject> new_minion_go = game_state.AddObject(minion_go);
+
+      this->minionArray.push_back(new_minion_go);
+    }
+    else
+    {
+      ofstream logfile("Errors.log", ofstream::app);
+      logfile << "Alien Object is null !!!" << endl;
+      logfile << "Please don't attach a Minion to a NULL GameObject !!!" << endl;
+      break;
+    }
+  }
 }
 
 Alien::Action::Action(ActionType type, float x, float y)

@@ -105,12 +105,16 @@ void State::Update(float dt)
     this->quitRequested = true;
   }
 
-  for (auto it = this->objectArray.begin(); it < this->objectArray.end(); ++it)
+  for (auto it = this->objectArray.begin(); it != this->objectArray.end(); ++it)
   {
     if ((*it)->IsDead())
+    {
       this->RemoveObject(it);
+    }
     else
+    {
       (*it)->Update(dt);
+    }
   }
 }
 
@@ -145,13 +149,13 @@ weak_ptr<GameObject> State::GetObjectPtr(GameObject *go)
 
   weak_ptr<GameObject> found_object;
 
-  shared_ptr<GameObject> sp_go(go);
+  shared_ptr<GameObject> shared_go(go);
 
   bool flag = false;
 
   for (auto &object : this->objectArray)
   {
-    if (object == sp_go)
+    if (object.get() == go)
     {
       found_object = object;
       flag = true;
@@ -160,8 +164,8 @@ weak_ptr<GameObject> State::GetObjectPtr(GameObject *go)
 
   if (!flag)
   {
-    sp_go = nullptr;
-    found_object = sp_go;
+    shared_go = nullptr;
+    found_object = shared_go;
   }
 
   return found_object;

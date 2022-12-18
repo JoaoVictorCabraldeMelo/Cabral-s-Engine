@@ -63,12 +63,12 @@ void TileMap::Load(const string &file)
     logfile << "TileMap cannot be read" << endl;
   }
 
-  for (auto number : this->tileMatrix)
-  {
-    ofstream logfile("Errors.log", ofstream::app);
+  // for (auto number : this->tileMatrix)
+  // {
+  //   ofstream logfile("Errors.log", ofstream::app);
     
-    logfile << number << endl;
-  }
+  //   logfile << number << endl;
+  // }
 }
 
 void TileMap::SetTileSet(TileSet *tileSet)
