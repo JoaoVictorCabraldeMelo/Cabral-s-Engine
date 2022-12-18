@@ -27,9 +27,14 @@ Minion::Minion(GameObject &associated, weak_ptr<GameObject> alienCenter, float a
     this->arc = arcOffsetDeg;
 }
 
+void Minion::Start()
+{
+
+}
+
 void Minion::Update(float dt)
 {
-    Vec2 distance_minion_origen {0, 0};
+    Vec2 distance_minion_origen{0, 0};
 
     if (this->arc == 0)
     {

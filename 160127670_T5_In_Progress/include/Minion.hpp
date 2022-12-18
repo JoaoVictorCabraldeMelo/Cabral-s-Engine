@@ -12,6 +12,7 @@ public:
     void Render();
     bool Is(std::string type);
     void Shoot(Vec2 target);
+    void Start();
 
 private:
     std::weak_ptr<GameObject> alienCenter;

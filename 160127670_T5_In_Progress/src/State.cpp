@@ -105,15 +105,17 @@ void State::Update(float dt)
     this->quitRequested = true;
   }
 
-  for (auto it = this->objectArray.begin(); it != this->objectArray.end(); ++it)
+  for (int i = 0; i < (int)this->objectArray.size(); i++)
   {
-    if ((*it)->IsDead())
+    this->objectArray[i]->Update(dt);
+  }
+
+  for (int i = 0; i < (int)this->objectArray.size(); i++)
+  {
+    if (this->objectArray[i]->IsDead())
     {
-      this->RemoveObject(it);
-    }
-    else
-    {
-      (*it)->Update(dt);
+      this->RemoveObject(i);
+      i--;
     }
   }
 }
@@ -171,9 +173,9 @@ weak_ptr<GameObject> State::GetObjectPtr(GameObject *go)
   return found_object;
 }
 
-void State::RemoveObject(vector<shared_ptr<GameObject>>::iterator it)
+void State::RemoveObject(int position)
 {
-  this->objectArray.erase(it);
+  this->objectArray.erase(this->objectArray.begin() + position);
 }
 
 void State::Start()
@@ -181,9 +183,8 @@ void State::Start()
 
   this->LoadAssets();
 
-  for (auto &go : this->objectArray)
-  {
-    go->Start();
-  }
+  for (int i = 0; i < (int)this->objectArray.size(); i++)
+    this->objectArray[i]->Start();
+
   this->started = true;
 }

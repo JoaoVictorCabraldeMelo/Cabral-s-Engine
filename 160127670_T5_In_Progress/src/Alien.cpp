@@ -23,16 +23,16 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated)
 
 Alien::~Alien()
 {
-  while (!this->minionArray.empty())
-    this->minionArray.pop_back();
+  for (int i = 0; i < 7; i++)
+    this->minionArray[i].reset();
 }
 
 void Alien::Start()
 {
 
-  Game instance = Game::GetInstance();
+  Game &instance = Game::GetInstance();
 
-  State game_state = instance.GetState();
+  State &game_state = instance.GetState();
 
   weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&(this->associated));
 
@@ -55,7 +55,7 @@ void Alien::Start()
 
       weak_ptr<GameObject> new_minion_go = game_state.AddObject(minion_go);
 
-      this->minionArray.push_back(new_minion_go);
+      this->minionArray[i] = new_minion_go;
     }
     else
     {

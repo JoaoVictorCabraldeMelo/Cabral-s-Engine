@@ -34,7 +34,7 @@ public:
 
   void Render();
 
-  void RemoveObject(std::vector<std::shared_ptr<GameObject>>::iterator it);
+  void RemoveObject(int position);
 
   std::weak_ptr<GameObject> AddObject(GameObject *go);
 
