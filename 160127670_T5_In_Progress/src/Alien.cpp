@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Alien::Alien(GameObject &associated, int nMinions) : Component(associated)
+Alien::Alien(GameObject &associated, int nMinions) : Component(associated), minionArray()
 {
 
   Component *alien_sprite = new Sprite(associated, "assets/img/alien.png");
@@ -19,12 +19,12 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated)
   this->associated.AddComponent(alien_sprite);
 
   this->nMinions = nMinions;
+
 }
 
 Alien::~Alien()
 {
-  for (int i = 0; i < 7; i++)
-    this->minionArray[i].reset();
+  this->minionArray.clear();
 }
 
 void Alien::Start()
@@ -55,7 +55,7 @@ void Alien::Start()
 
       weak_ptr<GameObject> new_minion_go = game_state.AddObject(minion_go);
 
-      this->minionArray[i] = new_minion_go;
+      this->minionArray.push_back(new_minion_go);
     }
     else
     {
