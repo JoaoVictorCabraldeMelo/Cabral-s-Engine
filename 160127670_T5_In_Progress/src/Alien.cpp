@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Alien::Alien(GameObject &associated, int nMinions) : Component(associated), minionArray()
+Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(SPEEDX, SPEEDY)
 {
 
   Component *alien_sprite = new Sprite(associated, "assets/img/alien.png");
@@ -20,6 +20,14 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), mini
 
   this->nMinions = nMinions;
 
+  this->hp = 50;
+}
+
+Alien::Action::Action(ActionType type, float x, float y)
+{
+  this->type = type;
+  this->pos.x = x;
+  this->pos.y = y;
 }
 
 Alien::~Alien()
@@ -34,44 +42,20 @@ void Alien::Start()
 
   State &game_state = instance.GetState();
 
-  weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&(this->associated));
+  weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&this->associated);
 
-  shared_ptr<GameObject> shared_alien_go = alien_go.lock();
-
-  cout << "Objeto retornado: " << shared_alien_go.get() << endl;
-
-  for (int i = 0; i < this->nMinions; i++)
+  for (int i = 0; i < 1; i++)
   {
     GameObject *minion_go = new GameObject();
 
-    if (shared_alien_go.get() != nullptr) // found the object
-    {
+    Component *minion = new Minion(*minion_go, alien_go, 0.0F);
 
-      cout << "Vou criar um novo minion !!" << endl;
+    minion_go->AddComponent(minion);
 
-      Component *minion = new Minion(*minion_go, alien_go, 0.0F);
+    weak_ptr<GameObject> new_minion_go = game_state.AddObject(minion_go);
 
-      minion_go->AddComponent(minion);
-
-      weak_ptr<GameObject> new_minion_go = game_state.AddObject(minion_go);
-
-      this->minionArray.push_back(new_minion_go);
-    }
-    else
-    {
-      ofstream logfile("Errors.log", ofstream::app);
-      logfile << "Alien Object is null !!!" << endl;
-      logfile << "Please don't attach a Minion to a NULL GameObject !!!" << endl;
-      break;
-    }
+    this->minionArray.push_back(new_minion_go);
   }
-}
-
-Alien::Action::Action(ActionType type, float x, float y)
-{
-  this->type = type;
-  this->pos.x = x;
-  this->pos.y = y;
 }
 
 void Alien::Update(float dt)
@@ -112,9 +96,6 @@ void Alien::Update(float dt)
 
     float alien_x = this->associated.box.x;
     float alien_y = this->associated.box.y;
-
-    this->speed.x = 175;
-    this->speed.y = 175;
 
     Vec2 inital_position{alien_x, alien_y};
     Vec2 final_position{pendent_action.pos.x, pendent_action.pos.y};

@@ -6,6 +6,10 @@
 
 #include <queue>
 
+
+#define SPEEDX 200
+#define SPEEDY 200
+
 class Alien : public Component
 {
 public:

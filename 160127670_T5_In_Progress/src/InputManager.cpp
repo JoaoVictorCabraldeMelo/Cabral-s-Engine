@@ -53,7 +53,7 @@ void InputManager::Update()
 
     this->updateCounter++;
 
-    while (SDL_PollEvent(&event))
+     while (SDL_PollEvent(&event) > 0)
     {
         if (event.type == SDL_QUIT)
         {
@@ -62,7 +62,7 @@ void InputManager::Update()
 
         if (event.type == SDL_MOUSEBUTTONDOWN && event.key.repeat != 1)
         {
-            int newButton = (int)event.button.button;
+            int newButton = (int) event.button.button;
 
             this->mouseState[newButton] = true;
             this->mouseUpdate[newButton] = this->updateCounter;

@@ -15,7 +15,7 @@ public:
     void Start();
 
 private:
-    std::weak_ptr<GameObject> alienCenter;
+    GameObject& alienCenter;
     float arc;
 };
 

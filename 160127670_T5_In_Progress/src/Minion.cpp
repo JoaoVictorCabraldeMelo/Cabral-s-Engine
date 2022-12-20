@@ -17,7 +17,7 @@ const float degree90 = PI / 2;
 
 const float degree30 = PI / 6;
 
-Minion::Minion(GameObject &associated, weak_ptr<GameObject> alienCenter, float arcOffsetDeg = 0) : Component(associated), alienCenter(alienCenter)
+Minion::Minion(GameObject &associated, weak_ptr<GameObject> alienCenter, float arcOffsetDeg = 0) : Component(associated), alienCenter(*alienCenter.lock().get())
 {
 
     Component *minion_sprite = new Sprite(associated, "assets/img/minion.png");
@@ -29,7 +29,6 @@ Minion::Minion(GameObject &associated, weak_ptr<GameObject> alienCenter, float a
 
 void Minion::Start()
 {
-
 }
 
 void Minion::Update(float dt)
@@ -48,11 +47,9 @@ void Minion::Update(float dt)
 
     distance_minion_origen.rotate(arc);
 
-    shared_ptr<GameObject> new_alien_center = this->alienCenter.lock();
-
-    if (new_alien_center.get() != nullptr)
+    if (&this->alienCenter != nullptr)
     {
-        GameObject &updt_alien_center = *new_alien_center.get();
+        GameObject &updt_alien_center = this->alienCenter;
 
         distance_minion_origen.x += updt_alien_center.box.x;
         distance_minion_origen.y += updt_alien_center.box.y;

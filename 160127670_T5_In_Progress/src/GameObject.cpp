@@ -20,14 +20,14 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
-  for (auto &component : this->components)
-    component->Update(dt);
+  for (int i = 0; i < (int)this->components.size(); i++)
+    this->components[i]->Update(dt);
 }
 
 void GameObject::Render()
 {
-  for (auto &component : this->components)
-    component->Render();
+  for (int i = 0; i < (int)this->components.size(); i++)
+    this->components[i]->Render();
 }
 
 bool GameObject::IsDead()

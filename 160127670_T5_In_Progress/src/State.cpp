@@ -122,8 +122,8 @@ void State::Update(float dt)
 
 void State::Render()
 {
-  for (auto &object : objectArray)
-    object->Render();
+  for (int i = 0; i < (int)this->objectArray.size(); i++)
+    this->objectArray[i]->Render();
 }
 
 bool State::QuitRequested()
@@ -141,7 +141,7 @@ weak_ptr<GameObject> State::AddObject(GameObject *go)
   if (this->started)
     shared_go->Start();
 
-  weak_ptr<GameObject> weak_go = shared_go;
+  weak_ptr<GameObject> weak_go(shared_go);
 
   return weak_go;
 }
@@ -149,28 +149,16 @@ weak_ptr<GameObject> State::AddObject(GameObject *go)
 weak_ptr<GameObject> State::GetObjectPtr(GameObject *go)
 {
 
-  weak_ptr<GameObject> found_object;
-
-  shared_ptr<GameObject> shared_go(go);
-
-  bool flag = false;
-
-  for (auto &object : this->objectArray)
+  for (int i = 0; i < (int)this->objectArray.size(); i++)
   {
-    if (object.get() == go)
+    if (this->objectArray[i].get() == go)
     {
-      found_object = object;
-      flag = true;
+      weak_ptr<GameObject> weak_go(this->objectArray[i]);
+      return weak_go;
     }
   }
 
-  if (!flag)
-  {
-    shared_go = nullptr;
-    found_object = shared_go;
-  }
-
-  return found_object;
+  return {};
 }
 
 void State::RemoveObject(int position)
