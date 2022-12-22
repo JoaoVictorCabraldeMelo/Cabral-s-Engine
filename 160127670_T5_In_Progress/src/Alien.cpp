@@ -14,13 +14,17 @@ using namespace std;
 Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(SPEEDX, SPEEDY)
 {
 
-  Component *alien_sprite = new Sprite(associated, "assets/img/alien.png");
+  Sprite *alien_sprite = new Sprite(associated, "assets/img/alien.png");
 
   this->associated.AddComponent(alien_sprite);
 
   this->nMinions = nMinions;
 
   this->hp = 50;
+
+  this->associated.box.w = alien_sprite->GetWidth();
+  this->associated.box.h = alien_sprite->GetHeight();
+
 }
 
 Alien::Action::Action(ActionType type, float x, float y)
@@ -44,11 +48,11 @@ void Alien::Start()
 
   weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&this->associated);
 
-  for (int i = 0; i < 1; i++)
+  for (int i = 0; i <= this->nMinions; i++)
   {
     GameObject *minion_go = new GameObject();
 
-    Component *minion = new Minion(*minion_go, alien_go, 0.0F);
+    Component *minion = new Minion(*minion_go, alien_go, i*((2*PI) / this->nMinions));
 
     minion_go->AddComponent(minion);
 
