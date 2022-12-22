@@ -11,7 +11,7 @@ extern const float PI;
 #define DEG60 PI / 3
 #define DEG90 PI / 2
 
-
+    
 
 class Minion : public Component
 {
