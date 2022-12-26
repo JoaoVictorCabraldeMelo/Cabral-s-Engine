@@ -52,13 +52,17 @@ void Alien::Start()
   {
     GameObject *minion_go = new GameObject();
 
-    Component *minion = new Minion(*minion_go, alien_go, i*((2*PI) / this->nMinions));
+    Minion *minion = new Minion(*minion_go, alien_go, i*((2*PI) / this->nMinions));
 
     minion_go->AddComponent(minion);
 
-    weak_ptr<GameObject> new_minion_go = game_state.AddObject(minion_go);
+    game_state.AddObject(minion_go);
 
-    this->minionArray.push_back(new_minion_go);
+    shared_ptr<Minion> shared_minion(minion);
+
+    weak_ptr<Minion> weak_minion(shared_minion);
+
+    this->minionArray.push_back(weak_minion);
   }
 }
 
@@ -130,6 +134,12 @@ void Alien::Update(float dt)
     }
     else if (pendent_action.type == Action::SHOOT)
     {
+      int minion = rand() % this->nMinions;
+
+      Minion *minion_ptr = this->minionArray[minion].lock().get();
+
+      minion_ptr->Shoot(pendent_action.pos);
+
       this->taskQueue.pop();
     }
   }

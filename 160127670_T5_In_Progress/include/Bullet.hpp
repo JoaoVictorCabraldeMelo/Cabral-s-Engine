@@ -4,6 +4,7 @@
 #include "Component.hpp"
 #include "Vec2.hpp"
 
+const float BULLET_SPEED = 200.0;
 class Bullet : public Component
 {
   public:

@@ -3,6 +3,7 @@
 
 #include "Component.hpp"
 #include "Vec2.hpp"
+#include "Minion.hpp"
 
 #include <queue>
 
@@ -50,7 +51,7 @@ private:
 
   std::queue<Action> taskQueue;
 
-  std::vector<std::weak_ptr<GameObject>> minionArray;
+  std::vector<std::weak_ptr<Minion>> minionArray;
 
   
 };

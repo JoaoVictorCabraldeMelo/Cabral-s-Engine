@@ -30,7 +30,7 @@ State::State()
 
   GameObject *tileMapObject = new GameObject();
 
-  TileSet *tileSet = new TileSet(64, 64, "./assets/img/tileset.png");
+  TileSet *tileSet = new TileSet(64, 64, "assets/img/tileset.png");
 
   Component *tileMap = new TileMap(*tileMapObject, "assets/map/tileMap.txt", tileSet);
 

@@ -71,17 +71,21 @@ float Vec2::distance(float x, float y)
 
 double Vec2::inclination()
 {
-  double result = atan2(this->x, this->y) * 180 / PI;
+  double result = atan2(this->y, this->x); // angle in radians
+
+  // double result_in_degress = (result / PI) * 180;
 
   return result;
 }
 
 double Vec2::inclination_two_points(Vec2 vector)
 {
-  Vec2 diference = Vec2(0, 0);
 
-  diference.x = vector.x - this->x;
-  diference.y = vector.y - this->y;
+  Vec2 diference;
+
+  diference.x = vector.x * this->x + vector.y * this->y;
+
+  diference.y = vector.y * this->x - vector.x * this->y;
 
   double result = diference.inclination();
 
