@@ -8,7 +8,7 @@ const float BULLET_SPEED = 200.0;
 class Bullet : public Component
 {
   public:
-    Bullet(GameObject &associated, float angle, float speed, int damage, float max_distance, std::string sprite);
+    Bullet(GameObject &associated, float angle, float speed_x, float speed_y, int damage, float max_distance, std::string sprite);
 
     void Update(float dt);
 

@@ -186,8 +186,6 @@ void Game::CalculateDeltaTime()
 {
   int currentTime = (int) SDL_GetTicks();
 
-  // cout << "Diferença: " << currentTime - frameStart << endl;
-
   this->dt = (currentTime - frameStart) / 1000.0;
 
   this->frameStart = currentTime;

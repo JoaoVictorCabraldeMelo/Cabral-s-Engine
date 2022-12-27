@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 Minion::Minion(GameObject &associated, weak_ptr<GameObject> alienCenter, float arcOffsetDeg = 0) : Component(associated), alienCenter(*alienCenter.lock().get())
 {
 
@@ -96,8 +95,8 @@ void Minion::Shoot(Vec2 target)
 
     Vec2 result_position;
 
-    result_position.x = minion_pos.x - target.x;
-    result_position.y = minion_pos.y - target.y;
+    result_position.x = target.x - minion_pos.x;
+    result_position.y = target.y - minion_pos.y;
 
     Vec2 base{0, 0};
 
@@ -105,13 +104,19 @@ void Minion::Shoot(Vec2 target)
 
     Vec2 normalized_vector{result_position.x / length, result_position.y / length};
 
-    float bullet_speed = normalized_vector.x * BULLET_SPEED;
+    float bullet_speed_x = normalized_vector.x * BULLET_SPEED;
+
+    float bullet_speed_y = normalized_vector.y * BULLET_SPEED;
 
     GameObject *bullet_go = new GameObject();
 
+    bullet_go->box.x = minion_pos.x;
+
+    bullet_go->box.y = minion_pos.y;
+
     string sprite = "assets/img/minionbullet1.png";
 
-    Component *bullet = new Bullet(*bullet_go, angle_bullet, bullet_speed, 10, distance, sprite);
+    Component *bullet = new Bullet(*bullet_go, angle_bullet, bullet_speed_x, bullet_speed_y, 10, distance, sprite);
 
     bullet_go->AddComponent(bullet);
 

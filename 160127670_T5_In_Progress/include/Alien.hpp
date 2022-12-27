@@ -51,7 +51,7 @@ private:
 
   std::queue<Action> taskQueue;
 
-  std::vector<std::weak_ptr<Minion>> minionArray;
+  std::vector<std::weak_ptr<GameObject>> minionArray;
 
   
 };
