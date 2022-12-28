@@ -74,6 +74,10 @@ void Alien::Update(float dt)
 
   int mouse_y = InputManager::GetInstance().GetMouseY();
 
+  float angle_clockwise_degrees = - (DEG30 * 180 / PI) * dt;
+
+  this->associated.angleDeg += angle_clockwise_degrees;
+
   if (left_click || right_click)
   {
     int camera_x = Camera::pos.x;

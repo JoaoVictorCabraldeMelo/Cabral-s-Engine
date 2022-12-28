@@ -44,6 +44,8 @@ public:
   Component* GetComponent(std::string type);
   
   Rect box;
+
+  double angleDeg;
 };
 
 #endif

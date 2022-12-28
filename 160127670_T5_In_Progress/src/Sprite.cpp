@@ -7,6 +7,7 @@
 #include "../include/Game.hpp"
 #include "../include/Component.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Rect.hpp"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
@@ -22,11 +23,20 @@ Sprite::Sprite(GameObject &associated) : Component(associated)
   this->width = this->associated.box.w;
   this->height = this->associated.box.h;
   this->texture = nullptr;
+  this->scale.x = 1;
+  this->scale.y = 1;
+
+  this->associated.angleDeg = 0;
 }
 
 Sprite::Sprite(GameObject &associated, string file) : Component(associated)
 {
   this->texture = nullptr;
+  this->scale.x = 1;
+  this->scale.y = 1;
+
+  this->associated.angleDeg = 0;
+
   this->Open(file);
 }
 
@@ -70,9 +80,9 @@ void Sprite::Render(int x, int y, int w, int h)
 
   SDL_Renderer *render = Game::GetInstance().GetRenderer();
 
-  const SDL_Rect dstClip = {x, y, w, h};
+  const SDL_Rect dstClip = {x, y, (int) (w * this->scale.x), (int) (h * this->scale.y)};
 
-  int render_flag = SDL_RenderCopy(render, this->texture, &this->clipRect, &dstClip);
+  int render_flag = SDL_RenderCopyEx(render, this->texture, &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, SDL_FLIP_NONE);
 
   if (render_flag != 0)
   {
@@ -117,4 +127,27 @@ bool Sprite::Is(const string type)
     return true;
   else
     return false;
+}
+
+void Sprite::SetScale(float scalex, float scaley)
+{
+  pair<float, float> center = this->associated.box.get_center();
+
+  if (scalex != 0)
+  {
+    float center_x_before_scaling = center.first;
+
+    this->associated.box.x = center_x_before_scaling - ((this->associated.box.w * scalex) / 2.0);
+
+    this->scale.x = scalex;
+  }
+
+  if (scaley != 0)
+  {
+    float center_y_before_scaling = center.second;
+
+    this->associated.box.y = center_y_before_scaling - ((this->associated.box.h * scaley) / 2.0);
+
+    this->scale.y = scaley;
+  }
 }

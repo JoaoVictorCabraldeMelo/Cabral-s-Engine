@@ -29,6 +29,8 @@ public:
 
   Vec2 rotate(double angle);
 
+  double radians_to_degrees(float angle_in_radians);
+
 };
 
 #endif

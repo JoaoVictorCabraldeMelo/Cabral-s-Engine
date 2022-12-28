@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Component.hpp"
 #include "GameObject.hpp"
+#include "Vec2.hpp"
 
 class Sprite : public Component
 {
@@ -13,13 +14,13 @@ private:
   int width;
   int height;
   SDL_Rect clipRect;
+  Vec2 scale;
 
 public:
-
   explicit Sprite(GameObject &associated);
 
   explicit Sprite(GameObject &associated, std::string file);
-  
+
   ~Sprite();
 
   void Open(std::string file);
@@ -32,15 +33,19 @@ public:
 
   void Render(int x, int y);
 
-  int GetWidth() const { return this->width; }
+  int GetWidth() const { return this->width * this->scale.x; }
 
-  int GetHeight() const { return this->height; }
+  int GetHeight() const { return this->height * this->scale.y; }
 
   bool IsOpen();
 
   void Update(float dt) override;
 
-  bool Is(std::string  type) override;
+  bool Is(std::string type) override;
+
+  Vec2 GetScale();
+
+  void SetScale(float scalex, float scaley);
 };
 
 #endif

@@ -2,9 +2,10 @@
 #include "../include/Vec2.hpp"
 #include <math.h>
 
-extern const float PI = 3.14159265;
+extern const float PI = 3.14159265359;
 
-Vec2::Vec2() {
+Vec2::Vec2()
+{
   this->x = 0;
   this->y = 0;
 }
@@ -98,4 +99,9 @@ Vec2 Vec2::rotate(double angle)
   this->y = this->x * sin(angle) + this->y * cos(angle);
 
   return *this;
+}
+
+double Vec2::radians_to_degrees(float angle_in_radians)
+{
+  return angle_in_radians * (180 / PI);
 }

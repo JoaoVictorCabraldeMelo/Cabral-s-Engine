@@ -10,6 +10,8 @@ Bullet::Bullet(GameObject &associated, float angle, float speed_x, float speed_y
 
   Sprite *bullet = new Sprite(associated, sprite);
 
+  this->associated.angleDeg = angle;
+
   this->associated.AddComponent(bullet);
 
   this->speed.x = speed_x;
