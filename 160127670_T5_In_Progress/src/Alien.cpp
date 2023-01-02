@@ -24,7 +24,6 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), spee
 
   this->associated.box.w = alien_sprite->GetWidth();
   this->associated.box.h = alien_sprite->GetHeight();
-
 }
 
 Alien::Action::Action(ActionType type, float x, float y)
@@ -52,7 +51,7 @@ void Alien::Start()
   {
     GameObject *minion_go = new GameObject();
 
-    Component *minion = new Minion(*minion_go, alien_go, i*((2*PI) / this->nMinions));
+    Component *minion = new Minion(*minion_go, alien_go, i * ((2 * PI) / this->nMinions));
 
     minion_go->AddComponent(minion);
 
@@ -74,7 +73,7 @@ void Alien::Update(float dt)
 
   int mouse_y = InputManager::GetInstance().GetMouseY();
 
-  float angle_clockwise_degrees = - (DEG30 * 180 / PI) * dt;
+  float angle_clockwise_degrees = -(DEG30 * 180 / PI) * dt;
 
   this->associated.angleDeg += angle_clockwise_degrees;
 
@@ -134,11 +133,26 @@ void Alien::Update(float dt)
     }
     else if (pendent_action.type == Action::SHOOT)
     {
-      int minion = rand() % this->nMinions;
+      float min_distance = MAXFLOAT;
 
-      GameObject *minion_ptr = this->minionArray[minion].lock().get();
+      int minion_index = 0;
 
-      Minion* minion_cpt =  (Minion *) minion_ptr->GetComponent("Minion");
+      for (int i = 0; i < this->nMinions; i++)
+      {
+        Rect minion_box = this->minionArray[i].lock()->box;
+
+        float current_distance = minion_box.distance(pendent_action.pos.x, pendent_action.pos.y);
+
+        if (current_distance < min_distance)
+        {
+          min_distance = current_distance;
+          minion_index = i;
+        }
+      }
+
+      GameObject *minion_ptr = this->minionArray[minion_index].lock().get();
+
+      Minion *minion_cpt = (Minion *)minion_ptr->GetComponent("Minion");
 
       minion_cpt->Shoot(pendent_action.pos);
 
