@@ -27,7 +27,7 @@ private:
 
   int currentFrame;
 
-  float timeElapsed;
+  float timeElapsed = 0.0F;
 
 public:
   explicit Sprite(GameObject &associated);

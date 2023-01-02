@@ -26,6 +26,9 @@ Sprite::Sprite(GameObject &associated) : Component(associated)
   this->scale.x = 1;
   this->scale.y = 1;
 
+  this->frameCount = 1;
+  this->frameTime = 1.0F;
+
   this->associated.angleDeg = 0;
 }
 
@@ -41,6 +44,7 @@ Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameT
   this->frameTime = frameTime;
 
   this->Open(file);
+
 }
 
 Sprite::~Sprite()
@@ -68,10 +72,7 @@ void Sprite::Open(std::string file)
     throw std::runtime_error(SDL_GetError());
   }
 
-  int frame_width = this->GetWidth();
-
-  this->associated.box.w = frame_width;
-  this->associated.box.h = this->height;
+  int frame_width = this->width / this->frameCount;
 
   Sprite::SetClip(0, 0, frame_width, this->height);
 }
@@ -135,13 +136,14 @@ void Sprite::Update(float dt)
 
     int frame_width = this->GetWidth();
 
-    if (this->currentFrame > this->frameCount)
+    if (this->currentFrame >= this->frameCount)
     {
       this->currentFrame = 0;
     }
 
     this->SetClip(frame_width * this->currentFrame, 0, frame_width, this->height);
 
+    this->timeElapsed = 0.0F;
   }
 }
 
