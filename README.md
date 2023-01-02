@@ -1,5 +1,15 @@
 # Cabralesca Engine
 
-- [X] Primeiro Passo desenvolver base para rendererização dos sprites e música na tela
+- [X] T1
 
-- [] Falta Interação do Usuário e Update incompleto
+- [X] T2
+
+- [X] T3
+
+- [X] T4
+
+- [X] T5
+
+- [ ] T6
+
+- [ ] T7
