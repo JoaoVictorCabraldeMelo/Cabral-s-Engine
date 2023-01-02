@@ -10,16 +10,29 @@
 class Sprite : public Component
 {
 private:
+
   SDL_Texture *texture;
+
   int width;
+
   int height;
+
   SDL_Rect clipRect;
+
   Vec2 scale;
+
+  int frameCount;
+
+  float frameTime;
+
+  int currentFrame;
+
+  float timeElapsed;
 
 public:
   explicit Sprite(GameObject &associated);
 
-  explicit Sprite(GameObject &associated, std::string file);
+  explicit Sprite(GameObject &associated, std::string file, int frameCount = 1, float frameTime = 1.0F);
 
   ~Sprite();
 
@@ -33,9 +46,9 @@ public:
 
   void Render(int x, int y);
 
-  int GetWidth() const { return this->width * this->scale.x; }
+  int GetWidth();
 
-  int GetHeight() const { return this->height * this->scale.y; }
+  int GetHeight();
 
   bool IsOpen();
 
@@ -46,6 +59,12 @@ public:
   Vec2 GetScale();
 
   void SetScale(float scalex, float scaley);
+
+  void SetFrame(int frame);
+
+  void SetFrameCount(int frameCount);
+
+  void SetFrameTime(float frameTime);
 };
 
 #endif
