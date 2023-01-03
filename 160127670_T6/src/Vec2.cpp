@@ -82,11 +82,7 @@ double Vec2::inclination()
 double Vec2::inclination_two_points(Vec2 vector)
 {
 
-  Vec2 diference;
-
-  diference.x = vector.x * this->x + vector.y * this->y;
-
-  diference.y = vector.y * this->x - vector.x * this->y;
+  Vec2 diference = vector - *this;
 
   double result = diference.inclination();
 
@@ -95,8 +91,13 @@ double Vec2::inclination_two_points(Vec2 vector)
 
 Vec2 Vec2::rotate(double angle)
 {
-  this->x = this->x * cos(angle) - this->y * sin(angle);
-  this->y = this->x * sin(angle) + this->y * cos(angle);
+  float sen = sin(angle), cosin = cos(angle);
+
+  float x = this->x * cosin - this->y * sen;
+  float y = this->x * sen + this->y * cosin;  
+
+  this->x = x;
+  this->y = y;
 
   return *this;
 }

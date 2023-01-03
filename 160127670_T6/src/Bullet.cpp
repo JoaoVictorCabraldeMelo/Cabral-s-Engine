@@ -8,9 +8,9 @@ using namespace std;
 
 Bullet::Bullet(GameObject &associated, float angle, float speed_x, float speed_y, int damage, float max_distance, string sprite) : Component(associated) {
 
-  Sprite *bullet = new Sprite(associated, sprite, 2, .5F);
+  Sprite *bullet = new Sprite(associated, sprite, 3, .5F);
 
-  bullet->SetScale(1.0F, 2.0F);
+  bullet->SetScale(.75F, .75F);
 
   this->associated.angleDeg = angle;
 

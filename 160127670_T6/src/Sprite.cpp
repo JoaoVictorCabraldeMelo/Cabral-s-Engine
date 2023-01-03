@@ -44,7 +44,6 @@ Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameT
   this->frameTime = frameTime;
 
   this->Open(file);
-
 }
 
 Sprite::~Sprite()
@@ -134,7 +133,7 @@ void Sprite::Update(float dt)
   {
     this->currentFrame += 1;
 
-    int frame_width = this->GetWidth();
+    int frame_width = this->GetWidth() / this->scale.x;
 
     if (this->currentFrame >= this->frameCount)
     {
@@ -192,10 +191,9 @@ void Sprite::SetScale(float scalex, float scaley)
 
 void Sprite::SetFrame(int frame)
 {
-
   this->currentFrame = frame;
 
-  int frame_width = this->GetWidth();
+  int frame_width = this->GetWidth() / this->scale.x;
 
   this->SetClip(frame_width * currentFrame, 0, frame_width, this->height);
 }
