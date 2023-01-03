@@ -26,16 +26,22 @@ Sprite::Sprite(GameObject &associated) : Component(associated)
   this->scale.x = 1;
   this->scale.y = 1;
 
+  this->frameCount = 1;
+  this->frameTime = 1.0F;
+
   this->associated.angleDeg = 0;
 }
 
-Sprite::Sprite(GameObject &associated, string file) : Component(associated)
+Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime) : Component(associated)
 {
   this->texture = nullptr;
   this->scale.x = 1;
   this->scale.y = 1;
 
   this->associated.angleDeg = 0;
+
+  this->frameCount = frameCount;
+  this->frameTime = frameTime;
 
   this->Open(file);
 }
@@ -64,7 +70,10 @@ void Sprite::Open(std::string file)
 
     throw std::runtime_error(SDL_GetError());
   }
-  Sprite::SetClip(0, 0, this->width, this->height);
+
+  int frame_width = this->width / this->frameCount;
+
+  Sprite::SetClip(0, 0, frame_width, this->height);
 }
 
 void Sprite::SetClip(int x, int y, int w, int h)
@@ -80,7 +89,7 @@ void Sprite::Render(int x, int y, int w, int h)
 
   SDL_Renderer *render = Game::GetInstance().GetRenderer();
 
-  const SDL_Rect dstClip = {x, y, (int) (w * this->scale.x), (int) (h * this->scale.y)};
+  const SDL_Rect dstClip = {x, y, (int)(w * this->scale.x), (int)(h * this->scale.y)};
 
   int render_flag = SDL_RenderCopyEx(render, this->texture, &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, SDL_FLIP_NONE);
 
@@ -118,7 +127,23 @@ bool Sprite::IsOpen()
 
 void Sprite::Update(float dt)
 {
-  // cout << dt << endl;
+  this->timeElapsed += dt;
+
+  if (this->timeElapsed > this->frameTime)
+  {
+    this->currentFrame += 1;
+
+    int frame_width = this->GetWidth() / this->scale.x;
+
+    if (this->currentFrame >= this->frameCount)
+    {
+      this->currentFrame = 0;
+    }
+
+    this->SetClip(frame_width * this->currentFrame, 0, frame_width, this->height);
+
+    this->timeElapsed = 0.0F;
+  }
 }
 
 bool Sprite::Is(const string type)
@@ -127,6 +152,18 @@ bool Sprite::Is(const string type)
     return true;
   else
     return false;
+}
+
+int Sprite::GetHeight()
+{
+  return this->height * this->scale.y;
+}
+
+int Sprite::GetWidth()
+{
+  int frame_width = this->width / this->frameCount;
+
+  return frame_width * this->scale.x;
 }
 
 void Sprite::SetScale(float scalex, float scaley)
@@ -150,4 +187,27 @@ void Sprite::SetScale(float scalex, float scaley)
 
     this->scale.y = scaley;
   }
+}
+
+void Sprite::SetFrame(int frame)
+{
+  this->currentFrame = frame;
+
+  int frame_width = this->GetWidth() / this->scale.x;
+
+  this->SetClip(frame_width * currentFrame, 0, frame_width, this->height);
+}
+
+void Sprite::SetFrameCount(int frameCount)
+{
+  this->frameCount = frameCount;
+
+  this->associated.box.w = this->GetWidth();
+
+  this->currentFrame = 0;
+}
+
+void Sprite::SetFrameTime(float frameTime)
+{
+  this->frameTime = frameTime;
 }

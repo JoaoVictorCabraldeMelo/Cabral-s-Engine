@@ -35,7 +35,7 @@ void Minion::Start()
 
 void Minion::Update(float dt)
 {
-    Vec2 distance_minion_origen{0, 0};
+    Vec2 distance_minion_origen{125, 0};
 
     float ratio = 125;
 
@@ -51,9 +51,7 @@ void Minion::Update(float dt)
 
     this->arc += speed;
 
-    // simple rotation
-    distance_minion_origen.x = ratio * cos(this->arc);
-    distance_minion_origen.y = ratio * sin(this->arc);
+    distance_minion_origen.rotate(this->arc);
 
     if (&this->alienCenter != nullptr)
     {
@@ -97,6 +95,8 @@ void Minion::Shoot(Vec2 target)
 
     float angle_bullet = minion_pos.inclination_two_points(target);
 
+    // cout << "Angle: " << angle_bullet << endl;
+
     float angle_degress_bullet = minion_pos.radians_to_degrees(angle_bullet);
 
     float distance = minion_pos.distance(target.x, target.y);
@@ -122,7 +122,7 @@ void Minion::Shoot(Vec2 target)
 
     bullet_go->box.y = minion_pos.y;
 
-    string sprite = "assets/img/minionbullet1.png";
+    string sprite = "assets/img/minionbullet2.png";
 
     Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, bullet_speed_x, bullet_speed_y, 10, distance, sprite);
 
