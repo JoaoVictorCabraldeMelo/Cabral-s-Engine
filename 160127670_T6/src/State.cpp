@@ -6,6 +6,7 @@
 #include "../include/Camera.hpp"
 #include "../include/CameraFollower.hpp"
 #include "../include/Alien.hpp"
+#include "../include/PenguinBody.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -62,6 +63,17 @@ State::State()
   alienObject->AddComponent(alien);
 
   this->objectArray.emplace_back(alienObject);
+
+  GameObject *penguinObject = new GameObject();
+
+  Component *penguin = new PenguinBody(*penguinObject);
+
+  penguinObject->AddComponent(penguin);
+
+  this->objectArray.emplace_back(penguinObject);
+
+  penguinObject->box.x = 704;
+  penguinObject->box.y = 640;
 
   this->LoadAssets();
 }
