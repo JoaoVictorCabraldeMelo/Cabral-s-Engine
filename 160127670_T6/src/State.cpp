@@ -64,16 +64,16 @@ State::State()
 
   this->objectArray.emplace_back(alienObject);
 
-  GameObject *penguinObject = new GameObject();
+  // GameObject *penguinObject = new GameObject();
 
-  Component *penguin = new PenguinBody(*penguinObject);
+  // Component *penguin = new PenguinBody(*penguinObject);
 
-  penguinObject->AddComponent(penguin);
+  // penguinObject->AddComponent(penguin);
 
-  this->objectArray.emplace_back(penguinObject);
+  // this->objectArray.emplace_back(penguinObject);
 
-  penguinObject->box.x = 704;
-  penguinObject->box.y = 640;
+  // penguinObject->box.x = 704;
+  // penguinObject->box.y = 640;
 
   this->LoadAssets();
 }
