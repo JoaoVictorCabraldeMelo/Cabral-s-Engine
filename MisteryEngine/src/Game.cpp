@@ -130,7 +130,7 @@ Game &Game::GetInstance()
 {
   if (Game::instance == nullptr)
   {
-    Game &game = *new Game("Mistery *No name*", 1920, 1080);
+    Game &game = *new Game("Anamnese", 1920, 1080);
     return game;
   }
   else
