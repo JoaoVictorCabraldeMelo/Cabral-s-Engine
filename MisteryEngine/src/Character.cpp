@@ -40,6 +40,8 @@ void Character::Update(float dt) {
 
   bool right_click = input.MousePress(RIGHT_MOUSE_BUTTON);
 
+  Sprite *sprite_character = (Sprite *) this->associated.GetComponent("Image");
+
   if(right_click) {
     Character::Action new_action = Character::Action(Action::MOVE, mouse_x, mouse_y);
     this->taskQueue.push(new_action);
@@ -74,6 +76,8 @@ void Character::Update(float dt) {
       this->associated.box.x += normalized_vector.x * this->speed.x * dt;
       this->associated.box.y += normalized_vector.y * this->speed.y * dt;
     }
+  } else {
+    sprite_character->SetFrame(0);
   }
 }
 

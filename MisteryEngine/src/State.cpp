@@ -91,6 +91,11 @@ void State::LoadAssets()
 
   bg->Open("./assets/img/sala.png");
 
+  float scale_x = Game::GetInstance().GetWidth() / 1920;
+  float scale_y = Game::GetInstance().GetHeight() / 1080;
+
+  bg->SetScale(scale_x, scale_y);
+
   bg->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
 
   initialize->box.x = 0;

@@ -56,7 +56,7 @@ Game::Game(std::string title, int width, int height)
     std::cout << "Error Load Image: " << IMG_GetError() << std::endl;
   }
 
-  int sound_flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_OGG;
+  int sound_flags = MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG;
 
   int initiated_sound = Mix_Init(sound_flags);
 
@@ -73,7 +73,7 @@ Game::Game(std::string title, int width, int height)
 
   Mix_AllocateChannels(32);
 
-  this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+  this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
 
   if (this->window == nullptr)
   {
