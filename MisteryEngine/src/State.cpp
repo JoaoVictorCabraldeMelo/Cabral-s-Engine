@@ -7,6 +7,8 @@
 #include "../include/CameraFollower.hpp"
 #include "../include/Alien.hpp"
 #include "../include/PenguinBody.hpp"
+#include "../include/Character.hpp"
+
 #include <iostream>
 #include <fstream>
 
@@ -29,16 +31,16 @@ State::State()
 
   GameObject *initialize = new GameObject();
 
-  GameObject *tileMapObject = new GameObject();
+  // GameObject *tileMapObject = new GameObject();
 
-  TileSet *tileSet = new TileSet(64, 64, "assets/img/tileset.png");
+  // TileSet *tileSet = new TileSet(64, 64, "assets/img/tileset.png");
 
-  Component *tileMap = new TileMap(*tileMapObject, "assets/map/tileMap.txt", tileSet);
+  // Component *tileMap = new TileMap(*tileMapObject, "assets/map/tileMap.txt", tileSet);
 
-  tileMapObject->box.x = 0;
-  tileMapObject->box.y = 0;
+  // tileMapObject->box.x = 0;
+  // tileMapObject->box.y = 0;
 
-  tileMapObject->AddComponent(tileMap);
+  // tileMapObject->AddComponent(tileMap);
 
   Component *bg = new Sprite(*initialize);
 
@@ -54,26 +56,24 @@ State::State()
 
   this->objectArray.emplace_back(initialize);
 
-  this->objectArray.emplace_back(tileMapObject);
+  // this->objectArray.emplace_back(tileMapObject);
 
-  GameObject *alienObject = new GameObject();
+  GameObject *characterObject = new GameObject();
 
-  Component *alien = new Alien(*alienObject, 7);
+  Component *character = new Character(*characterObject, "assets/img/MeninaSpriteSheet.png", 3);
 
-  alienObject->AddComponent(alien);
+  characterObject->AddComponent(character);
 
-  this->objectArray.emplace_back(alienObject);
+  this->objectArray.emplace_back(characterObject);
 
-  // GameObject *penguinObject = new GameObject();
+  // GameObject *alienObject = new GameObject();
 
-  // Component *penguin = new PenguinBody(*penguinObject);
+  // Component *alien = new Alien(*alienObject, 7);
 
-  // penguinObject->AddComponent(penguin);
+  // alienObject->AddComponent(alien);
 
-  // this->objectArray.emplace_back(penguinObject);
+  // this->objectArray.emplace_back(alienObject);
 
-  // penguinObject->box.x = 704;
-  // penguinObject->box.y = 640;
 
   this->LoadAssets();
 }
@@ -89,7 +89,7 @@ void State::LoadAssets()
 
   Sprite *bg = static_cast<Sprite *>(initialize->GetComponent("Image"));
 
-  bg->Open("./assets/img/ocean.jpg");
+  bg->Open("./assets/img/sala.png");
 
   bg->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
 
@@ -100,7 +100,7 @@ void State::LoadAssets()
 
   Music *music = static_cast<Music *>(initialize->GetComponent("Sound"));
 
-  music->Open("./assets/audio/stageState.ogg");
+  music->Open("./assets/audio/music_mistery.mp3");
 
   music->Play(-1);
 }
