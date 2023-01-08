@@ -64,6 +64,8 @@ State::State()
 
   characterObject->AddComponent(character);
 
+  Sprite *characterSprite = (Sprite *)characterObject->GetComponent("Image");
+
   this->objectArray.emplace_back(characterObject);
 
   // GameObject *alienObject = new GameObject();
