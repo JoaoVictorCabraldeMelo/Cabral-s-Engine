@@ -75,7 +75,9 @@ Game::Game(std::string title, int width, int height)
 
   Game::GetDisplaysSizes();
 
-  this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
+  Game::SetScreenScale();
+
+  this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->width, this->height, SDL_WINDOW_ALLOW_HIGHDPI);
 
   if (this->window == nullptr)
   {
@@ -213,8 +215,8 @@ void Game::SetScreenScale() {
   SDL_Rect screen = this->displaysSize[0];
 
   if(screen.w < 1920 && screen.h < 1080) {
-    this->screenScale.x = screen.w / this->width;
-    this->screenScale.y = screen.y / this->height;
+    this->screenScale.x = (float) screen.w / (float) this->width;
+    this->screenScale.y =  (float) screen.h / (float) this->height;
 
     this->width = screen.w;
     this->height = screen.h;
