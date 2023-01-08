@@ -23,9 +23,16 @@ private:
   SDL_Renderer *renderer;
   State *state;
 
+  std::vector<SDL_Rect> displaysSize;
+  Vec2 screenScale{1.0F, 1.0F};
+
   Game(std::string title, int width, int height);
 
   void CalculateDeltaTime();
+
+  void GetDisplaysSizes();
+
+  void SetScreenScale();
 
 public:
   ~Game();
@@ -43,6 +50,8 @@ public:
   int GetHeight();
 
   int GetWidth();
+
+  Vec2 GetScreenScale();
 };
 
 #endif

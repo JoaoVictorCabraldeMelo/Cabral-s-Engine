@@ -23,6 +23,7 @@ Sprite::Sprite(GameObject &associated) : Component(associated)
   this->width = this->associated.box.w;
   this->height = this->associated.box.h;
   this->texture = nullptr;
+
   this->scale.x = 1;
   this->scale.y = 1;
 
@@ -89,7 +90,9 @@ void Sprite::Render(int x, int y, int w, int h)
 
   SDL_Renderer *render = Game::GetInstance().GetRenderer();
 
-  const SDL_Rect dstClip = {x, y, (int)(w * this->scale.x), (int)(h * this->scale.y)};
+  Vec2 screenScale = Game::GetInstance().GetScreenScale();
+
+  const SDL_Rect dstClip = {x, y, (int)(w * screenScale.x * this->scale.x), (int)(h * screenScale.y * this->scale.y)};
 
   int render_flag = SDL_RenderCopyEx(render, this->texture, &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, SDL_FLIP_NONE);
 

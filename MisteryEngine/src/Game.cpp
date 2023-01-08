@@ -73,6 +73,8 @@ Game::Game(std::string title, int width, int height)
 
   Mix_AllocateChannels(32);
 
+  Game::GetDisplaysSizes();
+
   this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
 
   if (this->window == nullptr)
@@ -194,4 +196,31 @@ void Game::CalculateDeltaTime()
 float Game::GetDeltaTime()
 {
   return this->dt;
+}
+
+void Game::GetDisplaysSizes() {
+  int totalDisplays = SDL_GetNumVideoDisplays();
+  SDL_Rect display;
+
+  for (int i = 0; i < totalDisplays; i++)
+    this->displaysSize.push_back(display);
+
+  for (int i = 0; i < totalDisplays; i++)
+    SDL_GetDisplayBounds(i, &this->displaysSize[i]);
+}
+
+void Game::SetScreenScale() {
+  SDL_Rect screen = this->displaysSize[0];
+
+  if(screen.w < 1920 && screen.h < 1080) {
+    this->screenScale.x = screen.w / this->width;
+    this->screenScale.y = screen.y / this->height;
+
+    this->width = screen.w;
+    this->height = screen.h;
+  }
+}
+
+Vec2 Game::GetScreenScale() {
+  return this->screenScale;
 }
