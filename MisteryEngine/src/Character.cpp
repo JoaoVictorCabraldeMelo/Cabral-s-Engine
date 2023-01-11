@@ -10,7 +10,7 @@ Character::Character(GameObject &associated, string sprite, int frame_count) : C
 
   this->associated.AddComponent(character_sprite);
 
-  Vec2 speed{100, 100};
+  Vec2 speed{100, 0};
 
   this->speed = speed;
 
@@ -29,7 +29,13 @@ Character::Action::Action(ActionType action, float x, float y) {
 void Character::Start() {
   Sprite *character_sprite = (Sprite *) this->associated.GetComponent("Image");
 
+  character_sprite->SetFlip(SDL_FLIP_HORIZONTAL);  
+  this->sprite_direction = RIGHT;
+
   character_sprite->SetScale(.8F, .8F);
+
+  this->associated.box.y = 360;
+  this->associated.box.x = 20;
 }
 
 void Character::Update(float dt) {
@@ -40,11 +46,31 @@ void Character::Update(float dt) {
 
   bool right_click = input.MousePress(RIGHT_MOUSE_BUTTON);
 
-  Sprite *sprite_character = (Sprite *) this->associated.GetComponent("Image");
+  Sprite *sprite_character = (Sprite *)this->associated.GetComponent("Image");
 
   if(right_click) {
     Character::Action new_action = Character::Action(Action::MOVE, mouse_x, mouse_y);
-    this->taskQueue.push(new_action);
+
+    sprite_character->SetFlip(SDL_FLIP_HORIZONTAL);
+
+    // cout << "Direction: " << this->sprite_direction << endl;
+    // cout << "Mouse x: " << mouse_x << endl;
+    // cout << "Box x: " << this->associated.box.x << endl;
+
+    // if (mouse_x > this->associated.box.x && this->sprite_direction == LEFT)
+    // {
+    //   cout << "Entrou no caso da esquerda" << endl;
+    //   sprite_character->SetFlip(SDL_FLIP_HORIZONTAL);
+    //   this->sprite_direction = RIGHT;
+    // }
+    // else if (mouse_x < this->associated.box.x && this->sprite_direction == RIGHT)
+    // {
+    //   cout << "Entrou neste caso da direita" << endl;
+    //   sprite_character->SetFlip(SDL_FLIP_HORIZONTAL);
+    //   this->sprite_direction = LEFT;
+    // }
+
+      this->taskQueue.push(new_action);
   }
 
   if(!this->taskQueue.empty()) {
@@ -53,6 +79,8 @@ void Character::Update(float dt) {
     Action last_action = this->taskQueue.front();
 
     final_position = last_action.pos;
+
+    final_position.x -= this->associated.box.w;
 
     Vec2 result_position;
 
@@ -65,16 +93,15 @@ void Character::Update(float dt) {
 
     Vec2 normalized_vector{result_position.x / length_vector, result_position.y / length_vector};
 
-    float distance = final_position.distance(current_position.x, current_position.y);
+    float distance = final_position.distance_x(current_position.x);
 
     if(distance <= 10.0) {
 
       this->associated.box.x = final_position.x;
-      this->associated.box.y = final_position.y;
       this->taskQueue.pop();
     } else if (last_action.type == Action::MOVE) {
       this->associated.box.x += normalized_vector.x * this->speed.x * dt;
-      this->associated.box.y += normalized_vector.y * this->speed.y * dt;
+      // this->associated.box.y += normalized_vector.y * this->speed.y * dt;
     }
   } else {
     sprite_character->SetFrame(0);

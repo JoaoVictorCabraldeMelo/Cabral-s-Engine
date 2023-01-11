@@ -70,6 +70,14 @@ float Vec2::distance(float x, float y)
   return this->magnitude(vector);
 }
 
+float Vec2::distance_x(float x) {
+  float x1 = this->x;
+
+  float result = sqrt(pow(x - x1, 2));
+
+  return result;
+}
+
 double Vec2::inclination()
 {
   double result = atan2(this->y, this->x); // angle in radians

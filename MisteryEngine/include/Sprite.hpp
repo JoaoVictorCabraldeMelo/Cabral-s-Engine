@@ -9,32 +9,14 @@
 
 class Sprite : public Component
 {
-private:
-
-  SDL_Texture *texture;
-
-  int width;
-
-  int height;
-
-  SDL_Rect clipRect;
-
-  Vec2 scale;
-
-  int frameCount;
-
-  float frameTime;
-
-  int currentFrame;
-
-  float timeElapsed = 0.0F;
-
 public:
   explicit Sprite(GameObject &associated);
 
   explicit Sprite(GameObject &associated, std::string file, int frameCount = 1, float frameTime = 1.0F);
 
   ~Sprite();
+
+  SDL_RendererFlip flip;
 
   void Open(std::string file);
 
@@ -65,6 +47,30 @@ public:
   void SetFrameCount(int frameCount);
 
   void SetFrameTime(float frameTime);
+
+  void SetFlip(SDL_RendererFlip value);
+
+  SDL_RendererFlip GetFlip();
+
+private:
+
+  SDL_Texture *texture;
+
+  int width;
+
+  int height;
+
+  SDL_Rect clipRect;
+
+  Vec2 scale;
+
+  int frameCount;
+
+  float frameTime;
+
+  int currentFrame;
+
+  float timeElapsed = 0.0F;
 };
 
 #endif

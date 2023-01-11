@@ -3,6 +3,7 @@
 
 #include "Component.hpp"
 #include "Vec2.hpp"
+#include "Sprite.hpp"
 
 #include <queue>
 
@@ -19,6 +20,14 @@ class Character : public Component  {
 
     bool Is(std::string type);
 
+    enum Direction
+    {
+      LEFT,
+      RIGHT
+    };
+
+    Direction sprite_direction;
+
   private:
     class Action
     {
@@ -31,6 +40,8 @@ class Character : public Component  {
         Action(ActionType Action, float x, float y);
 
         ActionType type;
+
+        SDL_RendererFlip flip;
 
         Vec2 pos;
     };

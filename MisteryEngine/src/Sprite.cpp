@@ -31,6 +31,8 @@ Sprite::Sprite(GameObject &associated) : Component(associated)
   this->frameTime = 1.0F;
 
   this->associated.angleDeg = 0;
+
+  this->flip = SDL_FLIP_NONE;
 }
 
 Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime) : Component(associated)
@@ -43,6 +45,8 @@ Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameT
 
   this->frameCount = frameCount;
   this->frameTime = frameTime;
+
+  this->flip = SDL_FLIP_NONE;
 
   this->Open(file);
 }
@@ -94,7 +98,9 @@ void Sprite::Render(int x, int y, int w, int h)
 
   const SDL_Rect dstClip = {x, y, (int)(w * screenScale.x * this->scale.x), (int)(h * screenScale.y * this->scale.y)};
 
-  int render_flag = SDL_RenderCopyEx(render, this->texture, &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, SDL_FLIP_NONE);
+  // cout << "Flip in render: " << this->flip << endl;
+
+  int render_flag = SDL_RenderCopyEx(render, this->texture, &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, this->flip);
 
   if (render_flag != 0)
   {
@@ -213,4 +219,13 @@ void Sprite::SetFrameCount(int frameCount)
 void Sprite::SetFrameTime(float frameTime)
 {
   this->frameTime = frameTime;
+}
+
+void Sprite::SetFlip(SDL_RendererFlip value)
+{
+  this->flip = value;
+}
+
+SDL_RendererFlip Sprite::GetFlip(){
+  return this->flip;
 }

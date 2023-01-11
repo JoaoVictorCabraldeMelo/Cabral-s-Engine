@@ -23,6 +23,8 @@ public:
 
   float distance(float x, float y);
 
+  float distance_x(float x);
+
   double inclination();
 
   double inclination_two_points(Vec2 vector);

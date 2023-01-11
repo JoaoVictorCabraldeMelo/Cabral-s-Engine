@@ -89,7 +89,7 @@ void State::LoadAssets()
 
   Sprite *bg = static_cast<Sprite *>(initialize->GetComponent("Image"));
 
-  bg->Open("./assets/img/sala.png");
+  bg->Open("./assets/img/sala_horizontal.png");
 
 
   bg->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
