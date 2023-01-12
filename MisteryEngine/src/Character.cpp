@@ -52,6 +52,14 @@ void Character::Update(float dt) {
   if(right_click) {
     Character::Action new_action = Character::Action(Action::MOVE, mouse_x, mouse_y);
 
+    if (mouse_x > this->associated.box.x && this->sprite_direction == LEFT){
+      sprite_character->SetFlip(Sprite::HORIZONTAL);
+      this->sprite_direction = RIGHT;
+    } else if (mouse_x < this->associated.box.x && this->sprite_direction == RIGHT) {
+      sprite_character->SetFlip(Sprite::NONE);
+      this->sprite_direction = LEFT;
+    }
+
       this->taskQueue.push(new_action);
   }
 
