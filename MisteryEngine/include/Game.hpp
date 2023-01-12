@@ -52,6 +52,8 @@ public:
   int GetWidth();
 
   Vec2 GetScreenScale();
+
+  SDL_Rect GetScreen();
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "../include/Character.hpp"
 #include "../include/Sprite.hpp"
 #include "../include/InputManager.hpp"
+#include "../include/Game.hpp"
 
 using namespace std;
 
@@ -29,7 +30,7 @@ Character::Action::Action(ActionType action, float x, float y) {
 void Character::Start() {
   Sprite *character_sprite = (Sprite *) this->associated.GetComponent("Image");
 
-  character_sprite->SetFlip(SDL_FLIP_HORIZONTAL);  
+  character_sprite->SetFlip(Sprite::HORIZONTAL);  
   this->sprite_direction = RIGHT;
 
   character_sprite->SetScale(.8F, .8F);
@@ -50,25 +51,6 @@ void Character::Update(float dt) {
 
   if(right_click) {
     Character::Action new_action = Character::Action(Action::MOVE, mouse_x, mouse_y);
-
-    sprite_character->SetFlip(SDL_FLIP_HORIZONTAL);
-
-    // cout << "Direction: " << this->sprite_direction << endl;
-    // cout << "Mouse x: " << mouse_x << endl;
-    // cout << "Box x: " << this->associated.box.x << endl;
-
-    // if (mouse_x > this->associated.box.x && this->sprite_direction == LEFT)
-    // {
-    //   cout << "Entrou no caso da esquerda" << endl;
-    //   sprite_character->SetFlip(SDL_FLIP_HORIZONTAL);
-    //   this->sprite_direction = RIGHT;
-    // }
-    // else if (mouse_x < this->associated.box.x && this->sprite_direction == RIGHT)
-    // {
-    //   cout << "Entrou neste caso da direita" << endl;
-    //   sprite_character->SetFlip(SDL_FLIP_HORIZONTAL);
-    //   this->sprite_direction = LEFT;
-    // }
 
       this->taskQueue.push(new_action);
   }

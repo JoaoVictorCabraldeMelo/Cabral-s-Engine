@@ -10,13 +10,21 @@
 class Sprite : public Component
 {
 public:
+  enum Flip
+  {
+    HORIZONTAL,
+    VERTICAL,
+    DIAGONAL,
+    NONE
+  };
+
   explicit Sprite(GameObject &associated);
 
   explicit Sprite(GameObject &associated, std::string file, int frameCount = 1, float frameTime = 1.0F);
 
   ~Sprite();
 
-  SDL_RendererFlip flip;
+  Flip flip;
 
   void Open(std::string file);
 
@@ -48,9 +56,9 @@ public:
 
   void SetFrameTime(float frameTime);
 
-  void SetFlip(SDL_RendererFlip value);
+  void SetFlip(Flip value);
 
-  SDL_RendererFlip GetFlip();
+  Flip GetFlip();
 
 private:
 

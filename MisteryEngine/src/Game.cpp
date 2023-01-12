@@ -226,3 +226,7 @@ void Game::SetScreenScale() {
 Vec2 Game::GetScreenScale() {
   return this->screenScale;
 }
+
+SDL_Rect Game::GetScreen() {
+  return this->displaysSize[0];
+}
