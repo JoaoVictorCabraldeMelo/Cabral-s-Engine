@@ -3,6 +3,10 @@
 #include <math.h>
 
 extern const float PI = 3.14159265359;
+extern const float DEG30 = PI / 6;
+extern const float DEG45 = PI / 4;
+extern const float DEG60 = PI / 3;
+extern const float DEG90 = PI / 2;
 
 Vec2::Vec2()
 {

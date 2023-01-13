@@ -7,6 +7,8 @@
 
 using namespace std;
 
+extern const float DEG45;
+
 PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
   Sprite *penguin_body_sprite = new Sprite(associated, "assets/img/penguin.png");
 
@@ -48,21 +50,31 @@ void PenguinBody::Update(float dt){
 
   float acceleration = 50.0F;
 
+  float speed_rotation = DEG45 * dt;
+
   bool w_pressed = input.KeyPress(W_KEY), s_pressed = input.KeyPress(S_KEY);
+  bool a_pressed = input.KeyPress(A_KEY), d_pressed = input.KeyPress(D_KEY);
 
   if(w_pressed) {
-    if(this->speed.x < 200 && this->speed.y < 200){
+    if(this->linearSpeed < 200){
       this->linearSpeed += acceleration * dt;
     }
   }
   else if (s_pressed) {
-    if(this->speed.x > - 200 && this->speed.y > - 200){
+    if(this->linearSpeed > - 200){
       this->linearSpeed -= acceleration * dt;
     }
   }
+  else if (a_pressed) {
+    this->angle += speed_rotation;
+  } else if (d_pressed) {
+    this->angle -= speed_rotation;
+  }
 
-  this->associated.box.x += this->speed.x * dt;
-  this->associated.box.y += this->speed.y * dt;
+  this->associated.box.x += this->speed.x * this->linearSpeed * dt;
+  this->associated.box.y += this->speed.y * this->linearSpeed * dt;
+
+
 
 };
 
