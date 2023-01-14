@@ -124,7 +124,7 @@ void Minion::Shoot(Vec2 target)
 
     string sprite = "assets/img/minionbullet2.png";
 
-    Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, bullet_speed_x, bullet_speed_y, 10, distance, sprite);
+    Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, bullet_speed_x, bullet_speed_y, 3, 10, distance, sprite);
 
     bullet_go->AddComponent(bullet);
 

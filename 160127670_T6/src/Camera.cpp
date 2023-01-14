@@ -8,6 +8,7 @@
 #include "../include/Camera.hpp"
 #include "../include/GameObject.hpp"
 #include "../include/InputManager.hpp"
+#include "../include/Game.hpp"
 
 GameObject *Camera::focus = nullptr;
 
@@ -48,5 +49,10 @@ void Camera::Update(float dt)
         {
             pos.x += speed.x * dt;
         }
+    }else {
+        Game &game = Game::GetInstance();
+    
+        pos.x = focus->box.x - (float) (game.GetWidth() / 2.0);
+        pos.y = focus->box.y - (float) (game.GetHeight() / 2.0);
     }
 }

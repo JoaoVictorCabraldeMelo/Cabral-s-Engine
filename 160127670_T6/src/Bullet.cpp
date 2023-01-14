@@ -6,9 +6,9 @@
 using namespace std;
 
 
-Bullet::Bullet(GameObject &associated, float angle, float speed_x, float speed_y, int damage, float max_distance, string sprite) : Component(associated) {
+Bullet::Bullet(GameObject &associated, float angle, float speed_x, float speed_y, int frames, int damage, float max_distance, string sprite) : Component(associated) {
 
-  Sprite *bullet = new Sprite(associated, sprite, 3, .5F);
+  Sprite *bullet = new Sprite(associated, sprite, frames, .5F);
 
   bullet->SetScale(.75F, .75F);
 

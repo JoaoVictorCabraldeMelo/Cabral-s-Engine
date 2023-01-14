@@ -71,11 +71,21 @@ void PenguinBody::Update(float dt){
     this->angle -= speed_rotation;
   }
 
+  Vec2 new_position{this->associated.box.x, this->associated.box.y};
+
+  new_position.rotate(this->angle);
+
+  this->associated.box.x = new_position.x;
+  this->associated.box.y = new_position.y;
+
   this->associated.box.x += this->speed.x * this->linearSpeed * dt;
   this->associated.box.y += this->speed.y * this->linearSpeed * dt;
 
-
-
+  if (hp <= 0){
+    this->associated.RequestDelete();
+    GameObject* penguin_cannon = this->pcannon.lock().get();
+    penguin_cannon->RequestDelete();
+  }
 };
 
 void PenguinBody::Render(){};

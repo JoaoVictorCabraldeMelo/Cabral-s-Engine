@@ -49,8 +49,8 @@ pair<float, float> Rect::get_center()
   pair<float, float> center;
 
 
-  center.first = this->x  + this->w / 3;
-  center.second = this->y + this->h / 3;
+  center.first = this->x  - (float) (this->w / 2.0);
+  center.second = this->y - (float) (this->h / 2.0);
 
   return center;
 }
