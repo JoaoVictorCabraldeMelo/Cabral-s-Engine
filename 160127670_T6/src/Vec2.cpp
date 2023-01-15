@@ -36,7 +36,7 @@ Vec2 Vec2::operator-(const Vec2 &vector)
   return *this;
 }
 
-Vec2 Vec2::operator*(const int &scalar)
+Vec2 Vec2::operator*(float scalar)
 {
   this->x *= scalar;
   this->y *= scalar;
@@ -44,7 +44,7 @@ Vec2 Vec2::operator*(const int &scalar)
   return *this;
 }
 
-float Vec2::magnitude(Vec2 vector = {0, 0})
+float Vec2::magnitude(Vec2 vector)
 {
   float x1 = this->x;
   float y1 = this->y;
@@ -61,8 +61,11 @@ Vec2 Vec2::normalise()
 {
   float magnitude = this->magnitude();
 
-  this->x /= magnitude;
-  this->y /= magnitude;
+  float x1 = this->x / magnitude;
+  float y1 = this->y / magnitude;
+
+  this->x = x1;
+  this->y = y1;
 
   return *this;
 }
@@ -77,8 +80,6 @@ float Vec2::distance(float x, float y)
 double Vec2::inclination()
 {
   double result = atan2(this->y, this->x); // angle in radians
-
-  // double result_in_degress = (result / PI) * 180;
 
   return result;
 }
@@ -109,4 +110,8 @@ Vec2 Vec2::rotate(double angle)
 double radians_to_degrees(float angle_in_radians)
 {
   return angle_in_radians * (180 / PI);
+}
+
+double degrees_to_radians(float angle_in_degrees) {
+  return angle_in_degrees * PI / 180;
 }

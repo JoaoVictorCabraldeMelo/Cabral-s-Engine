@@ -6,19 +6,21 @@
 using namespace std;
 
 
-Bullet::Bullet(GameObject &associated, float angle, float speed_x, float speed_y, int frames, int damage, float max_distance, string sprite) : Component(associated) {
+Bullet::Bullet(GameObject &associated, float angle, float speed, int frames, int damage, float max_distance, string sprite) : Component(associated) {
 
   Sprite *bullet = new Sprite(associated, sprite, frames, .5F);
 
-  bullet->SetScale(.75F, .75F);
-
   this->associated.angleDeg = angle;
+
+  Vec2 line{max_distance, 0};
+
+  float angle_rad = degrees_to_radians(angle);
+
+  line.rotate(angle_rad);
 
   this->associated.AddComponent(bullet);
 
-  this->speed.x = speed_x;
-
-  this->speed.y = speed_y;
+  this->speed = line * speed * .1F;
 
   this->damage = damage;
 
@@ -32,20 +34,13 @@ Bullet::Bullet(GameObject &associated, float angle, float speed_x, float speed_y
 
 void Bullet::Update(float dt) {
 
-  Vec2 current_position {this->associated.box.x, this->associated.box.y};
-
-  float next_x = this->associated.box.x + this->speed.x * dt;
-  float next_y = this->associated.box.y + this->speed.y * dt;
-
-  float distance = current_position.distance(next_x, next_y);
-
   this->associated.box.x += this->speed.x * dt;
 
   this->associated.box.y += this->speed.y * dt;
 
-  this->distance_left -= distance;
+  this->distance_left -= this->speed.magnitude() * dt;
 
-  if(this->distance_left <= 0) {
+  if(abs(this->distance_left) <= this->speed.magnitude() * dt) {
     this->associated.RequestDelete();
   }
 }

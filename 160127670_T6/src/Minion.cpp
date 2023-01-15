@@ -93,28 +93,11 @@ void Minion::Shoot(Vec2 target)
 
     Vec2 minion_pos{center.first, center.second};
 
-    float angle_bullet = minion_pos.inclination_two_points(target);
-
-    // cout << "Angle: " << angle_bullet << endl;
-
-    float angle_degress_bullet = radians_to_degrees(angle_bullet);
-
     float distance = minion_pos.distance(target.x, target.y);
 
-    Vec2 result_position;
+    float angle_bullet = minion_pos.inclination_two_points(target);
 
-    result_position.x = target.x - minion_pos.x;
-    result_position.y = target.y - minion_pos.y;
-
-    Vec2 base{0, 0};
-
-    float length = result_position.magnitude(base);
-
-    Vec2 normalized_vector{result_position.x / length, result_position.y / length};
-
-    float bullet_speed_x = normalized_vector.x * BULLET_SPEED;
-
-    float bullet_speed_y = normalized_vector.y * BULLET_SPEED;
+    float angle_degress_bullet = radians_to_degrees(angle_bullet);
 
     GameObject *bullet_go = new GameObject();
 
@@ -124,7 +107,7 @@ void Minion::Shoot(Vec2 target)
 
     string sprite = "assets/img/minionbullet2.png";
 
-    Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, bullet_speed_x, bullet_speed_y, 3, 10, distance, sprite);
+    Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, 100, 3, 10, distance, sprite);
 
     bullet_go->AddComponent(bullet);
 

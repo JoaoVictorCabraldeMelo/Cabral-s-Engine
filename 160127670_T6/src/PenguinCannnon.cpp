@@ -17,6 +17,9 @@ PenguinCannon::PenguinCannon(GameObject &associated, weak_ptr<GameObject> pengui
   this->pbody = penguinBody;
 
   this->angle = 0.0F;
+
+  associated.box.w = penguin_cannon_sprite->GetWidth();
+  associated.box.h = penguin_cannon_sprite->GetHeight();
 };
 
 void PenguinCannon::Update(float dt) {
@@ -69,12 +72,12 @@ void PenguinCannon::Shoot()
 
   GameObject *bullet_go = new GameObject();
 
-  bullet_go->box.x = center.first + 50;
+  bullet_go->box.x = center.first;
   bullet_go->box.y = center.second;
 
   string sprite = "assets/img/penguinbullet.png";
 
-  Component *bullet = new Bullet(*bullet_go, this->angle, 30, 30, 4, 10, 50.0F, sprite);
+  Component *bullet = new Bullet(*bullet_go, this->angle, 5.0F, 4, 10, 1000.0F, sprite);
 
   bullet_go->AddComponent(bullet);
 
