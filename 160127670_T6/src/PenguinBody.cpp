@@ -7,7 +7,7 @@
 
 using namespace std;
 
-extern const float DEG45;
+extern const float DEG30;
 
 PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
   Sprite *penguin_body_sprite = new Sprite(associated, "assets/img/penguin.png");
@@ -16,7 +16,7 @@ PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
 
   this->angle = 0.0F;
 
-  Vec2 speed{100, 100};
+  Vec2 speed{10, 10};
 
   this->speed = speed;
 
@@ -48,15 +48,18 @@ PenguinBody::~PenguinBody(){
 void PenguinBody::Update(float dt){
   InputManager &input = InputManager::GetInstance();
 
-  float acceleration = 50.0F;
+  Vec2 position{5, 0};
 
-  float speed_rotation = DEG45 * dt;
+  float acceleration = 5.0F;
 
-  bool w_pressed = input.KeyPress(W_KEY), s_pressed = input.KeyPress(S_KEY);
-  bool a_pressed = input.KeyPress(A_KEY), d_pressed = input.KeyPress(D_KEY);
+  float speed_rotation = DEG30 * dt;
+
+  bool w_pressed = input.isKeyDown(W_KEY), s_pressed = input.isKeyDown(S_KEY);
+  bool a_pressed = input.isKeyDown(A_KEY), d_pressed = input.isKeyDown(D_KEY);
 
   if(w_pressed) {
-    if(this->linearSpeed < 200){
+    if (this->linearSpeed < 200)
+    {
       this->linearSpeed += acceleration * dt;
     }
   }
@@ -65,21 +68,23 @@ void PenguinBody::Update(float dt){
       this->linearSpeed -= acceleration * dt;
     }
   }
-  else if (a_pressed) {
+  
+  if (a_pressed) {
     this->angle += speed_rotation;
   } else if (d_pressed) {
     this->angle -= speed_rotation;
   }
 
-  Vec2 new_position{this->associated.box.x, this->associated.box.y};
+  this->associated.angleDeg = radians_to_degrees(this->angle);
 
-  new_position.rotate(this->angle);
+  position.rotate(this->angle);
 
-  this->associated.box.x = new_position.x;
-  this->associated.box.y = new_position.y;
+  this->associated.box.x += position.x;
+  this->associated.box.y += position.y;
 
   this->associated.box.x += this->speed.x * this->linearSpeed * dt;
   this->associated.box.y += this->speed.y * this->linearSpeed * dt;
+
 
   if (hp <= 0){
     this->associated.RequestDelete();

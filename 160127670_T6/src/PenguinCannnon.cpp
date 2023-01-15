@@ -41,7 +41,7 @@ void PenguinCannon::Update(float dt) {
 
   this->angle = first_point.inclination_two_points(second_point);
 
-  this->associated.angleDeg = first_point.radians_to_degrees(this->angle);
+  this->associated.angleDeg = radians_to_degrees(this->angle);
 
   this->angle = this->associated.angleDeg;
 

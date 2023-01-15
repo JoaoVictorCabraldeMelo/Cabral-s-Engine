@@ -106,7 +106,7 @@ Vec2 Vec2::rotate(double angle)
   return *this;
 }
 
-double Vec2::radians_to_degrees(float angle_in_radians)
+double radians_to_degrees(float angle_in_radians)
 {
   return angle_in_radians * (180 / PI);
 }

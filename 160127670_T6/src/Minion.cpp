@@ -97,7 +97,7 @@ void Minion::Shoot(Vec2 target)
 
     // cout << "Angle: " << angle_bullet << endl;
 
-    float angle_degress_bullet = minion_pos.radians_to_degrees(angle_bullet);
+    float angle_degress_bullet = radians_to_degrees(angle_bullet);
 
     float distance = minion_pos.distance(target.x, target.y);
 
