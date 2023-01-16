@@ -17,6 +17,8 @@ public:
 
   Vec2 operator * (float scalar);
 
+  Vec2 operator*(Vec2 vector);
+
   float magnitude(Vec2 vector = {0.0F, 0.0F});
 
   Vec2 normalise();

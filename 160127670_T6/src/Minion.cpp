@@ -47,7 +47,7 @@ void Minion::Update(float dt)
 
     float speed = DEG45 * dt;
 
-    this->associated.angleDeg += - (speed * 180 / PI);
+    this->associated.angleDeg += - radians_to_degrees(speed);
 
     this->arc += speed;
 
@@ -59,11 +59,10 @@ void Minion::Update(float dt)
 
         pair<float, float> center = updt_alien_center.box.get_center();
 
-        distance_minion_origen.x += center.first - 10;
-        distance_minion_origen.y += center.second + 5;
+        distance_minion_origen.x += center.first;
+        distance_minion_origen.y += center.second;
 
-        this->associated.box.x = distance_minion_origen.x;
-        this->associated.box.y = distance_minion_origen.y;
+        this->associated.box.set_center(distance_minion_origen.x, distance_minion_origen.y);
     }
     else
     {

@@ -76,6 +76,9 @@ void PenguinBody::Update(float dt){
     this->angle -= speed_rotation;
   }
 
+  if (this->linearSpeed <= .001 && this->linearSpeed >= .0)
+    this->linearSpeed = 0;
+
   this->associated.angleDeg = radians_to_degrees(this->angle);
 
   this->speed = Vec2{100, 0};

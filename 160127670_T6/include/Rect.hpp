@@ -29,6 +29,7 @@ public:
 
   bool is_point_in(float x, float y);
 
+  void set_center(float x, float y);
 };
 
 #endif

@@ -49,10 +49,18 @@ pair<float, float> Rect::get_center()
   pair<float, float> center;
 
 
-  center.first = this->x  - (float) (this->w / 2.0);
-  center.second = this->y - (float) (this->h / 2.0);
+  center.first = this->x  + (float) (this->w / 2.0);
+  center.second = this->y + (float) (this->h / 2.0);
 
   return center;
+}
+
+void Rect::set_center(float x, float y){
+  float new_x = x - (float)(this->w / 2.0);
+  float new_y = y - (float)(this->h / 2.0);
+
+  this->x = new_x;
+  this->y = new_y;
 }
 
 pair<float, float> Rect::distance_between_centers(Rect box)

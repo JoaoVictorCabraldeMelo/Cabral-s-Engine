@@ -99,10 +99,10 @@ void Alien::Update(float dt)
 
     Alien::Action pendent_action = this->taskQueue.front();
 
-    // cout << "Posicao pendente eixo X e eixo Y: " << pendent_action.pos.x << " " << pendent_action.pos.y << endl;
+    pair<float, float> alien_center = this->associated.box.get_center();
 
-    float alien_x = this->associated.box.x;
-    float alien_y = this->associated.box.y;
+    float alien_x = alien_center.first;
+    float alien_y = alien_center.second;
 
     Vec2 inital_position{alien_x, alien_y};
     Vec2 final_position{pendent_action.pos.x, pendent_action.pos.y};
@@ -111,25 +111,21 @@ void Alien::Update(float dt)
     result_position.x = final_position.x - inital_position.x;
     result_position.y = final_position.y - inital_position.y;
 
-    Vec2 base{0, 0};
-
-    float length_vector = result_position.magnitude(base);
-
-    Vec2 normalized_vector{result_position.x / length_vector, result_position.y / length_vector};
+    result_position.normalise();
 
     float distance = pendent_action.pos.distance(alien_x, alien_y);
 
-    // cout << "Distância: " << distance << endl;
     if (distance <= 10.0)
     {
-      this->associated.box.x = pendent_action.pos.x;
-      this->associated.box.y = pendent_action.pos.y;
+      this->associated.box.set_center(pendent_action.pos.x, pendent_action.pos.y);
       this->taskQueue.pop();
     }
     else if (pendent_action.type == Action::MOVE)
     {
-      this->associated.box.x += normalized_vector.x * this->speed.x * dt;
-      this->associated.box.y += normalized_vector.y * this->speed.y * dt;
+      Vec2 new_position = result_position * this->speed * dt;
+
+      this->associated.box.x += new_position.x;
+      this->associated.box.y += new_position.y;
     }
     else if (pendent_action.type == Action::SHOOT)
     {

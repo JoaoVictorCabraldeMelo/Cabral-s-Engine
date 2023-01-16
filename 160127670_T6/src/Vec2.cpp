@@ -44,6 +44,16 @@ Vec2 Vec2::operator*(float scalar)
   return *this;
 }
 
+Vec2 Vec2::operator*(Vec2 vector){
+  float x = this->x * vector.x;
+  float y = this->y * vector.y;
+
+  this->x = x;
+  this->y = y;
+
+  return *this;
+}
+
 float Vec2::magnitude(Vec2 vector)
 {
   float x1 = this->x;

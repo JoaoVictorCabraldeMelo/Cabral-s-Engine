@@ -56,13 +56,13 @@ State::State()
 
   this->objectArray.emplace_back(tileMapObject);
 
-  // GameObject *alienObject = new GameObject();
+  GameObject *alienObject = new GameObject();
 
-  // Component *alien = new Alien(*alienObject, 7);
+  Component *alien = new Alien(*alienObject, 7);
 
-  // alienObject->AddComponent(alien);
+  alienObject->AddComponent(alien);
 
-  // this->objectArray.emplace_back(alienObject);
+  this->objectArray.emplace_back(alienObject);
 
   GameObject *penguinObject = new GameObject();
 
