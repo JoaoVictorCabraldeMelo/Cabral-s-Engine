@@ -13,6 +13,8 @@ public:
 
   Rect(float x, float y, float w, float h);
 
+  Rect operator*(Vec2 vector);
+
   float distance(float x, float y);
 
   double inclination();

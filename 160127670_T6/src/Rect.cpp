@@ -22,6 +22,15 @@ Rect::Rect(float x, float y, float w, float h)
   this->h = h;
 }
 
+Rect Rect::operator*(Vec2 vector){
+  float new_w = this->w * vector.x;
+  float new_h = this->h * vector.y;
+
+  Rect new_rect{this->x, this->y, new_w, new_h};
+
+  return new_rect;
+}
+
 float Rect::distance(float x, float y)
 {
   return sqrt(pow(x - this->x, 2) + pow(y - this->y, 2));
