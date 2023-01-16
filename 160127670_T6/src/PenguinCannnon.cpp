@@ -72,8 +72,8 @@ void PenguinCannon::Shoot()
 
   GameObject *bullet_go = new GameObject();
 
-  bullet_go->box.x = center.first;
-  bullet_go->box.y = center.second;
+  bullet_go->box.x = center.first + this->associated.box.w / 2.0;
+  bullet_go->box.y = center.second + this->associated.box.h / 2.0;
 
   string sprite = "assets/img/penguinbullet.png";
 

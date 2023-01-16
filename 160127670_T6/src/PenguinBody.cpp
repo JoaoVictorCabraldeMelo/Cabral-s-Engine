@@ -48,7 +48,7 @@ PenguinBody::~PenguinBody(){
 void PenguinBody::Update(float dt){
   InputManager &input = InputManager::GetInstance();
 
-  float acceleration = 50.0F;
+  float acceleration = .5F;
 
   float speed_rotation = DEG45 * dt;
 
@@ -56,14 +56,14 @@ void PenguinBody::Update(float dt){
   bool a_pressed = input.isKeyDown(A_KEY), d_pressed = input.isKeyDown(D_KEY);
 
   if(w_pressed) {
-    if (this->linearSpeed <= 200.0F)
+    if (this->linearSpeed <= 10.0F)
     {
       this->linearSpeed += acceleration * dt;
     }
   }
   
   if (s_pressed) {
-    if(this->linearSpeed >= - 200.0F){
+    if(this->linearSpeed >= - 10.0F){
       this->linearSpeed -= acceleration * dt;
     }
   }
@@ -80,10 +80,10 @@ void PenguinBody::Update(float dt){
 
   this->speed = Vec2{100, 0};
 
-  this->speed.rotate(this->angle) * this->linearSpeed;
+  this->speed.rotate(this->angle);
 
-  this->associated.box.x += this->speed.x * dt;
-  this->associated.box.y += this->speed.y * dt;
+  this->associated.box.x += this->speed.x * this->linearSpeed * dt;
+  this->associated.box.y += this->speed.y * this->linearSpeed * dt;
 
 
   if (hp <= 0){
