@@ -74,14 +74,9 @@ void Character::Update(float dt) {
 
     Vec2 result_position;
 
-    result_position.x = final_position.x - current_position.x;
-    result_position.y = final_position.y - current_position.y;
+    result_position = final_position - current_position;
 
-    Vec2 base{0, 0};
-
-    float length_vector = result_position.magnitude(base);
-
-    Vec2 normalized_vector{result_position.x / length_vector, result_position.y / length_vector};
+    result_position.normalise();
 
     float distance = final_position.distance_x(current_position.x);
 
@@ -90,8 +85,7 @@ void Character::Update(float dt) {
       this->associated.box.x = final_position.x;
       this->taskQueue.pop();
     } else if (last_action.type == Action::MOVE) {
-      this->associated.box.x += normalized_vector.x * this->speed.x * dt;
-      // this->associated.box.y += normalized_vector.y * this->speed.y * dt;
+      this->associated.box.x += result_position.x * this->speed.x * dt;
     }
   } else {
     sprite_character->SetFrame(0);
