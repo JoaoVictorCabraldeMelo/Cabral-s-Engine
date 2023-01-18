@@ -23,7 +23,7 @@ public:
 
   Vec2 normalise();
 
-  float distance(float x, float y);
+  float distance(Vec2 vector);
 
   double inclination();
 

@@ -80,10 +80,8 @@ Vec2 Vec2::normalise()
   return *this;
 }
 
-float Vec2::distance(float x, float y)
+float Vec2::distance(Vec2 vector)
 {
-  Vec2 vector = Vec2(x, y);
-
   return this->magnitude(vector);
 }
 

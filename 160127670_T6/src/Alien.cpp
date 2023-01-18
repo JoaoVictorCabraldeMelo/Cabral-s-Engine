@@ -99,25 +99,20 @@ void Alien::Update(float dt)
 
     Alien::Action pendent_action = this->taskQueue.front();
 
-    pair<float, float> alien_center = this->associated.box.get_center();
+    Vec2 alien_center = this->associated.box.get_center();
 
-    float alien_x = alien_center.first;
-    float alien_y = alien_center.second;
-
-    Vec2 inital_position{alien_x, alien_y};
     Vec2 final_position{pendent_action.pos.x, pendent_action.pos.y};
     Vec2 result_position;
 
-    result_position.x = final_position.x - inital_position.x;
-    result_position.y = final_position.y - inital_position.y;
+    result_position = final_position - alien_center;
 
     result_position.normalise();
 
-    float distance = pendent_action.pos.distance(alien_x, alien_y);
+    float distance = pendent_action.pos.distance(alien_center);
 
     if (distance <= 10.0)
     {
-      this->associated.box.set_center(pendent_action.pos.x, pendent_action.pos.y);
+      this->associated.box.set_center(pendent_action.pos);
       this->taskQueue.pop();
     }
     else if (pendent_action.type == Action::MOVE)
@@ -137,7 +132,7 @@ void Alien::Update(float dt)
       {
         Rect minion_box = this->minionArray[i].lock()->box;
 
-        float current_distance = minion_box.distance(pendent_action.pos.x, pendent_action.pos.y);
+        float current_distance = minion_box.distance(pendent_action.pos);
 
         if (current_distance < min_distance)
         {

@@ -29,18 +29,18 @@ void PenguinCannon::Update(float dt) {
     this->associated.RequestDelete();
   }
 
-  pair<float, float> coord = go->box.get_center();
+  Vec2 coord = go->box.get_center();
 
-  this->associated.box.x = coord.first;
-  this->associated.box.y = coord.second;
+  this->associated.box.x = coord.x;
+  this->associated.box.y = coord.y;
 
   InputManager &input = InputManager::GetInstance();
 
   int x_value = input.GetMouseX() + Camera::pos.x, y_value = input.GetMouseY() + Camera::pos.y;
 
-  pair<float, float> c_penguin_cannon = this->associated.box.get_center();
+  Vec2 first_point = this->associated.box.get_center();
 
-  Vec2 first_point{c_penguin_cannon.first, c_penguin_cannon.second}, second_point {(float) x_value, (float) y_value};
+  Vec2 second_point {(float) x_value, (float) y_value};
 
   this->angle = first_point.inclination_two_points(second_point);
 
@@ -68,12 +68,12 @@ void PenguinCannon::Shoot()
 {
   State &state = Game::GetInstance().GetState();
 
-  pair<float, float> center = this->associated.box.get_center();
+  Vec2 center = this->associated.box.get_center();
 
   GameObject *bullet_go = new GameObject();
 
-  bullet_go->box.x = center.first + this->associated.box.w / 2.0;
-  bullet_go->box.y = center.second + this->associated.box.h / 2.0;
+  bullet_go->box.x = center.x + this->associated.box.w / 2.0;
+  bullet_go->box.y = center.y + this->associated.box.h / 2.0;
 
   string sprite = "assets/img/penguinbullet.png";
 

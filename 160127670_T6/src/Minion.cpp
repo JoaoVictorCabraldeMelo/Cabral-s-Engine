@@ -57,12 +57,11 @@ void Minion::Update(float dt)
     {
         GameObject &updt_alien_center = this->alienCenter;
 
-        pair<float, float> center = updt_alien_center.box.get_center();
+        Vec2 center = updt_alien_center.box.get_center();
 
-        distance_minion_origen.x += center.first;
-        distance_minion_origen.y += center.second;
+        distance_minion_origen = distance_minion_origen + center;
 
-        this->associated.box.set_center(distance_minion_origen.x, distance_minion_origen.y);
+        this->associated.box.set_center(distance_minion_origen);
     }
     else
     {
@@ -88,11 +87,9 @@ void Minion::Shoot(Vec2 target)
 
     State &game_state = instance.GetState();
 
-    pair<float, float> center = this->associated.box.get_center();
+    Vec2 minion_pos = this->associated.box.get_center();
 
-    Vec2 minion_pos{center.first, center.second};
-
-    float distance = minion_pos.distance(target.x, target.y);
+    float distance = minion_pos.distance(target);
 
     float angle_bullet = minion_pos.inclination_two_points(target);
 

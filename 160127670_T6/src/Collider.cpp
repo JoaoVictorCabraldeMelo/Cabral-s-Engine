@@ -12,15 +12,14 @@ Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(
 void Collider::Update(float dt) {
   this->box = this->associated.box * this->scale;
 
-  pair<float, float> center_box = this->associated.box.get_center();
-  Vec2 vec_center{center_box.first, center_box.second};
+  Vec2 center_box = this->associated.box.get_center();
 
   float angleRadians = degrees_to_radians(this->associated.angleDeg);
   this->offset.rotate(angleRadians);
 
-  vec_center = vec_center + this->offset;
+  center_box = center_box + this->offset;
 
-  this->box.set_center(vec_center.x, vec_center.y);
+  this->box.set_center(center_box);
 }
 
 void Collider::Render(){};

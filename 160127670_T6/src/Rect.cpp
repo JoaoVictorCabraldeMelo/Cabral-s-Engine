@@ -31,9 +31,11 @@ Rect Rect::operator*(Vec2 vector){
   return new_rect;
 }
 
-float Rect::distance(float x, float y)
+float Rect::distance(Vec2 vector)
 {
-  return sqrt(pow(x - this->x, 2) + pow(y - this->y, 2));
+  Vec2 center = this->get_center();
+
+  return center.distance(vector);
 }
 
 //Vec a e Vec b sao utilizados na rotacao de matriz 
@@ -53,41 +55,41 @@ void Rect::sum_vec(Vec2 vector)
   this->y += vector.y;
 }
 
-pair<float, float> Rect::get_center()
+Vec2 Rect::get_center()
 {
-  pair<float, float> center;
+  Vec2 center;
 
-
-  center.first = this->x  + (float) (this->w / 2.0);
-  center.second = this->y + (float) (this->h / 2.0);
+  center.x = this->x  + (float) (this->w / 2.0);
+  center.y = this->y + (float) (this->h / 2.0);
 
   return center;
 }
 
-void Rect::set_center(float x, float y){
-  float new_x = x - (float)(this->w / 2.0);
-  float new_y = y - (float)(this->h / 2.0);
+void Rect::set_center(Vec2 point){
+
+  float new_x = point.x - (float)(this->w / 2.0);
+  float new_y = point.y - (float)(this->h / 2.0);
 
   this->x = new_x;
   this->y = new_y;
 }
 
-pair<float, float> Rect::distance_between_centers(Rect box)
+float Rect::distance_between_centers(Rect box)
 {
-  pair<float, float> result;
+  Vec2 destiny { box.get_center().x, box.get_center().y};
+  Vec2 initial{this->get_center().x, this->get_center().y};
 
-  result.first = this->get_center().first - box.get_center().first;
-  result.second = this->get_center().second - box.get_center().second;
+  float distance = initial.distance(destiny);
 
-  return result;
+  return distance;
 }
 
-bool Rect::is_point_in(float x, float y)
+bool Rect::is_point_in(Vec2 point)
 {
 
-  if (x <= (this->x + w) && x >= this->x)
+  if (this->x + this->w >= point.x && this->x <= point.x)
   {
-    if (y <= (this->y + h) && y >= this->y)
+    if (this->y + this->h >= point.y && this->y <= point.y)
       return true;
     else
       return false;
