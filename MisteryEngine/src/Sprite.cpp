@@ -187,11 +187,11 @@ int Sprite::GetWidth()
 
 void Sprite::SetScale(float scalex, float scaley)
 {
-  pair<float, float> center = this->associated.box.get_center();
+  Vec2 center = this->associated.box.get_center();
 
   if (scalex != 0)
   {
-    float center_x_before_scaling = center.first;
+    float center_x_before_scaling = center.x;
 
     this->associated.box.x = center_x_before_scaling - ((this->associated.box.w * scalex) / 2.0);
 
@@ -200,7 +200,7 @@ void Sprite::SetScale(float scalex, float scaley)
 
   if (scaley != 0)
   {
-    float center_y_before_scaling = center.second;
+    float center_y_before_scaling = center.y;
 
     this->associated.box.y = center_y_before_scaling - ((this->associated.box.h * scaley) / 2.0);
 

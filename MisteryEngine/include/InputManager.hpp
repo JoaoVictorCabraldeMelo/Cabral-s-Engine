@@ -8,10 +8,10 @@
 #define ESCAPE_KEY        SDLK_ESCAPE
 #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 #define RIGHT_MOUSE_BUTTON SDL_BUTTON_RIGHT
-#define W_KEY SDL_SCANCODE_W
-#define S_KEY SDL_SCANCODE_S
-#define A_KEY SDL_SCANCODE_A
-#define D_KEY SDL_SCANCODE_D
+#define W_KEY SDLK_w
+#define S_KEY SDLK_s
+#define A_KEY SDLK_a
+#define D_KEY SDLK_d
 
 
 class InputManager

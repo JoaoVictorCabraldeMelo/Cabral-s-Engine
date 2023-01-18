@@ -13,7 +13,9 @@ public:
 
   Rect(float x, float y, float w, float h);
 
-  float distance(float x, float y);
+  Rect operator*(Vec2 vector);
+
+  float distance(Vec2 vector);
 
   double inclination();
 
@@ -23,12 +25,13 @@ public:
 
   void sum_vec(Vec2 vector);
 
-  std::pair<float, float> get_center();
+  Vec2 get_center();
 
-  std::pair<float, float> distance_between_centers(Rect box);
+  float distance_between_centers(Rect box);
 
-  bool is_point_in(float x, float y);
+  bool is_point_in(Vec2 point);
 
+  void set_center(Vec2 point);
 };
 
 #endif

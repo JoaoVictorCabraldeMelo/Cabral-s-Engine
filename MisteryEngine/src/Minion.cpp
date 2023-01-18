@@ -47,7 +47,7 @@ void Minion::Update(float dt)
 
     float speed = DEG45 * dt;
 
-    this->associated.angleDeg += - (speed * 180 / PI);
+    this->associated.angleDeg += - radians_to_degrees(speed);
 
     this->arc += speed;
 
@@ -57,13 +57,11 @@ void Minion::Update(float dt)
     {
         GameObject &updt_alien_center = this->alienCenter;
 
-        pair<float, float> center = updt_alien_center.box.get_center();
+        Vec2 center = updt_alien_center.box.get_center();
 
-        distance_minion_origen.x += center.first - 10;
-        distance_minion_origen.y += center.second + 5;
+        distance_minion_origen = distance_minion_origen + center;
 
-        this->associated.box.x = distance_minion_origen.x;
-        this->associated.box.y = distance_minion_origen.y;
+        this->associated.box.set_center(distance_minion_origen);
     }
     else
     {
@@ -89,32 +87,13 @@ void Minion::Shoot(Vec2 target)
 
     State &game_state = instance.GetState();
 
-    pair<float, float> center = this->associated.box.get_center();
+    Vec2 minion_pos = this->associated.box.get_center();
 
-    Vec2 minion_pos{center.first, center.second};
+    float distance = minion_pos.distance(target);
 
     float angle_bullet = minion_pos.inclination_two_points(target);
 
-    // cout << "Angle: " << angle_bullet << endl;
-
-    float angle_degress_bullet = minion_pos.radians_to_degrees(angle_bullet);
-
-    float distance = minion_pos.distance(target.x, target.y);
-
-    Vec2 result_position;
-
-    result_position.x = target.x - minion_pos.x;
-    result_position.y = target.y - minion_pos.y;
-
-    Vec2 base{0, 0};
-
-    float length = result_position.magnitude(base);
-
-    Vec2 normalized_vector{result_position.x / length, result_position.y / length};
-
-    float bullet_speed_x = normalized_vector.x * BULLET_SPEED;
-
-    float bullet_speed_y = normalized_vector.y * BULLET_SPEED;
+    float angle_degress_bullet = radians_to_degrees(angle_bullet);
 
     GameObject *bullet_go = new GameObject();
 
@@ -124,7 +103,7 @@ void Minion::Shoot(Vec2 target)
 
     string sprite = "assets/img/minionbullet2.png";
 
-    Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, bullet_speed_x, bullet_speed_y, 10, distance, sprite);
+    Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, 100, 3, 10, distance, sprite);
 
     bullet_go->AddComponent(bullet);
 

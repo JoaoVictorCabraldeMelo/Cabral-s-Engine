@@ -3,6 +3,10 @@
 #include <math.h>
 
 extern const float PI = 3.14159265359;
+extern const float DEG30 = PI / 6;
+extern const float DEG45 = PI / 4;
+extern const float DEG60 = PI / 3;
+extern const float DEG90 = PI / 2;
 
 Vec2::Vec2()
 {
@@ -32,7 +36,7 @@ Vec2 Vec2::operator-(const Vec2 &vector)
   return *this;
 }
 
-Vec2 Vec2::operator*(const int &scalar)
+Vec2 Vec2::operator*(float scalar)
 {
   this->x *= scalar;
   this->y *= scalar;
@@ -40,7 +44,17 @@ Vec2 Vec2::operator*(const int &scalar)
   return *this;
 }
 
-float Vec2::magnitude(Vec2 vector = {0, 0})
+Vec2 Vec2::operator*(Vec2 vector){
+  float x = this->x * vector.x;
+  float y = this->y * vector.y;
+
+  this->x = x;
+  this->y = y;
+
+  return *this;
+}
+
+float Vec2::magnitude(Vec2 vector)
 {
   float x1 = this->x;
   float y1 = this->y;
@@ -57,16 +71,17 @@ Vec2 Vec2::normalise()
 {
   float magnitude = this->magnitude();
 
-  this->x /= magnitude;
-  this->y /= magnitude;
+  float x1 = this->x / magnitude;
+  float y1 = this->y / magnitude;
+
+  this->x = x1;
+  this->y = y1;
 
   return *this;
 }
 
-float Vec2::distance(float x, float y)
+float Vec2::distance(Vec2 vector)
 {
-  Vec2 vector = Vec2(x, y);
-
   return this->magnitude(vector);
 }
 
@@ -81,8 +96,6 @@ float Vec2::distance_x(float x) {
 double Vec2::inclination()
 {
   double result = atan2(this->y, this->x); // angle in radians
-
-  // double result_in_degress = (result / PI) * 180;
 
   return result;
 }
@@ -110,7 +123,15 @@ Vec2 Vec2::rotate(double angle)
   return *this;
 }
 
-double Vec2::radians_to_degrees(float angle_in_radians)
+double radians_to_degrees(float angle_in_radians)
 {
   return angle_in_radians * (180 / PI);
+}
+
+double degrees_to_radians(float angle_in_degrees) {
+  return angle_in_degrees * PI / 180;
+}
+
+double dot(const Vec2& vectorA, const Vec2& vectorB){
+  return vectorA.x * vectorB.x + vectorA.y * vectorB.y;
 }

@@ -31,17 +31,6 @@ State::State()
 
   GameObject *initialize = new GameObject();
 
-  // GameObject *tileMapObject = new GameObject();
-
-  // TileSet *tileSet = new TileSet(64, 64, "assets/img/tileset.png");
-
-  // Component *tileMap = new TileMap(*tileMapObject, "assets/map/tileMap.txt", tileSet);
-
-  // tileMapObject->box.x = 0;
-  // tileMapObject->box.y = 0;
-
-  // tileMapObject->AddComponent(tileMap);
-
   Component *bg = new Sprite(*initialize);
 
   initialize->AddComponent(bg);
@@ -67,15 +56,6 @@ State::State()
   Sprite *characterSprite = (Sprite *)characterObject->GetComponent("Image");
 
   this->objectArray.emplace_back(characterObject);
-
-  // GameObject *alienObject = new GameObject();
-
-  // Component *alien = new Alien(*alienObject, 7);
-
-  // alienObject->AddComponent(alien);
-
-  // this->objectArray.emplace_back(alienObject);
-
 
   this->LoadAssets();
 }

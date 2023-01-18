@@ -99,37 +99,28 @@ void Alien::Update(float dt)
 
     Alien::Action pendent_action = this->taskQueue.front();
 
-    // cout << "Posicao pendente eixo X e eixo Y: " << pendent_action.pos.x << " " << pendent_action.pos.y << endl;
+    Vec2 alien_center = this->associated.box.get_center();
 
-    float alien_x = this->associated.box.x;
-    float alien_y = this->associated.box.y;
-
-    Vec2 inital_position{alien_x, alien_y};
     Vec2 final_position{pendent_action.pos.x, pendent_action.pos.y};
     Vec2 result_position;
 
-    result_position.x = final_position.x - inital_position.x;
-    result_position.y = final_position.y - inital_position.y;
+    result_position = final_position - alien_center;
 
-    Vec2 base{0, 0};
+    result_position.normalise();
 
-    float length_vector = result_position.magnitude(base);
+    float distance = pendent_action.pos.distance(alien_center);
 
-    Vec2 normalized_vector{result_position.x / length_vector, result_position.y / length_vector};
-
-    float distance = pendent_action.pos.distance(alien_x, alien_y);
-
-    // cout << "Distância: " << distance << endl;
     if (distance <= 10.0)
     {
-      this->associated.box.x = pendent_action.pos.x;
-      this->associated.box.y = pendent_action.pos.y;
+      this->associated.box.set_center(pendent_action.pos);
       this->taskQueue.pop();
     }
     else if (pendent_action.type == Action::MOVE)
     {
-      this->associated.box.x += normalized_vector.x * this->speed.x * dt;
-      this->associated.box.y += normalized_vector.y * this->speed.y * dt;
+      Vec2 new_position = result_position * this->speed * dt;
+
+      this->associated.box.x += new_position.x;
+      this->associated.box.y += new_position.y;
     }
     else if (pendent_action.type == Action::SHOOT)
     {
@@ -141,7 +132,7 @@ void Alien::Update(float dt)
       {
         Rect minion_box = this->minionArray[i].lock()->box;
 
-        float current_distance = minion_box.distance(pendent_action.pos.x, pendent_action.pos.y);
+        float current_distance = minion_box.distance(pendent_action.pos);
 
         if (current_distance < min_distance)
         {
