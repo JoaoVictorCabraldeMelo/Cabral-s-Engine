@@ -123,3 +123,7 @@ double radians_to_degrees(float angle_in_radians)
 double degrees_to_radians(float angle_in_degrees) {
   return angle_in_degrees * PI / 180;
 }
+
+double dot(const Vec2& vectorA, const Vec2& vectorB){
+  return vectorA.x * vectorB.x + vectorA.y * vectorB.y;
+}

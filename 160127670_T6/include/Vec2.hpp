@@ -33,6 +33,8 @@ public:
 
 };
 
+double dot(const Vec2& vectorA, const Vec2& vectorB);
+
 double radians_to_degrees(float angle_in_radians);
 
 double degrees_to_radians(float angle_in_degrees);

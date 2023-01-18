@@ -1,15 +1,13 @@
 
-// // Adicione o trecho abaixo no começo do seu Collider.cpp,
-// // logo após os seus includes e antes de qualquer função.
+// // // Adicione o trecho abaixo no começo do seu Collider.cpp,
+// // // logo após os seus includes e antes de qualquer função.
 
-// #ifdef DEBUG
-// #include "Camera.h"
-// #include "Game.h"
+// // #ifdef DEBUG
+// // #include "Camera.h"
+// // #include "Game.h"
 
-// #include <SDL2/SDL.h>
-// #endif // DEBUG
-
-
+// // #include <SDL2/SDL.h>
+// // #endif // DEBUG
 
 
 
