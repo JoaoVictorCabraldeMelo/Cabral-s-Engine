@@ -7,8 +7,11 @@
 #include "../include/CameraFollower.hpp"
 #include "../include/Alien.hpp"
 #include "../include/PenguinBody.hpp"
+#include "../include/Collision.hpp"
+
 #include <iostream>
 #include <fstream>
+#include <set>
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
@@ -124,14 +127,39 @@ void State::Update(float dt)
     this->objectArray[i]->Update(dt);
   }
 
-  for (int i = 0; i < (int)this->objectArray.size(); i++)
-  {
-    if (this->objectArray[i]->IsDead())
-    {
-      this->RemoveObject(i);
-      i--;
+  set<pair<GameObject*, GameObject*>> collisions;
+
+  for (int i = 0; i < (int)this->objectArray.size(); i++){
+    for (int j = 0; j < (int)this->objectArray.size();j++){
+      if (i != j) {
+        GameObject *go_i = this->objectArray[i].get();
+        GameObject *go_j = this->objectArray[j].get();
+        if (go_i->GetComponent("Collider") && go_j->GetComponent("Collider"))
+          collisions.insert(make_pair(go_i, go_j));
+      }
     }
   }
+
+  for (auto &collision : collisions) {
+    GameObject *first_box = collision.first;
+    GameObject *second_box = collision.second;
+
+    bool collided = Collision::IsColliding(first_box->box, second_box->box, first_box->angleDeg, second_box->angleDeg);
+
+    if (collided) {
+      first_box->NotifyCollision(*second_box);
+      second_box->NotifyCollision(*first_box);
+    }
+  }
+
+    for (int i = 0; i < (int)this->objectArray.size(); i++)
+    {
+      if (this->objectArray[i]->IsDead())
+      {
+        this->RemoveObject(i);
+        i--;
+      }
+    }
 }
 
 void State::Render()

@@ -8,7 +8,7 @@ const float BULLET_SPEED = 200.0;
 class Bullet : public Component
 {
   public:
-    Bullet(GameObject &associated, float angle, float speed, int frames, int damage, float max_distance, std::string sprite);
+    Bullet(GameObject &associated, float angle, float speed, bool targetsPlayer, int frames, int damage, float max_distance, std::string sprite);
 
     void Update(float dt);
 
@@ -17,6 +17,10 @@ class Bullet : public Component
     bool Is(std::string type);
 
     int GetDamage();
+
+    void NotifyCollision(GameObject &other);
+
+    bool targetsPlayer;
 
   private:
     Vec2 speed;

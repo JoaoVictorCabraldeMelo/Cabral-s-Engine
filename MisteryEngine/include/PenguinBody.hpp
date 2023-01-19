@@ -19,6 +19,8 @@ public:
 
   bool Is(std::string type);
 
+  void NotifyCollision(GameObject &other);
+
   PenguinBody *player;
 
 private:

@@ -5,6 +5,10 @@
 #include "../include/Vec2.hpp"
 #include "../include/Minion.hpp"
 #include "../include/Game.hpp"
+#include "../include/Collider.hpp"
+#include "../include/Bullet.hpp"
+#include "../include/PenguinBody.hpp"
+#include "../include/PenguinCannon.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -16,7 +20,10 @@ Alien::Alien(GameObject &associated, int nMinions) : Component(associated), spee
 
   Sprite *alien_sprite = new Sprite(associated, "assets/img/alien.png");
 
+  Collider *collider_alien = new Collider(associated);
+
   this->associated.AddComponent(alien_sprite);
+  this->associated.AddComponent(collider_alien);
 
   this->nMinions = nMinions;
 
@@ -164,4 +171,23 @@ bool Alien::Is(string type)
   if (type == "Alien")
     return true;
   return false;
+}
+
+void Alien::NotifyCollision(GameObject &other) {
+  // Bullet *maybe_bullet = (Bullet *) other.GetComponent("Bullet");
+//   Minion *maybe_minion = (Minion *) other.GetComponent("Minion");
+//   PenguinBody *maybe_pbody = (PenguinBody *) other.GetComponent("PenguinBody");
+//   PenguinCannon *maybe_pcannon = (PenguinCannon *) other.GetComponent("PenguinCannon");
+
+//   if (maybe_bullet)
+//     this->hp -= maybe_bullet->GetDamage();
+  
+//   if(maybe_minion)
+//     cout << "Alien Collided with Minion !! WTF" << endl;
+  
+//   if (maybe_pbody)
+//     cout << "Alien Collided with Penguin Body !!" << endl;
+  
+//   if (maybe_pcannon)
+//     cout << "Alien Collided with Penguin Cannon !!" << endl;
 }

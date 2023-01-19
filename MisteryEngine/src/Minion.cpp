@@ -4,6 +4,8 @@
 #include "../include/Bullet.hpp"
 #include "../include/Game.hpp"
 #include "../include/State.hpp"
+#include "../include/Collider.hpp"
+#include "../include/Alien.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -16,11 +18,14 @@ Minion::Minion(GameObject &associated, weak_ptr<GameObject> alienCenter, float a
 
     Sprite *minion_sprite = new Sprite(associated, "assets/img/minion.png");
 
+    Collider *minion_collider = new Collider(associated);
+
     float scale = 1.0F + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(1.5F-1.0F)));
 
     minion_sprite->SetScale(scale, scale);
 
     this->associated.AddComponent(minion_sprite);
+    this->associated.AddComponent(minion_collider);
 
     this->arc = arcOffsetDeg;
 
@@ -103,9 +108,25 @@ void Minion::Shoot(Vec2 target)
 
     string sprite = "assets/img/minionbullet2.png";
 
-    Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, 100, 3, 10, distance, sprite);
+    Component *bullet = new Bullet(*bullet_go, angle_degress_bullet, 100, true, 3, 10, distance, sprite);
 
     bullet_go->AddComponent(bullet);
 
     game_state.AddObject(bullet_go);
+}
+
+
+void Minion::NotifyCollision(GameObject &other) {
+    // Bullet *maybe_bullet = (Bullet*) other.GetComponent("Bullet");
+
+    // if (maybe_bullet){
+    //     Alien *alien = (Alien *)this->alienCenter.GetComponent("Alien");
+    //     if (!alien) {
+    //         cout << "Should have an alien in this GameObject !!" << endl;
+    //         return;
+    //     }
+    //     cout << "Collided with Bullet " << endl;
+    // }
+
+    // cout << "Minion Collided " << endl;
 }

@@ -26,6 +26,8 @@ public:
 
   bool Is(std::string type);
 
+  void NotifyCollision(GameObject &other);
+
 private:
   class Action
   {
@@ -53,7 +55,6 @@ private:
 
   std::vector<std::weak_ptr<GameObject>> minionArray;
 
-  
 };
 
 

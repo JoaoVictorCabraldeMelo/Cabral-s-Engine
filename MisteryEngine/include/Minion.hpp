@@ -22,6 +22,7 @@ public:
     bool Is(std::string type);
     void Shoot(Vec2 target);
     void Start();
+    void NotifyCollision(GameObject &other);
 
 private:
     GameObject& alienCenter;

@@ -4,6 +4,7 @@
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Bullet.hpp"
+#include "../include/Collider.hpp"
 
 using namespace std;
 
@@ -11,8 +12,10 @@ PenguinCannon::PenguinCannon(GameObject &associated, weak_ptr<GameObject> pengui
   : Component(associated)
 {
   Sprite *penguin_cannon_sprite = new Sprite(associated, "assets/img/cubngun.png");
+  Collider *penguin_cannon_collider = new Collider(associated);
 
   associated.AddComponent(penguin_cannon_sprite);
+  associated.AddComponent(penguin_cannon_collider);
 
   this->pbody = penguinBody;
 
@@ -77,9 +80,14 @@ void PenguinCannon::Shoot()
 
   string sprite = "assets/img/penguinbullet.png";
 
-  Component *bullet = new Bullet(*bullet_go, this->angle, 5.0F, 4, 10, 1000.0F, sprite);
+  Component *bullet = new Bullet(*bullet_go, this->angle, 5.0F, false, 4, 10, 1000.0F, sprite);
 
   bullet_go->AddComponent(bullet);
 
   state.AddObject(bullet_go);
+}
+
+
+void PenguinCannon::NotifyCollision(GameObject &other) {
+  // cout << "Penguin Cannon Collided with some Object" << endl;
 }

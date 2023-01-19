@@ -15,6 +15,8 @@ class PenguinCannon : public Component {
 
     void Shoot();
 
+    void NotifyCollision(GameObject &other);
+
   private:
     std::weak_ptr<GameObject> pbody;
     

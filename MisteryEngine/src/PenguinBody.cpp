@@ -4,6 +4,8 @@
 #include "../include/State.hpp"
 #include "../include/PenguinCannon.hpp"
 #include "../include/InputManager.hpp"
+#include "../include/Collider.hpp"
+#include "../include/Camera.hpp"
 
 using namespace std;
 
@@ -11,8 +13,10 @@ extern const float DEG45;
 
 PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
   Sprite *penguin_body_sprite = new Sprite(associated, "assets/img/penguin.png");
+  Collider *penguin_body_collider = new Collider(associated);
 
   this->associated.AddComponent(penguin_body_sprite);
+  this->associated.AddComponent(penguin_body_collider);
 
   this->angle = 0.0F;
 
@@ -93,6 +97,7 @@ void PenguinBody::Update(float dt){
     this->associated.RequestDelete();
     GameObject* penguin_cannon = this->pcannon.lock().get();
     penguin_cannon->RequestDelete();
+    Camera::Unfollow();
   }
 };
 
@@ -103,4 +108,8 @@ bool PenguinBody::Is(string type)
   if (type == "PenguinBody")
     return true;
   return false;
+}
+
+void PenguinBody::NotifyCollision(GameObject &other) {
+  // cout << "PenguinBody Collided with some object " << endl;
 }
