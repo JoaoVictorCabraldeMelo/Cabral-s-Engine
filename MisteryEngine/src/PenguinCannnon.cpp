@@ -34,8 +34,8 @@ void PenguinCannon::Update(float dt) {
 
   Vec2 coord = go->box.get_center();
 
-  this->associated.box.x = coord.x;
-  this->associated.box.y = coord.y;
+  this->associated.box.x = coord.x - go->box.w / 2.0;
+  this->associated.box.y = coord.y - go->box.h / 2.0;
 
   InputManager &input = InputManager::GetInstance();
 
@@ -75,8 +75,8 @@ void PenguinCannon::Shoot()
 
   GameObject *bullet_go = new GameObject();
 
-  bullet_go->box.x = center.x + this->associated.box.w / 2.0;
-  bullet_go->box.y = center.y + this->associated.box.h / 2.0;
+  bullet_go->box.x = center.x - this->associated.box.w / 2.0;
+  bullet_go->box.y = center.y - this->associated.box.h / 2.0;
 
   string sprite = "assets/img/penguinbullet.png";
 

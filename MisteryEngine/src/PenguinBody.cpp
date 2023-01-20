@@ -15,8 +15,8 @@ PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
   Sprite *penguin_body_sprite = new Sprite(associated, "assets/img/penguin.png");
   Collider *penguin_body_collider = new Collider(associated);
 
-  this->associated.AddComponent(penguin_body_sprite);
-  this->associated.AddComponent(penguin_body_collider);
+  associated.AddComponent(penguin_body_sprite);
+  associated.AddComponent(penguin_body_collider);
 
   this->angle = 0.0F;
 
@@ -29,6 +29,9 @@ PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
   this->hp = 30;
 
   this->player = this;
+
+  associated.box.w = penguin_body_sprite->GetWidth();
+  associated.box.h = penguin_body_sprite->GetHeight();
 };
 
 void PenguinBody::Start(){

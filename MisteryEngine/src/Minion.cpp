@@ -40,9 +40,9 @@ void Minion::Start()
 
 void Minion::Update(float dt)
 {
-    Vec2 distance_minion_origen{125, 0};
+    Vec2 distance_minion_origen{175, 0};
 
-    float ratio = 125;
+    float ratio = 175;
 
     if (this->arc == 0)
     {

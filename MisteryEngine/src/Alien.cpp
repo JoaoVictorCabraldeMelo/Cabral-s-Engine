@@ -54,7 +54,7 @@ void Alien::Start()
 
   weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&this->associated);
 
-  for (int i = 0; i <= this->nMinions; i++)
+  for (int i = 0; i < this->nMinions; i++)
   {
     GameObject *minion_go = new GameObject();
 
