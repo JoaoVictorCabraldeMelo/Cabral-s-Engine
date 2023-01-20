@@ -144,6 +144,7 @@ void State::Update(float dt)
     GameObject *first_box = collision.first;
     GameObject *second_box = collision.second;
 
+
     bool collided = Collision::IsColliding(first_box->box, second_box->box, first_box->angleDeg, second_box->angleDeg);
 
     if (collided) {

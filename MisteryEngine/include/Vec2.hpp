@@ -31,9 +31,19 @@ public:
 
   Vec2 rotate(double angle);
 
+  static Vec2 Sub(const Vec2 &vectorA, const Vec2 &vectorB);
+
+  static Vec2 Sum(const Vec2 &vectorA, const Vec2 &vectorB);
+
+  static Vec2 Rot(const Vec2 &vector, float angleRad);
+
+  static Vec2 Norm(const Vec2 &vector);
+
+  static double Mag(const Vec2 &vector);
+
+  static double Dot(const Vec2 &vectorA, const Vec2 &vectorB);
 };
 
-double dot(const Vec2& vectorA, const Vec2& vectorB);
 
 double radians_to_degrees(float angle_in_radians);
 

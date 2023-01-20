@@ -174,20 +174,20 @@ bool Alien::Is(string type)
 }
 
 void Alien::NotifyCollision(GameObject &other) {
-  // Bullet *maybe_bullet = (Bullet *) other.GetComponent("Bullet");
-//   Minion *maybe_minion = (Minion *) other.GetComponent("Minion");
-//   PenguinBody *maybe_pbody = (PenguinBody *) other.GetComponent("PenguinBody");
-//   PenguinCannon *maybe_pcannon = (PenguinCannon *) other.GetComponent("PenguinCannon");
+  Bullet *maybe_bullet = (Bullet *) other.GetComponent("Bullet");
+  Minion *maybe_minion = (Minion *) other.GetComponent("Minion");
+  PenguinBody *maybe_pbody = (PenguinBody *) other.GetComponent("PenguinBody");
+  PenguinCannon *maybe_pcannon = (PenguinCannon *) other.GetComponent("PenguinCannon");
 
-//   if (maybe_bullet)
-//     this->hp -= maybe_bullet->GetDamage();
+  if (maybe_bullet)
+    cout << "Alien Collided with Bullet !!" << endl;
+
+  if(maybe_minion)
+    cout << "Alien Collided with Minion !!" << endl;
   
-//   if(maybe_minion)
-//     cout << "Alien Collided with Minion !! WTF" << endl;
+  if (maybe_pbody)
+    cout << "Alien Collided with Penguin Body !!" << endl;
   
-//   if (maybe_pbody)
-//     cout << "Alien Collided with Penguin Body !!" << endl;
-  
-//   if (maybe_pcannon)
-//     cout << "Alien Collided with Penguin Cannon !!" << endl;
+  if (maybe_pcannon)
+    cout << "Alien Collided with Penguin Cannon !!" << endl;
 }

@@ -115,6 +115,45 @@ Vec2 Vec2::rotate(double angle)
   return *this;
 }
 
+Vec2 Vec2::Sub(const Vec2& vectorA, const Vec2& vectorB){
+  float x = vectorA.x - vectorB.x;
+  float y = vectorA.y - vectorB.x;
+
+  return Vec2(x, y);
+}
+
+Vec2 Vec2::Sum(const Vec2& vectorA, const Vec2& vectorB){
+  float x = vectorA.x + vectorB.x;
+  float y = vectorA.y + vectorB.y;
+
+  return Vec2(x, y);
+}
+
+Vec2 Vec2::Rot(const Vec2& vector, float angleRad){
+  float sen = sin(angleRad), cosin = cos(angleRad);
+
+  float x = vector.x * cosin + vector.y * sen;
+  float y = vector.x * sen - vector.y * cosin;
+
+  return Vec2(x, y);
+}
+
+double Vec2::Mag(const Vec2 &vector) {
+  return hypot(vector.x, vector.y);
+}
+
+Vec2 Vec2::Norm(const Vec2 &vector) {
+  float x = vector.x * (1.0F / Vec2::Mag(vector));
+  float y = vector.y * (1.0F / Vec2::Mag(vector));
+
+  return Vec2(x, y);
+}
+
+double Vec2::Dot(const Vec2 &vectorA, const Vec2 &vectorB)
+{
+  return vectorA.x * vectorB.x + vectorA.y * vectorB.y;
+}
+
 double radians_to_degrees(float angle_in_radians)
 {
   return angle_in_radians * (180 / PI);
@@ -124,6 +163,3 @@ double degrees_to_radians(float angle_in_degrees) {
   return angle_in_degrees * PI / 180;
 }
 
-double dot(const Vec2& vectorA, const Vec2& vectorB){
-  return vectorA.x * vectorB.x + vectorA.y * vectorB.y;
-}
