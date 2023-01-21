@@ -10,8 +10,8 @@ using namespace std;
 // ou transforme os ângulos no corpo de IsColliding.
 bool Collision::IsColliding(Rect& a, Rect& b, float angleOfA, float angleOfB) {
 
-	angleOfA = degrees_to_radians(angleOfA);
-	angleOfB = degrees_to_radians(angleOfB);
+	float angleARad = degrees_to_radians(angleOfA);
+	float angleBRad = degrees_to_radians(angleOfB);
 
 	Vec2 A[] = { Vec2( a.x, a.y + a.h ),
 					Vec2( a.x + a.w, a.y + a.h ),
@@ -25,11 +25,11 @@ bool Collision::IsColliding(Rect& a, Rect& b, float angleOfA, float angleOfB) {
 				};
 
 	for (auto& v : A) {
-		v = Vec2::Sum(Vec2::Rot(Vec2::Sub(v, a.get_center()),angleOfA), a.get_center());
+		v = Vec2::Sum(Vec2::Rot(Vec2::Sub(v, a.get_center()),angleARad), a.get_center());
 	}
 
 	for (auto& v : B) {
-		v = Vec2::Sum(Vec2::Rot(Vec2::Sub(v, b.get_center()), angleOfB), b.get_center());
+		v = Vec2::Sum(Vec2::Rot(Vec2::Sub(v, b.get_center()), angleBRad), b.get_center());
 	}
 
 	Vec2 axes[] = { Vec2::Norm(Vec2::Sub(A[0], A[1])) , Vec2::Norm(Vec2::Sub(A[1], A[2])), Vec2::Norm(Vec2::Sub(B[0], B[1])), Vec2::Norm(Vec2::Sub(B[1], B[2])) };

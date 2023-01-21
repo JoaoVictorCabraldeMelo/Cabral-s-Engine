@@ -23,7 +23,7 @@ void Collider::Update(float dt) {
   float angleRadians = degrees_to_radians(this->associated.angleDeg);
   this->offset.rotate(angleRadians);
 
-  center_box = center_box + this->offset;
+  // center_box = center_box + this->offset;
 
   this->box.set_center(center_box);
 }

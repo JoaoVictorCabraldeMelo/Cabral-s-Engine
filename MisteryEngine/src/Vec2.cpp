@@ -117,7 +117,7 @@ Vec2 Vec2::rotate(double angle)
 
 Vec2 Vec2::Sub(const Vec2& vectorA, const Vec2& vectorB){
   float x = vectorA.x - vectorB.x;
-  float y = vectorA.y - vectorB.x;
+  float y = vectorA.y - vectorB.y;
 
   return Vec2(x, y);
 }

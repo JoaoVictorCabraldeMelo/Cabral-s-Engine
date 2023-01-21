@@ -35,17 +35,17 @@ PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
 };
 
 void PenguinBody::Start(){
-  State &state = Game::GetInstance().GetState();
+  // State &state = Game::GetInstance().GetState();
 
-  GameObject *penguin_cannon_object = new GameObject();
+  // GameObject *penguin_cannon_object = new GameObject();
 
-  weak_ptr<GameObject> penguin_body = state.GetObjectPtr(&this->associated);
+  // weak_ptr<GameObject> penguin_body = state.GetObjectPtr(&this->associated);
 
-  PenguinCannon *penguin_cannon = new PenguinCannon(*penguin_cannon_object, penguin_body);
+  // PenguinCannon *penguin_cannon = new PenguinCannon(*penguin_cannon_object, penguin_body);
 
-  penguin_cannon_object->AddComponent(penguin_cannon);
+  // penguin_cannon_object->AddComponent(penguin_cannon);
 
-  this->pcannon = state.AddObject(penguin_cannon_object);
+  // this->pcannon = state.AddObject(penguin_cannon_object);
 };
 
 PenguinBody::~PenguinBody(){

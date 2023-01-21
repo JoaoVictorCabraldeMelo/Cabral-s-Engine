@@ -13,6 +13,8 @@
 #include <iostream>
 #include <fstream>
 
+int global_colliding = 0;
+
 using namespace std;
 
 Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(SPEEDX, SPEEDY)
@@ -48,24 +50,24 @@ Alien::~Alien()
 void Alien::Start()
 {
 
-  Game &instance = Game::GetInstance();
+  // Game &instance = Game::GetInstance();
 
-  State &game_state = instance.GetState();
+  // State &game_state = instance.GetState();
 
-  weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&this->associated);
+  // weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&this->associated);
 
-  for (int i = 0; i < this->nMinions; i++)
-  {
-    GameObject *minion_go = new GameObject();
+  // for (int i = 0; i < this->nMinions; i++)
+  // {
+  //   GameObject *minion_go = new GameObject();
 
-    Component *minion = new Minion(*minion_go, alien_go, i * ((2 * PI) / this->nMinions));
+  //   Component *minion = new Minion(*minion_go, alien_go, i * ((2 * PI) / this->nMinions));
 
-    minion_go->AddComponent(minion);
+  //   minion_go->AddComponent(minion);
 
-    weak_ptr<GameObject> weak_go = game_state.AddObject(minion_go);
+  //   weak_ptr<GameObject> weak_go = game_state.AddObject(minion_go);
 
-    this->minionArray.push_back(weak_go);
-  }
+  //   this->minionArray.push_back(weak_go);
+  // }
 }
 
 void Alien::Update(float dt)
@@ -80,9 +82,9 @@ void Alien::Update(float dt)
 
   int mouse_y = InputManager::GetInstance().GetMouseY();
 
-  float angle_clockwise_degrees = -(DEG30 * 180 / PI) * dt;
+  // float angle_clockwise_degrees = -(DEG30 * 180 / PI) * dt;
 
-  this->associated.angleDeg += angle_clockwise_degrees;
+  this->associated.angleDeg += 0;
 
   if (left_click || right_click)
   {
@@ -185,9 +187,11 @@ void Alien::NotifyCollision(GameObject &other) {
   if(maybe_minion)
     cout << "Alien Collided with Minion !!" << endl;
   
-  if (maybe_pbody)
-    cout << "Alien Collided with Penguin Body !!" << endl;
-  
+  if (maybe_pbody){
+    global_colliding++;
+    cout << "Alien Collided with Penguin Body !! " << global_colliding << endl;
+  }
+
   if (maybe_pcannon)
     cout << "Alien Collided with Penguin Cannon !!" << endl;
 }

@@ -8,6 +8,7 @@
 #include "../include/Alien.hpp"
 #include "../include/PenguinBody.hpp"
 #include "../include/Collision.hpp"
+#include "../include/Collider.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -130,7 +131,7 @@ void State::Update(float dt)
   set<pair<GameObject*, GameObject*>> collisions;
 
   for (int i = 0; i < (int)this->objectArray.size(); i++){
-    for (int j = 0; j < (int)this->objectArray.size();j++){
+    for (int j = i; j < (int)this->objectArray.size();j++){
       if (i != j) {
         GameObject *go_i = this->objectArray[i].get();
         GameObject *go_j = this->objectArray[j].get();
@@ -144,8 +145,10 @@ void State::Update(float dt)
     GameObject *first_box = collision.first;
     GameObject *second_box = collision.second;
 
+    Collider *first_collider = (Collider *) first_box->GetComponent("Collider");
+    Collider *second_collider = (Collider *)second_box->GetComponent("Collider");
 
-    bool collided = Collision::IsColliding(first_box->box, second_box->box, first_box->angleDeg, second_box->angleDeg);
+    bool collided = Collision::IsColliding(first_collider->box, second_collider->box, first_box->angleDeg, second_box->angleDeg);
 
     if (collided) {
       first_box->NotifyCollision(*second_box);
