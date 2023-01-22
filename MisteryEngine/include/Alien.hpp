@@ -28,6 +28,8 @@ public:
 
   void NotifyCollision(GameObject &other);
 
+  int hp;
+
 private:
   class Action
   {
@@ -44,8 +46,6 @@ private:
 
     Vec2 pos;
   };
-
-  int hp;
 
   int nMinions;
 

@@ -145,8 +145,8 @@ void State::Update(float dt)
     GameObject *first_box = collision.first;
     GameObject *second_box = collision.second;
 
-    Collider *first_collider = (Collider *) first_box->GetComponent("Collider");
-    Collider *second_collider = (Collider *)second_box->GetComponent("Collider");
+    Collider *first_collider = static_cast<Collider *> (first_box->GetComponent("Collider"));
+    Collider *second_collider = static_cast<Collider *> (second_box->GetComponent("Collider"));
 
     bool collided = Collision::IsColliding(first_collider->box, second_collider->box, first_box->angleDeg, second_box->angleDeg);
 

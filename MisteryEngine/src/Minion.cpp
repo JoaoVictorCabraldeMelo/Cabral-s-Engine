@@ -58,7 +58,7 @@ void Minion::Update(float dt)
 
     distance_minion_origen.rotate(this->arc);
 
-    if (&this->alienCenter != nullptr)
+    if (!this->alienCenter.IsDead())
     {
         GameObject &updt_alien_center = this->alienCenter;
 
@@ -117,16 +117,10 @@ void Minion::Shoot(Vec2 target)
 
 
 void Minion::NotifyCollision(GameObject &other) {
-    // Bullet *maybe_bullet = (Bullet*) other.GetComponent("Bullet");
+    Bullet *maybe_bullet = static_cast<Bullet *>(other.GetComponent("Bullet"));
 
-    // if (maybe_bullet){
-    //     Alien *alien = (Alien *)this->alienCenter.GetComponent("Alien");
-    //     if (!alien) {
-    //         cout << "Should have an alien in this GameObject !!" << endl;
-    //         return;
-    //     }
-    //     cout << "Collided with Bullet " << endl;
-    // }
-
-    // cout << "Minion Collided " << endl;
+    if (maybe_bullet && !maybe_bullet->targetsPlayer){
+        Alien *alien = static_cast<Alien *>(this->alienCenter.GetComponent("Alien"));
+        alien->hp -= maybe_bullet->GetDamage();
+    }
 }

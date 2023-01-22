@@ -4,6 +4,8 @@
 #include "../include/Collider.hpp"
 #include "../include/PenguinBody.hpp"
 #include "../include/PenguinCannon.hpp"
+#include "../include/Alien.hpp"
+#include "../include/Minion.hpp"
 
 
 using namespace std;
@@ -68,13 +70,13 @@ bool Bullet::Is(string type) {
 }
 
 void Bullet::NotifyCollision(GameObject &other) {
+  Alien *maybe_alien = static_cast<Alien *>(other.GetComponent("Alien"));
+  Minion *maybe_minion = static_cast<Minion *>(other.GetComponent("Minion"));
+  PenguinBody *maybe_pbody= static_cast<PenguinBody *>(other.GetComponent("PenguinBody"));
 
-  // Bullet *maybe_bullet = (Bullet *) other.GetComponent("Bullet");
-  // PenguinBody *maybe_pbody = (PenguinBody *) other.GetComponent("PenguinBody");
-  // PenguinCannon *maybe_pcannon = (PenguinCannon *)other.GetComponent("PenguinCannon");
+  if ((maybe_alien || maybe_minion) && !this->targetsPlayer)
+    this->associated.RequestDelete();
+  else if (maybe_pbody && this->targetsPlayer)
+    this->associated.RequestDelete();
 
-  // bool collided_bullet = this->targetsPlayer && (maybe_pcannon || maybe_pbody);
-
-  // if (!maybe_bullet && collided_bullet)
-  //   other.RequestDelete();
 }

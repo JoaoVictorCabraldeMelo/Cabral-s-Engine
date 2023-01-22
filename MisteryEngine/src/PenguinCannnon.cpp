@@ -5,6 +5,7 @@
 #include "../include/Camera.hpp"
 #include "../include/Bullet.hpp"
 #include "../include/Collider.hpp"
+#include "../include/PenguinBody.hpp"
 
 using namespace std;
 
@@ -89,5 +90,10 @@ void PenguinCannon::Shoot()
 
 
 void PenguinCannon::NotifyCollision(GameObject &other) {
-  // cout << "Penguin Cannon Collided with some Object" << endl;
+  Bullet *maybe_bullet = static_cast<Bullet *>(other.GetComponent("Bullet"));
+
+  if (maybe_bullet && maybe_bullet->targetsPlayer) {
+    PenguinBody *body = static_cast<PenguinBody *> (this->pbody.lock().get()->GetComponent("PenguinBody"));
+    body->hp -= maybe_bullet->GetDamage();
+  }
 }

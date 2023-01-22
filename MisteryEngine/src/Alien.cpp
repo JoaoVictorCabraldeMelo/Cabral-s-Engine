@@ -13,8 +13,6 @@
 #include <iostream>
 #include <fstream>
 
-int global_colliding = 0;
-
 using namespace std;
 
 Alien::Alien(GameObject &associated, int nMinions) : Component(associated), speed(SPEEDX, SPEEDY)
@@ -49,31 +47,28 @@ Alien::~Alien()
 
 void Alien::Start()
 {
+  Game &instance = Game::GetInstance();
 
-  // Game &instance = Game::GetInstance();
+  State &game_state = instance.GetState();
 
-  // State &game_state = instance.GetState();
+  weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&this->associated);
 
-  // weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&this->associated);
+  for (int i = 0; i < this->nMinions; i++)
+  {
+    GameObject *minion_go = new GameObject();
 
-  // for (int i = 0; i < this->nMinions; i++)
-  // {
-  //   GameObject *minion_go = new GameObject();
+    Component *minion = new Minion(*minion_go, alien_go, i * ((2 * PI) / this->nMinions));
 
-  //   Component *minion = new Minion(*minion_go, alien_go, i * ((2 * PI) / this->nMinions));
+    minion_go->AddComponent(minion);
 
-  //   minion_go->AddComponent(minion);
+    weak_ptr<GameObject> weak_go = game_state.AddObject(minion_go);
 
-  //   weak_ptr<GameObject> weak_go = game_state.AddObject(minion_go);
-
-  //   this->minionArray.push_back(weak_go);
-  // }
+    this->minionArray.push_back(weak_go);
+  }
 }
 
 void Alien::Update(float dt)
 {
-  // cout << "Delta :" << dt << endl;
-
   bool left_click = InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON);
 
   bool right_click = InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON);
@@ -82,9 +77,9 @@ void Alien::Update(float dt)
 
   int mouse_y = InputManager::GetInstance().GetMouseY();
 
-  // float angle_clockwise_degrees = -(DEG30 * 180 / PI) * dt;
+  float angle_clockwise_degrees = -(DEG30 * 180 / PI) * dt;
 
-  this->associated.angleDeg += 0;
+  this->associated.angleDeg += angle_clockwise_degrees;
 
   if (left_click || right_click)
   {
@@ -152,7 +147,7 @@ void Alien::Update(float dt)
 
       GameObject *minion_ptr = this->minionArray[minion_index].lock().get();
 
-      Minion *minion_cpt = (Minion *)minion_ptr->GetComponent("Minion");
+      Minion *minion_cpt = static_cast<Minion *> (minion_ptr->GetComponent("Minion"));
 
       minion_cpt->Shoot(pendent_action.pos);
 
@@ -176,22 +171,12 @@ bool Alien::Is(string type)
 }
 
 void Alien::NotifyCollision(GameObject &other) {
-  Bullet *maybe_bullet = (Bullet *) other.GetComponent("Bullet");
-  Minion *maybe_minion = (Minion *) other.GetComponent("Minion");
-  PenguinBody *maybe_pbody = (PenguinBody *) other.GetComponent("PenguinBody");
-  PenguinCannon *maybe_pcannon = (PenguinCannon *) other.GetComponent("PenguinCannon");
 
-  if (maybe_bullet)
-    cout << "Alien Collided with Bullet !!" << endl;
+  Bullet *maybe_bullet = static_cast<Bullet *> (other.GetComponent("Bullet"));
 
-  if(maybe_minion)
-    cout << "Alien Collided with Minion !!" << endl;
-  
-  if (maybe_pbody){
-    global_colliding++;
-    cout << "Alien Collided with Penguin Body !! " << global_colliding << endl;
+  if (maybe_bullet) {
+    if(!maybe_bullet->targetsPlayer){
+      this->hp -= maybe_bullet->GetDamage();      
+    }
   }
-
-  if (maybe_pcannon)
-    cout << "Alien Collided with Penguin Cannon !!" << endl;
 }

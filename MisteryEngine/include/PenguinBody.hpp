@@ -23,6 +23,8 @@ public:
 
   PenguinBody *player;
 
+  int hp;
+
 private:
   std::weak_ptr<GameObject> pcannon;
 
@@ -31,8 +33,6 @@ private:
   float linearSpeed;
 
   float angle;
-  
-  int hp;
 };
 
 #endif
