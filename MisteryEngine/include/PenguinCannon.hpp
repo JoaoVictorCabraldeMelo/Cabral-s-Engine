@@ -2,6 +2,7 @@
 #define _PENGUIN_CANNON_H_
 
 #include "Component.hpp"
+#include "Timer.hpp"
 
 class PenguinCannon : public Component {
   public:
@@ -21,6 +22,8 @@ class PenguinCannon : public Component {
     std::weak_ptr<GameObject> pbody;
     
     float angle;
+
+    Timer cooldown;
 };
 
 #endif 

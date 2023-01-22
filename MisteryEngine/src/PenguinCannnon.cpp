@@ -6,6 +6,7 @@
 #include "../include/Bullet.hpp"
 #include "../include/Collider.hpp"
 #include "../include/PenguinBody.hpp"
+#include "../include/Music.hpp"
 
 using namespace std;
 
@@ -22,12 +23,19 @@ PenguinCannon::PenguinCannon(GameObject &associated, weak_ptr<GameObject> pengui
 
   this->angle = 0.0F;
 
+  this->cooldown = Timer();
+
   associated.box.w = penguin_cannon_sprite->GetWidth();
   associated.box.h = penguin_cannon_sprite->GetHeight();
 };
 
 void PenguinCannon::Update(float dt) {
   GameObject *go = this->pbody.lock().get();
+
+
+  if (!this->cooldown.initialize)
+    this->cooldown.Update(dt);
+  
 
   if (go == NULL) {
     this->associated.RequestDelete();
@@ -54,7 +62,8 @@ void PenguinCannon::Update(float dt) {
 
   bool mouse_left_clicked = input.MousePress(LEFT_MOUSE_BUTTON);
 
-  if (mouse_left_clicked) {
+  if (mouse_left_clicked && (this->cooldown.Get() >= 1.0f || this->cooldown.initialize)) {
+    this->cooldown.Restart();
     this->Shoot();
   }
 }
@@ -95,5 +104,18 @@ void PenguinCannon::NotifyCollision(GameObject &other) {
   if (maybe_bullet && maybe_bullet->targetsPlayer) {
     PenguinBody *body = static_cast<PenguinBody *> (this->pbody.lock().get()->GetComponent("PenguinBody"));
     body->hp -= maybe_bullet->GetDamage();
+    if (body->hp <= 0) {
+      GameObject *death_explosion = new GameObject();
+
+      Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/penguindeath.png", 5, 1.5F, 7.5F);
+      Music *explosion_sound = new Music(*death_explosion ,"assets/audio/boom.wav");
+      explosion_sound->Play();
+
+      death_explosion->AddComponent(sprite_death);
+      death_explosion->AddComponent(explosion_sound);
+      
+      death_explosion->box.x = this->associated.box.x;
+      death_explosion->box.y = this->associated.box.y;
+    }
   }
 }

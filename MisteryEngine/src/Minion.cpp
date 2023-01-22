@@ -122,5 +122,18 @@ void Minion::NotifyCollision(GameObject &other) {
     if (maybe_bullet && !maybe_bullet->targetsPlayer){
         Alien *alien = static_cast<Alien *>(this->alienCenter.GetComponent("Alien"));
         alien->hp -= maybe_bullet->GetDamage();
+        if (alien->hp <= 0) {
+            GameObject *death_explosion = new GameObject();
+
+            Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/aliendeath.png", 4, 1.5F, 6.0F);
+            Music *explosion_sound = new Music(*death_explosion, "assets/audio/boom.wav");
+            explosion_sound->Play();
+
+            death_explosion->AddComponent(sprite_death);
+            death_explosion->AddComponent(explosion_sound);
+
+            death_explosion->box.x = this->alienCenter.box.x;
+            death_explosion->box.y = this->alienCenter.box.y;
+        }
     }
 }

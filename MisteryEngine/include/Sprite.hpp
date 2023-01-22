@@ -6,6 +6,7 @@
 #include "Component.hpp"
 #include "GameObject.hpp"
 #include "Vec2.hpp"
+#include "Timer.hpp"
 
 class Sprite : public Component
 {
@@ -29,10 +30,14 @@ private:
 
   float timeElapsed = 0.0F;
 
+  Timer selfDestructCount;
+
+  float secondsToSelfDestruct;
+
 public:
   explicit Sprite(GameObject &associated);
 
-  explicit Sprite(GameObject &associated, std::string file, int frameCount = 1, float frameTime = 1.0F);
+  explicit Sprite(GameObject &associated, std::string file, int frameCount = 1, float frameTime = 1.0F, float secondsToSelfDestruct = 0.0f);
 
   ~Sprite();
 

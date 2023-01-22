@@ -118,7 +118,22 @@ bool PenguinBody::Is(string type)
 void PenguinBody::NotifyCollision(GameObject &other) {
   Bullet *maybe_bullet = static_cast<Bullet *>(other.GetComponent("Bullet"));
 
-  if (maybe_bullet && maybe_bullet->targetsPlayer)
+  if (maybe_bullet && maybe_bullet->targetsPlayer){
     this->hp -= maybe_bullet->GetDamage();
+    if (this->hp <= 0)
+    {
+      GameObject *death_explosion = new GameObject();
+
+      Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/penguindeath.png", 5, 1.5F, 7.5F);
+      Music *explosion_sound = new Music(*death_explosion, "assets/audio/boom.wav");
+      explosion_sound->Play();
+
+      death_explosion->AddComponent(sprite_death);
+      death_explosion->AddComponent(explosion_sound);
+
+      death_explosion->box.x = this->associated.box.x;
+      death_explosion->box.y = this->associated.box.y;
+    }
+  }
   
 }

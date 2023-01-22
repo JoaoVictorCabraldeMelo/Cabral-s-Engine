@@ -32,7 +32,7 @@ Sprite::Sprite(GameObject &associated) : Component(associated)
   this->associated.angleDeg = 0;
 }
 
-Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime) : Component(associated)
+Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated)
 {
   this->texture = nullptr;
   this->scale.x = 1;
@@ -42,6 +42,8 @@ Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameT
 
   this->frameCount = frameCount;
   this->frameTime = frameTime;
+
+  this->secondsToSelfDestruct = secondsToSelfDestruct;
 
   this->Open(file);
 }
@@ -128,6 +130,13 @@ bool Sprite::IsOpen()
 void Sprite::Update(float dt)
 {
   this->timeElapsed += dt;
+
+  if(this->secondsToSelfDestruct > 0.0f) {
+    this->selfDestructCount.Update(dt);
+    if (this->selfDestructCount.Get() >= this->secondsToSelfDestruct) {
+      this->associated.RequestDelete();
+    }
+  }
 
   if (this->timeElapsed > this->frameTime)
   {
