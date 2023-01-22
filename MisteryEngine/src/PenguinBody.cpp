@@ -12,6 +12,8 @@ using namespace std;
 
 extern const float DEG45;
 
+PenguinBody *PenguinBody::player = nullptr;
+
 PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
   Sprite *penguin_body_sprite = new Sprite(associated, "assets/img/penguin.png");
   Collider *penguin_body_collider = new Collider(associated);

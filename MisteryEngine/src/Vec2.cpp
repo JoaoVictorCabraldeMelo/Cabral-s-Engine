@@ -95,8 +95,10 @@ double Vec2::inclination()
 double Vec2::inclination_two_points(Vec2 vector)
 {
 
-  Vec2 diference = vector - *this;
+  Vec2 initial_point{this->x, this->y};
 
+  Vec2 diference = Vec2::Sub(vector, initial_point);
+  
   double result = diference.inclination();
 
   return result;

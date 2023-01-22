@@ -8,10 +8,8 @@ class Component;
 
 class Component
 {
-protected:
-  GameObject &associated;
-
 public:
+  GameObject &associated;
 
   explicit Component(GameObject &associated);
 

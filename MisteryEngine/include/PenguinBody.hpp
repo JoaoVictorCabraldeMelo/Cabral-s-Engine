@@ -21,7 +21,7 @@ public:
 
   void NotifyCollision(GameObject &other);
 
-  PenguinBody *player;
+  static PenguinBody *player;
 
   int hp;
 

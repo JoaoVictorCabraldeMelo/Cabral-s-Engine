@@ -4,12 +4,8 @@
 #include "Component.hpp"
 #include "Vec2.hpp"
 #include "Minion.hpp"
+#include "Timer.hpp"
 
-#include <queue>
-
-
-#define SPEEDX 200
-#define SPEEDY 200
 
 class Alien : public Component
 {
@@ -30,28 +26,25 @@ public:
 
   int hp;
 
+  static size_t alienCount;
+
 private:
-  class Action
+
+  enum AlienState
   {
-  public:
-    enum ActionType
-    {
-      MOVE,
-      SHOOT
-    };
-
-    Action(ActionType Action, float x, float y);
-
-    ActionType type;
-
-    Vec2 pos;
+    MOVING,
+    RESTING
   };
+
+  AlienState state;
+
+  Timer restTimer;
+
+  Vec2 destination;
 
   int nMinions;
 
   Vec2 speed;
-
-  std::queue<Action> taskQueue;
 
   std::vector<std::weak_ptr<GameObject>> minionArray;
 
