@@ -29,6 +29,10 @@ Sprite::Sprite(GameObject &associated) : Component(associated)
   this->frameCount = 1;
   this->frameTime = 1.0F;
 
+  this->secondsToSelfDestruct = 0.0F;
+
+  this->selfDestructCount = Timer();
+
   this->associated.angleDeg = 0;
 }
 
@@ -44,6 +48,7 @@ Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameT
   this->frameTime = frameTime;
 
   this->secondsToSelfDestruct = secondsToSelfDestruct;
+  this->selfDestructCount = Timer();
 
   this->Open(file);
 }

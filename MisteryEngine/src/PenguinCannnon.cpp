@@ -107,7 +107,7 @@ void PenguinCannon::NotifyCollision(GameObject &other) {
     if (body->hp <= 0) {
       GameObject *death_explosion = new GameObject();
 
-      Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/penguindeath.png", 5, 1.5F, 7.5F);
+      Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/penguindeath.png", 5, .2F, 1.0F);
       Music *explosion_sound = new Music(*death_explosion ,"assets/audio/boom.wav");
       explosion_sound->Play();
 
@@ -116,6 +116,10 @@ void PenguinCannon::NotifyCollision(GameObject &other) {
       
       death_explosion->box.x = this->associated.box.x;
       death_explosion->box.y = this->associated.box.y;
+
+      State &game_state = Game::GetInstance().GetState();
+
+      game_state.AddObject(death_explosion);
     }
   }
 }

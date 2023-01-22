@@ -181,7 +181,8 @@ void Alien::NotifyCollision(GameObject &other) {
       {
         GameObject *death_explosion = new GameObject();
 
-        Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/aliendeath.png", 4, 1.5F, 6.0F);
+        Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/aliendeath.png", 4, .25F, 1.0F);
+        sprite_death->SetScale(.25F, .5F);
         Music *explosion_sound = new Music(*death_explosion, "assets/audio/boom.wav");
         explosion_sound->Play();
 
@@ -190,6 +191,10 @@ void Alien::NotifyCollision(GameObject &other) {
 
         death_explosion->box.x = this->associated.box.x;
         death_explosion->box.y = this->associated.box.y;
+
+        State &game_state = Game::GetInstance().GetState();
+
+        game_state.AddObject(death_explosion);
       }
     }
   }

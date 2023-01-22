@@ -133,6 +133,10 @@ void PenguinBody::NotifyCollision(GameObject &other) {
 
       death_explosion->box.x = this->associated.box.x;
       death_explosion->box.y = this->associated.box.y;
+
+      State &game_state = Game::GetInstance().GetState();
+
+      game_state.AddObject(death_explosion);
     }
   }
   
