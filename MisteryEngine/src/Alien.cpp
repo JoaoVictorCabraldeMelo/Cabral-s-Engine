@@ -77,7 +77,7 @@ void Alien::Update(float dt)
     this->restTimer.Update(dt);
     this->state = RESTING;
   }
-  else {
+  else if (PenguinBody::player != nullptr) {
     this->restTimer.Restart();
     x = PenguinBody::player->associated.box.x;
     y = PenguinBody::player->associated.box.y;
@@ -86,8 +86,6 @@ void Alien::Update(float dt)
 
     this->state = MOVING;
   }
-
-  // cout << "X: " <<  this->destination.x << " Y: " << this->destination.y << endl;
 
   float angle_clockwise_degrees = -(DEG30 * 180 / PI) * dt;
 

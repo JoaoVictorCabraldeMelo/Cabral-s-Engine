@@ -32,14 +32,14 @@ PenguinCannon::PenguinCannon(GameObject &associated, weak_ptr<GameObject> pengui
 void PenguinCannon::Update(float dt) {
   GameObject *go = this->pbody.lock().get();
 
+  if (go == NULL)
+  {
+    this->associated.RequestDelete();
+  }
 
   if (!this->cooldown.initialize)
     this->cooldown.Update(dt);
   
-
-  if (go == NULL) {
-    this->associated.RequestDelete();
-  }
 
   Vec2 coord = go->box.get_center();
 
@@ -108,6 +108,7 @@ void PenguinCannon::NotifyCollision(GameObject &other) {
       GameObject *death_explosion = new GameObject();
 
       Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/penguindeath.png", 5, .2F, 1.0F);
+      sprite_death->SetScale(.25F, .5F);
       Music *explosion_sound = new Music(*death_explosion ,"assets/audio/boom.wav");
       explosion_sound->Play();
 
