@@ -5,6 +5,7 @@
 #include "../include/InputManager.hpp"
 #include "../include/StageState.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Text.hpp"
 
 using namespace std;
 
@@ -15,7 +16,18 @@ TitleState::TitleState() {
 
   title_go->AddComponent(background_title);
 
-  this->objectArray.emplace_back(title_go);
+  this->AddObject(title_go);
+
+  SDL_Color color = {0, 0, 0, 255};
+
+  GameObject *go = new GameObject();
+  Text *title_text = new Text(*go, "assets/font/callMeMaybe.ttf", 36, Text::BLENDED, "Pressione Barra de Espaco para Jogar", color);
+
+  title_text->SetPosition({250, 450});
+  
+  go->AddComponent(title_text);
+
+  this->AddObject(go);
 }
 
 TitleState::~TitleState(){};

@@ -1,8 +1,12 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_image.h>
+#define INCLUDE_SDL
+#define INCLUDE_SDL_IMAGE
+#define INCLUDE_SDL_MIXER
+#define INCLUDE_SDL_TTF
+#define INCLUDE_SDL_NET
+#include "SDL_include.hpp"
 
 #include <unordered_map>
 #include <string>
@@ -16,6 +20,7 @@ private:
 static std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> imageTable;
 static std::unordered_map<std::string, Mix_Music*> musicTable;
 static std::unordered_map<std::string, Mix_Chunk*> soundTable;
+static std::unordered_map<std::string, TTF_Font*> fontTable;
 
 public:
 
@@ -31,8 +36,10 @@ public:
 
   static void ClearSounds();
 
-};
+  static TTF_Font *GetFont(const std::string &file, int size);
 
+  static void ClearFont();
+};
 
 #endif
 

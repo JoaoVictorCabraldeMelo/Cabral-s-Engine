@@ -12,6 +12,7 @@ using namespace std;
 unordered_map<string, shared_ptr<SDL_Texture>> Resource::imageTable;
 unordered_map<string, Mix_Music*> Resource::musicTable;
 unordered_map<string, Mix_Chunk*> Resource::soundTable;
+unordered_map<string, TTF_Font*> Resource::fontTable;
 
 shared_ptr<SDL_Texture> Resource::GetImage(const string& file)
 {
@@ -54,6 +55,8 @@ void Resource::ClearImages()
       it = Resource::imageTable.erase(it);
     else it++;
   }
+  
+  Resource::imageTable.clear();
 }
 
 Mix_Music *Resource::GetMusic(const string& file)
@@ -123,4 +126,36 @@ void Resource::ClearSounds()
   }
 
   Resource::soundTable.clear();
+}
+
+TTF_Font* Resource::GetFont(const string &file, int size) {
+
+  string key = file + to_string(size);
+
+  auto search = Resource::fontTable.find(key);
+
+  if (Resource::fontTable.end() != search)
+    return search->second;
+
+  TTF_Font *font = TTF_OpenFont(file.c_str(), size);
+
+  if (font == nullptr) {
+    ofstream logfile("Errors.log", ofstream::app);
+
+    logfile << "Couldn't load font" << endl;
+    logfile.close();
+
+    cout << "Couldn't load font" << endl;
+  }  
+  
+  Resource::fontTable.emplace(key, font);
+
+  return font;
+}
+
+void Resource::ClearFont() {
+  for (auto &font : fontTable) {
+    TTF_CloseFont(font.second);
+  }
+  Resource::fontTable.clear();
 }

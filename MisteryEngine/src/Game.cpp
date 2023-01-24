@@ -21,6 +21,8 @@ Game *Game::instance = nullptr;
 
 Game::Game(std::string title, int width, int height)
 {
+
+  /*Default Initialization*/
   srand(time(NULL));
 
   if (Game::instance != nullptr)
@@ -45,6 +47,9 @@ Game::Game(std::string title, int width, int height)
     throw std::runtime_error(SDL_GetError());
   }
 
+
+
+  /*Image Initialization*/
   int image_flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF;
 
   int initiated_image = IMG_Init(image_flags);
@@ -56,6 +61,9 @@ Game::Game(std::string title, int width, int height)
     std::cout << "Error Load Image: " << IMG_GetError() << std::endl;
   }
 
+
+
+   /*Sound Initialization*/
   int sound_flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_OGG;
 
   int initiated_sound = Mix_Init(sound_flags);
@@ -73,6 +81,25 @@ Game::Game(std::string title, int width, int height)
 
   Mix_AllocateChannels(32);
 
+
+  /*Font Initialization*/
+  int font_flag = TTF_Init();
+
+  if (font_flag != 0) {
+    std::ofstream logfile("Errors.log", std::ofstream::app);
+
+    logfile << TTF_GetError() << std::endl;
+
+    logfile.close();
+
+    std::cout << "Couldn't initialize TTF!!" << std::endl;
+    std::cout << "Error initializing TTF: " << TTF_GetError() << std::endl;
+
+    throw std::runtime_error(TTF_GetError());
+  }
+
+
+  /*Window Initialization*/
   this->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 
   if (this->window == nullptr)
@@ -89,6 +116,9 @@ Game::Game(std::string title, int width, int height)
     throw std::runtime_error(SDL_GetError());
   }
 
+
+
+  /*Renderer Initialization*/
   int renderer_flags = SDL_RENDERER_ACCELERATED;
 
   this->renderer = SDL_CreateRenderer(this->window, -1, renderer_flags);
@@ -107,6 +137,8 @@ Game::Game(std::string title, int width, int height)
     throw std::runtime_error(SDL_GetError());
   }
 
+
+  /*State Initialization*/
   this->storedState = nullptr;
 }
 
@@ -130,6 +162,8 @@ Game::~Game()
   Mix_Quit();
 
   IMG_Quit();
+
+  TTF_Quit();
 
   SDL_Quit();
 }
@@ -211,6 +245,7 @@ void Game::Run()
   Resource::ClearImages();
   Resource::ClearMusic();
   Resource::ClearSounds();
+  Resource::ClearFont();
 }
 
 void Game::CalculateDeltaTime()
