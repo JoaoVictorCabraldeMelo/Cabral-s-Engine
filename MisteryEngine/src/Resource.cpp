@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <algorithm>
 
 
 #include "../include/Resource.hpp"
@@ -8,13 +9,16 @@
 
 using namespace std;
 
-unordered_map<string, SDL_Texture*> Resource::imageTable = {};
-unordered_map<string, Mix_Music*> Resource::musicTable = {};
-unordered_map<string, Mix_Chunk*> Resource::soundTable = {};
+unordered_map<string, shared_ptr<SDL_Texture>> Resource::imageTable;
+unordered_map<string, Mix_Music*> Resource::musicTable;
+unordered_map<string, Mix_Chunk*> Resource::soundTable;
 
-SDL_Texture *Resource::GetImage(const string file)
+shared_ptr<SDL_Texture> Resource::GetImage(const string& file)
 {
-  if (Resource::imageTable.end() != Resource::imageTable.find(file))
+
+  auto search = Resource::imageTable.find(file);
+
+  if (Resource::imageTable.end() != search)
     return Resource::imageTable.find(file)->second;
 
   SDL_Texture *texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
@@ -33,22 +37,26 @@ SDL_Texture *Resource::GetImage(const string file)
     throw runtime_error(SDL_GetError());
   }
 
-  Resource::imageTable.emplace(file, texture);
+  shared_ptr<SDL_Texture> text(texture, [](SDL_Texture *texture) { SDL_DestroyTexture(texture); });
 
-  return texture;
+  Resource::imageTable.insert({file, text});
+
+  return text;
 }
 
 void Resource::ClearImages()
 {
-  for (auto &file : Resource::imageTable)
-  {
-    SDL_DestroyTexture(file.second);
-  }
+  unordered_map<string, shared_ptr<SDL_Texture>>::iterator it = Resource::imageTable.begin();
 
-  Resource::imageTable.clear();
+  while (it != Resource::imageTable.end())
+  {
+    if (it->second.unique())
+      it = Resource::imageTable.erase(it);
+    else it++;
+  }
 }
 
-Mix_Music *Resource::GetMusic(const string file)
+Mix_Music *Resource::GetMusic(const string& file)
 {
 
   if (Resource::musicTable.end() != Resource::musicTable.find(file))
@@ -83,7 +91,7 @@ void Resource::ClearMusic()
   Resource::musicTable.clear();
 }
 
-Mix_Chunk *Resource::GetSound(const string file)
+Mix_Chunk *Resource::GetSound(const string& file)
 {
   if (Resource::soundTable.end() != Resource::soundTable.find(file))
     return Resource::soundTable.find(file)->second;

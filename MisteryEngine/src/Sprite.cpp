@@ -60,11 +60,9 @@ Sprite::~Sprite()
 void Sprite::Open(std::string file)
 {
 
-  SDL_Texture *texture = Resource::GetImage(file);
+  this->texture = Resource::GetImage(file);
 
-  this->texture = texture;
-
-  int query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
+  int query = SDL_QueryTexture(this->texture.get(), nullptr, nullptr, &this->width, &this->height);
 
   if (query != 0)
   {
@@ -98,7 +96,7 @@ void Sprite::Render(int x, int y, int w, int h)
 
   const SDL_Rect dstClip = {x, y, (int)(w * this->scale.x), (int)(h * this->scale.y)};
 
-  int render_flag = SDL_RenderCopyEx(render, this->texture, &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, SDL_FLIP_NONE);
+  int render_flag = SDL_RenderCopyEx(render, this->texture.get(), &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, SDL_FLIP_NONE);
 
   if (render_flag != 0)
   {

@@ -177,6 +177,7 @@ void Game::Run()
     this->storedState = nullptr;
     this->GetCurrentState().Start();
 
+    //Game Loop
     while (!this->stateStack.empty() &&  !this->GetCurrentState().QuitRequested())
     {
       if (this->GetCurrentState().PopRequested()){
@@ -199,6 +200,11 @@ void Game::Run()
       SDL_RenderPresent(this->renderer);
 
       SDL_Delay(33);
+    }
+
+    //Clear State Stack
+    while(!this->stateStack.empty()) {
+      this->stateStack.pop();
     }
   }
 
