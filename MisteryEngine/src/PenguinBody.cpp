@@ -7,6 +7,7 @@
 #include "../include/Collider.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Bullet.hpp"
+#include "../include/Music.hpp"
 
 using namespace std;
 
@@ -38,11 +39,11 @@ PenguinBody::PenguinBody(GameObject &associated) : Component(associated){
 };
 
 void PenguinBody::Start(){
-  State &state = Game::GetInstance().GetState();
+  State &state = Game::GetInstance().GetCurrentState();
 
   GameObject *penguin_cannon_object = new GameObject();
 
-  weak_ptr<GameObject> penguin_body = state.GetObjectPtr(&this->associated);
+  weak_ptr<GameObject> penguin_body = state.GetObject(&this->associated);
 
   PenguinCannon *penguin_cannon = new PenguinCannon(*penguin_cannon_object, penguin_body);
 
@@ -137,7 +138,7 @@ void PenguinBody::NotifyCollision(GameObject &other) {
       death_explosion->box.x = this->associated.box.x;
       death_explosion->box.y = this->associated.box.y;
 
-      State &game_state = Game::GetInstance().GetState();
+      State &game_state = Game::GetInstance().GetCurrentState();
 
       game_state.AddObject(death_explosion);
     }

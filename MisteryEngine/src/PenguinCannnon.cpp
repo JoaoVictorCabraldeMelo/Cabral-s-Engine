@@ -79,7 +79,7 @@ bool PenguinCannon::Is(string type)
 
 void PenguinCannon::Shoot()
 {
-  State &state = Game::GetInstance().GetState();
+  State &state = Game::GetInstance().GetCurrentState();
 
   Vec2 center = this->associated.box.get_center();
 
@@ -118,7 +118,7 @@ void PenguinCannon::NotifyCollision(GameObject &other) {
       death_explosion->box.x = this->associated.box.x;
       death_explosion->box.y = this->associated.box.y;
 
-      State &game_state = Game::GetInstance().GetState();
+      State &game_state = Game::GetInstance().GetCurrentState();
 
       game_state.AddObject(death_explosion);
     }

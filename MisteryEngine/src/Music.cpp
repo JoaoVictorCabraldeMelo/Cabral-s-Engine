@@ -39,7 +39,7 @@ void Music::Play(int times)
   this->channel = Mix_PlayChannel(-1, this->chunk, times);
 
   /*Deixar sem volume*/
-  ControlVolume(-1, 0); 
+  // ControlVolume(-1, 0); 
 
   if (this->channel == -1)
   {

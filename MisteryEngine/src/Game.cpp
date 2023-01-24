@@ -107,11 +107,19 @@ Game::Game(std::string title, int width, int height)
     throw std::runtime_error(SDL_GetError());
   }
 
-  this->state = new State();
+  this->storedState = nullptr;
 }
 
 Game::~Game()
 {
+
+  if (this->storedState != nullptr) {
+    this->storedState = nullptr;
+    while(!this->stateStack.empty()){
+      this->stateStack.top().get()->~State();
+      this->stateStack.pop();
+    }
+  }
 
   SDL_DestroyRenderer(this->renderer);
 
@@ -145,10 +153,10 @@ SDL_Renderer *Game::GetRenderer()
   return this->renderer;
 }
 
-State &Game::GetState()
-{
-  State &state = *this->state;
-  return state;
+State &Game::GetCurrentState() { return *this->stateStack.top().get(); }
+
+void Game::Push(State *state) {
+  this->storedState = state;
 }
 
 int Game::GetHeight()
@@ -164,17 +172,34 @@ int Game::GetWidth()
 void Game::Run()
 {
 
-  this->state->Start();
+  if (this->storedState != nullptr) {
+    this->stateStack.emplace(storedState);
+    this->storedState = nullptr;
+    this->GetCurrentState().Start();
 
-  while (!this->state->QuitRequested())
-  {
-    this->CalculateDeltaTime();
-    this->state->Update(this->GetDeltaTime());
-    this->state->Render();
+    while (!this->stateStack.empty() &&  !this->GetCurrentState().QuitRequested())
+    {
+      if (this->GetCurrentState().PopRequested()){
+        this->stateStack.pop();
+        if (!this->stateStack.empty())
+          this->GetCurrentState().Resume();
+      }
 
-    SDL_RenderPresent(this->renderer);
+      if (this->storedState != nullptr){
+        this->GetCurrentState().Pause();
+        this->stateStack.emplace(storedState);
+        this->GetCurrentState().Start();
+        this->storedState = nullptr;
+      }
 
-    SDL_Delay(33);
+      this->CalculateDeltaTime();
+      this->GetCurrentState().Update(this->GetDeltaTime());
+      this->GetCurrentState().Render();
+
+      SDL_RenderPresent(this->renderer);
+
+      SDL_Delay(33);
+    }
   }
 
   Resource::ClearImages();

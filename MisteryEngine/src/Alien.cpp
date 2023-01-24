@@ -9,6 +9,7 @@
 #include "../include/Bullet.hpp"
 #include "../include/PenguinBody.hpp"
 #include "../include/PenguinCannon.hpp"
+#include "../include/Music.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -50,9 +51,9 @@ void Alien::Start()
 {
   Game &instance = Game::GetInstance();
 
-  State &game_state = instance.GetState();
+  State &game_state = instance.GetCurrentState();
 
-  weak_ptr<GameObject> alien_go = game_state.GetObjectPtr(&this->associated);
+  weak_ptr<GameObject> alien_go = game_state.GetObject(&this->associated);
 
   for (int i = 0; i < this->nMinions; i++)
   {
@@ -177,7 +178,7 @@ void Alien::NotifyCollision(GameObject &other) {
         death_explosion->box.x = this->associated.box.x;
         death_explosion->box.y = this->associated.box.y;
 
-        State &game_state = Game::GetInstance().GetState();
+        State &game_state = Game::GetInstance().GetCurrentState();
 
         game_state.AddObject(death_explosion);
       }
