@@ -5,10 +5,7 @@ using namespace std;
 State::State() : popRequested(false), quitRequested(false), started(false) {}
 
 State::~State() {
-  for (size_t i = 0; i < this->objectArray.size(); ++i) {
-    this->objectArray[i].get()->RequestDelete();
-  }
-  this->objectArray.clear();
+    this->objectArray.clear();
 }
 
 weak_ptr<GameObject> State::AddObject(GameObject *object) {
@@ -54,4 +51,8 @@ void State::UpdateArray(float dt) {
 void State::RenderArray() {
   for (size_t i = 0; i < this->objectArray.size(); ++i)
     this->objectArray[i].get()->Render();
+}
+
+void State::RemoveObject(int position) {
+  this->objectArray.erase(this->objectArray.begin() + position);
 }

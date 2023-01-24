@@ -1,5 +1,5 @@
 #include "../include/Game.hpp"
-#include "../include/StageState.hpp"
+#include "../include/TitleState.hpp"
 #include <ctime>
 #include <cstdlib>
 
@@ -9,7 +9,7 @@ int main() {
 
   Game &game = Game::GetInstance();
   
-  State *initial_state = new StageState();
+  State *initial_state = new TitleState();
 
   game.Push(initial_state);
 

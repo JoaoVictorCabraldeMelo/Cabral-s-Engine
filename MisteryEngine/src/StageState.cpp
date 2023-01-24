@@ -129,10 +129,11 @@ void StageState::Update(float dt)
 
   InputManager::GetInstance().Update();
 
-  if (InputManager::GetInstance().KeyPress(ESCAPE_KEY) || InputManager::GetInstance().QuitRequested())
-  {
+  if (InputManager::GetInstance().QuitRequested())
     this->quitRequested = true;
-  }
+  
+  if (InputManager::GetInstance().KeyPress(ESCAPE_KEY))
+    this->popRequested = true;
 
   this->UpdateArray(dt);
 
@@ -176,11 +177,5 @@ void StageState::Update(float dt)
 
 void StageState::Render()
 {
-    this->RenderArray();
+  this->RenderArray();
 }
-
-void StageState::RemoveObject(int position)
-{
-  this->objectArray.erase(this->objectArray.begin() + position);
-}
-

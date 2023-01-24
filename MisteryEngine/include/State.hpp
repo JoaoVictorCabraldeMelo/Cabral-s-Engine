@@ -25,6 +25,8 @@ class State {
 
     virtual std::weak_ptr<GameObject> GetObject(GameObject *object);
 
+    virtual void RemoveObject(int position);
+
     bool PopRequested();
 
     bool QuitRequested();

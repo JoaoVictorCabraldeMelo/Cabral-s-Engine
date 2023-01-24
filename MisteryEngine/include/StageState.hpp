@@ -29,8 +29,6 @@ public:
   void Pause();
 
   void Resume();
-
-  void RemoveObject(int position);
 };
 
 #endif
