@@ -21,7 +21,7 @@ class Text : public Component {
       BLENDED
     };
 
-    Text(GameObject &associated, const std::string &fontFile, int fontSize, TextStyle style, const std::string &text, SDL_Color color);
+    Text(GameObject &associated, const std::string &fontFile, int fontSize, TextStyle style, const std::string &text, SDL_Color color, bool showText = true);
 
     ~Text();
 
@@ -43,7 +43,10 @@ class Text : public Component {
 
     void SetPosition(Vec2 position);
 
+    void ToggleShow();
+
   private:
+
     void RemakeTexture();
 
     TTF_Font *font;
@@ -59,6 +62,8 @@ class Text : public Component {
     int fontSize;
 
     SDL_Color color;
+
+    bool showText;
 };
 
 #endif

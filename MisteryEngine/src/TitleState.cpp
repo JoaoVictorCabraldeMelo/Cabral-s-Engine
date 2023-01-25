@@ -20,14 +20,20 @@ TitleState::TitleState() {
 
   SDL_Color color = {0, 0, 0, 255};
 
+  string titulo ="Pressione barra de espaco para continuar!!";
+
   GameObject *go = new GameObject();
-  Text *title_text = new Text(*go, "assets/font/callMeMaybe.ttf", 36, Text::BLENDED, "Pressione Barra de Espaco para Jogar", color);
+  Text *title_text = new Text(*go, "assets/font/callMeMaybe.ttf", 36, Text::BLENDED, titulo, color);
 
   title_text->SetPosition({250, 450});
-  
+
+  this->title_text = title_text;
+
   go->AddComponent(title_text);
 
   this->AddObject(go);
+
+  this->blink = Timer();
 }
 
 TitleState::~TitleState(){};
@@ -51,6 +57,11 @@ void TitleState::LoadAssets() {
 void TitleState::Update(float dt) {
 
   Camera::Update(dt);
+
+  if (this->blink.Get() >= .25f){
+    this->blink.Restart();
+    this->title_text->ToggleShow();
+  } else this->blink.Update(dt);
 
   InputManager::GetInstance().Update();
 

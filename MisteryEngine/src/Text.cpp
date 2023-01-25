@@ -7,8 +7,8 @@
 
 using namespace std;
 
-Text::Text(GameObject &associated, const string &fontFile, int fontSize, TextStyle style, const string &text, SDL_Color color) 
-: Component(associated), texture(nullptr)
+Text::Text(GameObject &associated, const string &fontFile, int fontSize, TextStyle style, const string &text, SDL_Color color, bool showText) 
+: Component(associated), texture(nullptr), showText(showText)
 {
   this->fontFile = fontFile;
 
@@ -31,7 +31,7 @@ Text::~Text() {
 void Text::Update(float dt){};
 
 void Text::Render() {
-  if (this->texture != nullptr) {
+  if (this->texture != nullptr && this->showText) {
     int w = this->associated.box.w, h = this->associated.box.h;
 
     const SDL_Rect dstRect = {(int)(this->associated.box.x - Camera::pos.x), (int)(this->associated.box.y - Camera::pos.y), w, h};
@@ -97,7 +97,7 @@ void Text::RemakeTexture() {
   SDL_Surface *surface;
 
   if (this->style == SOLID)
-    surface = TTF_RenderText_Solid(this->font, this->text.c_str(), this->color);
+    surface = TTF_RenderText_Solid(this->font,this->text.c_str(), this->color);
   else if (this->style == SHADED)
     surface = TTF_RenderText_Shaded(this->font, this->text.c_str(), this->color, {0, 0, 0, 0});
   else if (this->style == BLENDED)
@@ -130,4 +130,8 @@ bool Text::Is(string type) {
   if (type == "Text")
     return true;
   return false;
+}
+
+void Text::ToggleShow() {
+  this->showText = !this->showText;
 }
