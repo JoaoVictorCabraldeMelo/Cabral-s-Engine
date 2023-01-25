@@ -21,7 +21,8 @@ class Text : public Component {
       BLENDED
     };
 
-    Text(GameObject &associated, const std::string &fontFile, int fontSize, TextStyle style, const std::string &text, SDL_Color color, bool showText = true);
+    Text(GameObject &associated, const std::string &fontFile, int fontSize, TextStyle style, 
+          const std::string &text, SDL_Color color, bool showText = true, bool wrapped = false, int wrapperLength = 0);
 
     ~Text();
 
@@ -64,6 +65,10 @@ class Text : public Component {
     SDL_Color color;
 
     bool showText;
+
+    bool wrapped;
+
+    int wrapperLength;
 };
 
 #endif

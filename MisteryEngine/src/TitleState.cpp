@@ -25,7 +25,7 @@ TitleState::TitleState() {
   GameObject *go = new GameObject();
   Text *title_text = new Text(*go, "assets/font/callMeMaybe.ttf", 36, Text::BLENDED, titulo, color);
 
-  title_text->SetPosition({250, 450});
+  title_text->SetPosition({150, 450});
 
   this->title_text = title_text;
 

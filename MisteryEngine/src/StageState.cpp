@@ -9,6 +9,8 @@
 #include "../include/PenguinBody.hpp"
 #include "../include/Collision.hpp"
 #include "../include/Collider.hpp"
+#include "../include/EndState.hpp"
+#include "../include/GameData.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -165,14 +167,23 @@ void StageState::Update(float dt)
     }
   }
 
-    for (int i = 0; i < (int)this->objectArray.size(); i++)
+  for (int i = 0; i < (int)this->objectArray.size(); i++)
+  {
+    if (this->objectArray[i]->IsDead())
     {
-      if (this->objectArray[i]->IsDead())
-      {
-        this->RemoveObject(i);
-        i--;
-      }
+      this->RemoveObject(i);
+      i--;
     }
+  }
+
+  if (PenguinBody::player == nullptr) {
+    this->popRequested = true;
+    Game::GetInstance().Push(new EndState());
+  } else if (Alien::alienCount <= 0) {
+    GameData::playerVictory = true;
+    this->popRequested = true;
+    Game::GetInstance().Push(new EndState());
+  }
 }
 
 void StageState::Render()

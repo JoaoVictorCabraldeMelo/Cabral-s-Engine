@@ -7,8 +7,9 @@
 
 using namespace std;
 
-Text::Text(GameObject &associated, const string &fontFile, int fontSize, TextStyle style, const string &text, SDL_Color color, bool showText) 
-: Component(associated), texture(nullptr), showText(showText)
+Text::Text(GameObject &associated, const string &fontFile, int fontSize, TextStyle style, 
+            const string &text, SDL_Color color, bool showText, bool wrapped, int wrapperLength) 
+: Component(associated), texture(nullptr), showText(showText), wrapped(wrapped), wrapperLength(wrapperLength)
 {
   this->fontFile = fontFile;
 
@@ -96,12 +97,22 @@ void Text::RemakeTexture() {
 
   SDL_Surface *surface;
 
-  if (this->style == SOLID)
-    surface = TTF_RenderText_Solid(this->font,this->text.c_str(), this->color);
-  else if (this->style == SHADED)
-    surface = TTF_RenderText_Shaded(this->font, this->text.c_str(), this->color, {0, 0, 0, 0});
-  else if (this->style == BLENDED)
-    surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->color);
+  if (!wrapped) {
+    if (this->style == SOLID)
+      surface = TTF_RenderText_Solid(this->font, this->text.c_str(), this->color);
+    else if (this->style == SHADED)
+      surface = TTF_RenderText_Shaded(this->font, this->text.c_str(), this->color, {0, 0, 0, 0});
+    else if (this->style == BLENDED)
+      surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->color);
+  } else {
+    if (this->style == SOLID)
+      surface = TTF_RenderText_Solid_Wrapped(this->font, this->text.c_str(), this->color, this->wrapperLength);
+    else if (this->style == SHADED)
+      surface = TTF_RenderText_Shaded_Wrapped(this->font, this->text.c_str(), this->color, {0, 0, 0, 0}, this->wrapperLength);
+    else if (this->style == BLENDED)
+      surface = TTF_RenderText_Blended_Wrapped(this->font, this->text.c_str(), this->color, this->wrapperLength);
+  }
+
 
   SDL_Texture *new_texture = SDL_CreateTextureFromSurface(Game::GetInstance().GetRenderer(), surface);
 
