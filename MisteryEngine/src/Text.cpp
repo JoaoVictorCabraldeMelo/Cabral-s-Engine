@@ -91,7 +91,7 @@ void Text::RemakeTexture() {
 
   this->font = Resource::GetFont(this->fontFile, this->fontSize);
 
-  if (this->font == nullptr) {
+  if (this->font.get() == nullptr) {
     throw runtime_error("Retorned a null font to the Remake Texture");
   }
 
@@ -99,18 +99,18 @@ void Text::RemakeTexture() {
 
   if (!wrapped) {
     if (this->style == SOLID)
-      surface = TTF_RenderText_Solid(this->font, this->text.c_str(), this->color);
+      surface = TTF_RenderText_Solid(this->font.get(), this->text.c_str(), this->color);
     else if (this->style == SHADED)
-      surface = TTF_RenderText_Shaded(this->font, this->text.c_str(), this->color, {0, 0, 0, 0});
+      surface = TTF_RenderText_Shaded(this->font.get(), this->text.c_str(), this->color, {0, 0, 0, 0});
     else if (this->style == BLENDED)
-      surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->color);
+      surface = TTF_RenderText_Blended(this->font.get(), this->text.c_str(), this->color);
   } else {
     if (this->style == SOLID)
-      surface = TTF_RenderText_Solid_Wrapped(this->font, this->text.c_str(), this->color, this->wrapperLength);
+      surface = TTF_RenderText_Solid_Wrapped(this->font.get(), this->text.c_str(), this->color, this->wrapperLength);
     else if (this->style == SHADED)
-      surface = TTF_RenderText_Shaded_Wrapped(this->font, this->text.c_str(), this->color, {0, 0, 0, 0}, this->wrapperLength);
+      surface = TTF_RenderText_Shaded_Wrapped(this->font.get(), this->text.c_str(), this->color, {0, 0, 0, 0}, this->wrapperLength);
     else if (this->style == BLENDED)
-      surface = TTF_RenderText_Blended_Wrapped(this->font, this->text.c_str(), this->color, this->wrapperLength);
+      surface = TTF_RenderText_Blended_Wrapped(this->font.get(), this->text.c_str(), this->color, this->wrapperLength);
   }
 
 

@@ -50,7 +50,7 @@ class Text : public Component {
 
     void RemakeTexture();
 
-    TTF_Font *font;
+    std::shared_ptr<TTF_Font> font;
 
     SDL_Texture *texture;
 

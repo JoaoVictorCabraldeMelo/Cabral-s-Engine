@@ -12,7 +12,7 @@ using namespace std;
 unordered_map<string, shared_ptr<SDL_Texture>> Resource::imageTable;
 unordered_map<string, shared_ptr<Mix_Music>> Resource::musicTable;
 unordered_map<string, shared_ptr<Mix_Chunk>> Resource::soundTable;
-unordered_map<string, TTF_Font*> Resource::fontTable;
+unordered_map<string, shared_ptr<TTF_Font>> Resource::fontTable;
 
 shared_ptr<SDL_Texture> Resource::GetImage(const string& file)
 {
@@ -146,7 +146,7 @@ void Resource::ClearSounds()
 
 }
 
-TTF_Font* Resource::GetFont(const string &file, int size) {
+shared_ptr<TTF_Font> Resource::GetFont(const string &file, int size) {
 
   string key = file + to_string(size);
 
@@ -164,16 +164,26 @@ TTF_Font* Resource::GetFont(const string &file, int size) {
     logfile.close();
 
     cout << "Couldn't load font" << endl;
-  }  
-  
-  Resource::fontTable.emplace(key, font);
 
-  return font;
+    throw runtime_error("Coldn't load font");
+  }
+
+  shared_ptr<TTF_Font> shr_font(font, [](TTF_Font *font)
+                                { TTF_CloseFont(font); });
+
+  Resource::fontTable.insert({key, shr_font});
+
+  return shr_font;
 }
 
 void Resource::ClearFont() {
-  for (auto &font : fontTable) {
-    TTF_CloseFont(font.second);
+
+  unordered_map<string, shared_ptr<TTF_Font>>::iterator it = Resource::fontTable.begin();
+
+  while (it != Resource::fontTable.end()) {
+    if (it->second.unique()){
+      it = Resource::fontTable.erase(it);
+    } else
+      it++;
   }
-  Resource::fontTable.clear();
 }
