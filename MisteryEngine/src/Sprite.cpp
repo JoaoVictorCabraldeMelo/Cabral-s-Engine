@@ -30,12 +30,16 @@ Sprite::Sprite(GameObject &associated) : Component(associated)
   this->frameCount = 1;
   this->frameTime = 1.0F;
 
+  this->secondsToSelfDestruct = 0.0F;
+
+  this->selfDestructCount = Timer();
+
   this->associated.angleDeg = 0;
 
-  this->flip = NONE;
+  this->flip = Flip::NONE;
 }
 
-Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime) : Component(associated)
+Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated)
 {
   this->texture = nullptr;
   this->scale.x = 1;
@@ -46,7 +50,10 @@ Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameT
   this->frameCount = frameCount;
   this->frameTime = frameTime;
 
-  this->flip = NONE;
+  this->secondsToSelfDestruct = secondsToSelfDestruct;
+  this->selfDestructCount = Timer();
+
+  this->flip = Flip::NONE;
 
   this->Open(file);
 }
@@ -58,11 +65,9 @@ Sprite::~Sprite()
 void Sprite::Open(std::string file)
 {
 
-  SDL_Texture *texture = Resource::GetImage(file);
+  this->texture = Resource::GetImage(file);
 
-  this->texture = texture;
-
-  int query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
+  int query = SDL_QueryTexture(this->texture.get(), nullptr, nullptr, &this->width, &this->height);
 
   if (query != 0)
   {
@@ -100,16 +105,16 @@ void Sprite::Render(int x, int y, int w, int h)
 
   SDL_RendererFlip flip_value = SDL_FLIP_NONE;
 
-  if (this->flip == HORIZONTAL)
+  if (this->flip == Flip::HORIZONTAL)
     flip_value = SDL_FLIP_HORIZONTAL;
-  else if (this->flip == VERTICAL)
+  else if (this->flip == Flip::VERTICAL)
     flip_value = SDL_FLIP_VERTICAL;
-  else if (this->flip == DIAGONAL)
+  else if (this->flip == Flip::DIAGONAL)
     flip_value = SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
 
   // SDL_RenderClear(render);
 
-  int render_flag = SDL_RenderCopyEx(render, this->texture, &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, flip_value);
+  int render_flag = SDL_RenderCopyEx(render, this->texture.get(), &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, flip_value);
 
 
   if (render_flag != 0)
@@ -147,6 +152,13 @@ bool Sprite::IsOpen()
 void Sprite::Update(float dt)
 {
   this->timeElapsed += dt;
+
+  if(this->secondsToSelfDestruct > 0.0f) {
+    this->selfDestructCount.Update(dt);
+    if (this->selfDestructCount.Get() >= this->secondsToSelfDestruct) {
+      this->associated.RequestDelete();
+    }
+  }
 
   if (this->timeElapsed > this->frameTime)
   {
@@ -187,11 +199,11 @@ int Sprite::GetWidth()
 
 void Sprite::SetScale(float scalex, float scaley)
 {
-  pair<float, float> center = this->associated.box.get_center();
+  Vec2 center = this->associated.box.get_center();
 
   if (scalex != 0)
   {
-    float center_x_before_scaling = center.first;
+    float center_x_before_scaling = center.x;
 
     this->associated.box.x = center_x_before_scaling - ((this->associated.box.w * scalex) / 2.0);
 
@@ -200,7 +212,7 @@ void Sprite::SetScale(float scalex, float scaley)
 
   if (scaley != 0)
   {
-    float center_y_before_scaling = center.second;
+    float center_y_before_scaling = center.y;
 
     this->associated.box.y = center_y_before_scaling - ((this->associated.box.h * scaley) / 2.0);
 

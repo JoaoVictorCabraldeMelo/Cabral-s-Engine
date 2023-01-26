@@ -1,45 +1,50 @@
-
 #ifndef _STATE_H_
 #define _STATE_H_
 
-#include "Sprite.hpp"
-#include "Music.hpp"
+#include "GameObject.hpp"
 
-#include <memory>
+class State {
+  public:
+    State();
 
+    virtual ~State();
 
-class State
-{
-private:
+    virtual void LoadAssets() = 0;
 
-  bool quitRequested;
+    virtual void Update(float dt) = 0;
 
-  bool started;
+    virtual void Render() = 0;
 
-  std::vector<std::shared_ptr<GameObject>> objectArray;
+    virtual void Start() = 0;
 
-public:
+    virtual void Pause() = 0;
 
-  State();
+    virtual void Resume() = 0;
 
-  ~State();
+    virtual std::weak_ptr<GameObject> AddObject(GameObject *object);
 
-  bool QuitRequested();
+    virtual std::weak_ptr<GameObject> GetObject(GameObject *object);
 
-  void LoadAssets();
+    virtual void RemoveObject(int position);
 
-  void Update(float dt);
+    bool PopRequested();
 
-  void Start();
+    bool QuitRequested();
 
-  void Render();
+  protected:
+    void StartArray();
 
-  void RemoveObject(int position);
+    virtual void UpdateArray(float dt);
 
-  std::weak_ptr<GameObject> AddObject(GameObject *go);
+    virtual void RenderArray();
 
-  std::weak_ptr<GameObject> GetObjectPtr(GameObject *go);
+    bool popRequested;
+
+    bool quitRequested;
+
+    bool started;
+
+    std::vector<std::shared_ptr<GameObject>> objectArray;
 };
 
 #endif
-

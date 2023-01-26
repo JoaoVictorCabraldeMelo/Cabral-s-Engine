@@ -8,10 +8,8 @@ class Component;
 
 class Component
 {
-protected:
-  GameObject &associated;
-
 public:
+  GameObject &associated;
 
   explicit Component(GameObject &associated);
 
@@ -24,6 +22,8 @@ public:
   virtual bool Is(std::string type) = 0;
 
   virtual void Start();
+
+  virtual void NotifyCollision(GameObject &other);
 };
 
 #endif

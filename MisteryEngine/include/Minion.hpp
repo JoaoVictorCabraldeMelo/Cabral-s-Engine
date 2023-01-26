@@ -6,10 +6,10 @@
 
 extern const float PI;
 
-#define DEG30 PI / 6
-#define DEG45 PI / 4
-#define DEG60 PI / 3
-#define DEG90 PI / 2
+extern const float DEG30;
+extern const float DEG45;
+extern const float DEG60;
+extern const float DEG90;
 
     
 
@@ -22,6 +22,7 @@ public:
     bool Is(std::string type);
     void Shoot(Vec2 target);
     void Start();
+    void NotifyCollision(GameObject &other);
 
 private:
     GameObject& alienCenter;

@@ -19,7 +19,11 @@ public:
 
   bool Is(std::string type);
 
-  PenguinBody *player;
+  void NotifyCollision(GameObject &other);
+
+  static PenguinBody *player;
+
+  int hp;
 
 private:
   std::weak_ptr<GameObject> pcannon;
@@ -29,8 +33,6 @@ private:
   float linearSpeed;
 
   float angle;
-  
-  int hp;
 };
 
 #endif

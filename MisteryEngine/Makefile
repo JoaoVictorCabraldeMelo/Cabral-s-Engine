@@ -16,7 +16,7 @@ INC_PATHS = -I$(INC_PATH) $(addprefix -I,$(SDL_INC_PATH))
 
 FLAGS = -std=c++17 -Wall -Wextra -pedantic -Wno-unused-parameter -Werror=init-self
 
-DFLAGS = -ggdb -O0 -DEBUG
+DFLAGS = -ggdb -O0 -D DEBUG
 
 RFLAGS = -O3 -mtune=native
 
