@@ -51,7 +51,7 @@ StageState::StageState()
 
   Component *cameraFollower = new CameraFollower(*initialize);
 
-  this->backgroundMusic = new Music(*initialize);
+  this->backgroundMusic = new Mixer(*initialize);
 
   initialize->AddComponent(bg);
 
@@ -119,9 +119,9 @@ void StageState::LoadAssets()
 
   bg->Render();
 
-  this->backgroundMusic->Open("./assets/audio/stageState.ogg");
+  this->backgroundMusic->OpenMusic("./assets/audio/stageState.ogg");
 
-  this->backgroundMusic->Play(-1);
+  this->backgroundMusic->PlayMusic(-1);
 }
 
 void StageState::Update(float dt)

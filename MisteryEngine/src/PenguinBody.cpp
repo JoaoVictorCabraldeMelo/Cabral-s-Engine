@@ -7,7 +7,7 @@
 #include "../include/Collider.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Bullet.hpp"
-#include "../include/Music.hpp"
+#include "../include/Mixer.hpp"
 
 using namespace std;
 
@@ -129,8 +129,8 @@ void PenguinBody::NotifyCollision(GameObject &other) {
 
       Sprite *sprite_death = new Sprite(*death_explosion, "assets/img/penguindeath.png", 5, .2F, 1.0F);
       sprite_death->SetScale(.25F, .5F);
-      Music *explosion_sound = new Music(*death_explosion, "assets/audio/boom.wav");
-      explosion_sound->Play();
+      Mixer *explosion_sound = new Mixer(*death_explosion, "assets/audio/boom.wav");
+      explosion_sound->PlaySound();
 
       death_explosion->AddComponent(sprite_death);
       death_explosion->AddComponent(explosion_sound);

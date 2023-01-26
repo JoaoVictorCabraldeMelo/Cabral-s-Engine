@@ -2,7 +2,7 @@
 #define _END_STATE_H_
 
 #include "State.hpp"
-#include "Music.hpp"
+#include "Mixer.hpp"
 
 class EndState : public State {
   public:
@@ -23,7 +23,7 @@ class EndState : public State {
     void Resume();
   
   private:
-    Music *backgroundMusic;
+    Mixer *backgroundMusic;
 };
 
 #endif 

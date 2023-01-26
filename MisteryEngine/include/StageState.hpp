@@ -3,7 +3,7 @@
 #define _STAGE_STATE_H_
 
 #include "Sprite.hpp"
-#include "Music.hpp"
+#include "Mixer.hpp"
 #include "State.hpp"
 #include "TileSet.hpp"
 
@@ -12,7 +12,7 @@ class StageState : public State
 private:
   TileSet *tileSet;
 
-  Music *backgroundMusic;
+  Mixer *backgroundMusic;
 
 public:
 

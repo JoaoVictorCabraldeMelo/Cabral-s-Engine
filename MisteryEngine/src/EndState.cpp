@@ -14,7 +14,7 @@ EndState::EndState() {
 
   GameObject *go = new GameObject();
   Sprite *background = new Sprite(*go);
-  Music *background_music = new Music(*go);
+  Mixer *background_music = new Mixer(*go);
 
   this->backgroundMusic = background_music;
 
@@ -46,11 +46,11 @@ void EndState::LoadAssets() {
 
   if (GameData::playerVictory){
     background->Open("assets/img/win.jpg");
-    this->backgroundMusic->Open("assets/audio/endStateWin.ogg");
+    this->backgroundMusic->OpenMusic("assets/audio/endStateWin.ogg");
   }
   else {
     background->Open("assets/img/lose.jpg");
-    this->backgroundMusic->Open("assets/audio/endStateLose.ogg");
+    this->backgroundMusic->OpenMusic("assets/audio/endStateLose.ogg");
   }
 
   background->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
@@ -58,7 +58,7 @@ void EndState::LoadAssets() {
   title_go->box.x = 0;
   title_go->box.y = 0;
 
-  this->backgroundMusic->Play();
+  this->backgroundMusic->PlayMusic();
 }
 
 void EndState::Update(float dt) {
