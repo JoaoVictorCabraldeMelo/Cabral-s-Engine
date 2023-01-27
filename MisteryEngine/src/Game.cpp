@@ -197,13 +197,11 @@ void Game::Push(State *state) {
   this->storedState = state;
 }
 
-int Game::GetHeight()
-{
+int Game::GetHeight() const {
   return this->height;
 }
 
-int Game::GetWidth()
-{
+int Game::GetWidth() const {
   return this->width;
 }
 
@@ -252,7 +250,7 @@ void Game::Run()
   Resource::ClearFont();
 }
 
-void Game::CalculateDeltaTime()
+void Game::CalculateDeltaTime() 
 {
   int currentTime = (int) SDL_GetTicks();
 
@@ -261,7 +259,7 @@ void Game::CalculateDeltaTime()
   this->frameStart = currentTime;
 }
 
-float Game::GetDeltaTime()
+float Game::GetDeltaTime() const
 {
   return this->dt;
 }
@@ -289,10 +287,10 @@ void Game::SetScreenScale() {
   }
 }
 
-Vec2 Game::GetScreenScale() {
+Vec2 Game::GetScreenScale() const {
   return this->screenScale;
 }
 
-SDL_Rect Game::GetScreen() {
+SDL_Rect Game::GetScreen() const {
   return this->displaysSize[0];
 }

@@ -30,8 +30,8 @@ void Character::Start() {
 
   character_sprite->SetScale(.4F, 1.0F);
 
-  this->associated.box.y = 360;
-  this->associated.box.x = 20;
+  this->associated.box.y = 360 * Game::GetInstance().GetScreenScale().y;
+  this->associated.box.x = 20 * Game::GetInstance().GetScreenScale().x;
 }
 
 void Character::Update(float dt) {
@@ -42,11 +42,11 @@ void Character::Update(float dt) {
 
   int mouse_x = input.GetMouseX();
 
-  bool right_click = input.MousePress(RIGHT_MOUSE_BUTTON);
+  bool left_mouse_button = input.MousePress(LEFT_MOUSE_BUTTON);
 
-  Sprite *sprite_character = (Sprite *) this->associated.GetComponent("Image");
+  Sprite *sprite_character = static_cast<Sprite*>(this->associated.GetComponent("Image"));
 
-  if(right_click) 
+  if(left_mouse_button) 
     this->destinations.push({(float) mouse_x, this->associated.box.y});
 
   if (!this->destinations.empty()) {

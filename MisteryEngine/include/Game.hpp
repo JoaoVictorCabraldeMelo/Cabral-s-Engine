@@ -55,15 +55,15 @@ public:
 
   void Push(State *state);
 
-  float GetDeltaTime();
+  float GetDeltaTime() const;
 
-  int GetHeight();
+  int GetHeight() const;
 
-  int GetWidth();
+  int GetWidth() const;
 
-  Vec2 GetScreenScale();
+  Vec2 GetScreenScale() const;
 
-  SDL_Rect GetScreen();
+  SDL_Rect GetScreen() const;
 };
 
 #endif
