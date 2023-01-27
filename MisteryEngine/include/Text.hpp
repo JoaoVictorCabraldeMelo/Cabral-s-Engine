@@ -14,7 +14,7 @@
 
 class Text : public Component {
   public:
-    enum TextStyle
+    enum class TextStyle
     {
       SOLID,
       SHADED,
