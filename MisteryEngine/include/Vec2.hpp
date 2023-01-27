@@ -31,6 +31,8 @@ public:
 
   Vec2 rotate(double angle);
 
+  float distance_x(const Vec2 &vector);
+
   static Vec2 Sub(const Vec2 &vectorA, const Vec2 &vectorB);
 
   static Vec2 Sum(const Vec2 &vectorA, const Vec2 &vectorB);

@@ -112,8 +112,6 @@ void Sprite::Render(int x, int y, int w, int h)
   else if (this->flip == Flip::DIAGONAL)
     flip_value = SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
 
-  // SDL_RenderClear(render);
-
   int render_flag = SDL_RenderCopyEx(render, this->texture.get(), &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, flip_value);
 
 

@@ -117,6 +117,14 @@ Vec2 Vec2::rotate(double angle)
   return *this;
 }
 
+float Vec2::distance_x(const Vec2 &vector){
+
+  float x1 = this->x;
+  float x2 = vector.x;
+
+  return sqrt(pow(x1 - x2, 2));
+}
+
 Vec2 Vec2::Sub(const Vec2& vectorA, const Vec2& vectorB){
   float x = vectorA.x - vectorB.x;
   float y = vectorA.y - vectorB.y;

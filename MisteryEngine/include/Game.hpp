@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "State.hpp"
+#include "Vec2.hpp"
 #include <stack>
 
 class Game
@@ -28,6 +29,10 @@ private:
   State *storedState;
 
   std::stack<std::unique_ptr<State>> stateStack;
+
+  std::vector<SDL_Rect> displaysSize;
+
+  Vec2 screenScale = {1, 1};
 
   void CalculateDeltaTime();
 

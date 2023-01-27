@@ -20,7 +20,7 @@ class Character : public Component  {
 
     bool Is(std::string type);
 
-    enum Direction
+    enum class Direction
     {
       LEFT,
       RIGHT
@@ -29,24 +29,7 @@ class Character : public Component  {
     Direction sprite_direction;
 
   private:
-    class Action
-    {
-      public:
-        enum ActionType
-        {
-          MOVE
-        };
-
-        Action(ActionType Action, float x, float y);
-
-        ActionType type;
-
-        SDL_RendererFlip flip;
-
-        Vec2 pos;
-    };
-
-    std::queue<Action> taskQueue;
+    std::queue<Vec2> destinations;
 
     Vec2 speed;
 };
