@@ -98,18 +98,18 @@ void Text::RemakeTexture() {
   SDL_Surface *surface;
 
   if (!wrapped) {
-    if (this->style == SOLID)
+    if (this->style == TextStyle::SOLID)
       surface = TTF_RenderText_Solid(this->font.get(), this->text.c_str(), this->color);
-    else if (this->style == SHADED)
+    else if (this->style == TextStyle::SHADED)
       surface = TTF_RenderText_Shaded(this->font.get(), this->text.c_str(), this->color, {0, 0, 0, 0});
-    else if (this->style == BLENDED)
+    else if (this->style == TextStyle::BLENDED)
       surface = TTF_RenderText_Blended(this->font.get(), this->text.c_str(), this->color);
   } else {
-    if (this->style == SOLID)
+    if (this->style == TextStyle::SOLID)
       surface = TTF_RenderText_Solid_Wrapped(this->font.get(), this->text.c_str(), this->color, this->wrapperLength);
-    else if (this->style == SHADED)
+    else if (this->style == TextStyle::SHADED)
       surface = TTF_RenderText_Shaded_Wrapped(this->font.get(), this->text.c_str(), this->color, {0, 0, 0, 0}, this->wrapperLength);
-    else if (this->style == BLENDED)
+    else if (this->style == TextStyle::BLENDED)
       surface = TTF_RenderText_Blended_Wrapped(this->font.get(), this->text.c_str(), this->color, this->wrapperLength);
   }
 
