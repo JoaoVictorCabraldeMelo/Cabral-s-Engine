@@ -4,6 +4,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "State.hpp"
+#include "Vec2.hpp"
+#include <stack>
 
 class Game
 {
@@ -19,14 +21,18 @@ private:
   float dt{0.0};
 
   static Game *instance;
+
   SDL_Window *window;
+
   SDL_Renderer *renderer;
-  State *state;
+
+  State *storedState;
+
+  std::stack<std::unique_ptr<State>> stateStack;
 
   std::vector<SDL_Rect> displaysSize;
-  Vec2 screenScale{1.0F, 1.0F};
 
-  Game(std::string title, int width, int height);
+  Vec2 screenScale = {1, 1};
 
   void CalculateDeltaTime();
 
@@ -35,15 +41,19 @@ private:
   void SetScreenScale();
 
 public:
+  Game(std::string title, int width, int height);
+
   ~Game();
 
   void Run();
 
-  SDL_Renderer *GetRenderer();
-
   static Game &GetInstance();
 
-  State &GetState();
+  SDL_Renderer *GetRenderer();
+
+  State &GetCurrentState();
+
+  void Push(State *state);
 
   float GetDeltaTime();
 

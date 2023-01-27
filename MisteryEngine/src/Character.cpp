@@ -2,12 +2,13 @@
 #include "../include/Sprite.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Game.hpp"
+#include "../include/Camera.hpp"
 
 using namespace std;
 
 Character::Character(GameObject &associated, string sprite, int frame_count) : Component(associated) {
 
-  Sprite *character_sprite = new Sprite(associated, sprite, frame_count, .4F);
+  Sprite *character_sprite = new Sprite(associated, sprite, frame_count, .2F);
 
   this->associated.AddComponent(character_sprite);
 
@@ -20,20 +21,14 @@ Character::Character(GameObject &associated, string sprite, int frame_count) : C
   this->associated.box.h = character_sprite->GetHeight();
 }
 
-Character::Action::Action(ActionType action, float x, float y) {
-  this->type = action;
-
-  this->pos.x = x;
-  this->pos.y = y;
-}
 
 void Character::Start() {
-  Sprite *character_sprite = (Sprite *) this->associated.GetComponent("Image");
+  Sprite *character_sprite = static_cast<Sprite *> (this->associated.GetComponent("Image"));
 
-  character_sprite->SetFlip(Sprite::HORIZONTAL);  
-  this->sprite_direction = RIGHT;
+  character_sprite->SetFlip(Sprite::Flip::HORIZONTAL);  
+  this->sprite_direction = Direction::RIGHT;
 
-  character_sprite->SetScale(.8F, .8F);
+  character_sprite->SetScale(.4F, 1.0F);
 
   this->associated.box.y = 360;
   this->associated.box.x = 20;
@@ -41,55 +36,54 @@ void Character::Start() {
 
 void Character::Update(float dt) {
 
+  Camera::Update(dt);
+
   InputManager &input = InputManager::GetInstance();
 
-  int mouse_x = input.GetMouseX(), mouse_y = input.GetMouseY();
+  int mouse_x = input.GetMouseX();
 
   bool right_click = input.MousePress(RIGHT_MOUSE_BUTTON);
 
-  Sprite *sprite_character = (Sprite *)this->associated.GetComponent("Image");
+  Sprite *sprite_character = (Sprite *) this->associated.GetComponent("Image");
 
-  if(right_click) {
-    Character::Action new_action = Character::Action(Action::MOVE, mouse_x, mouse_y);
+  if(right_click) 
+    this->destinations.push({(float) mouse_x, this->associated.box.y});
 
-    if (mouse_x > this->associated.box.x && this->sprite_direction == LEFT){
-      sprite_character->SetFlip(Sprite::HORIZONTAL);
-      this->sprite_direction = RIGHT;
-    } else if (mouse_x < this->associated.box.x && this->sprite_direction == RIGHT) {
-      sprite_character->SetFlip(Sprite::NONE);
-      this->sprite_direction = LEFT;
+  if (!this->destinations.empty()) {
+    Vec2 destination = this->destinations.front();
+
+    if (destination.x > this->associated.box.x && this->sprite_direction == Direction::LEFT)
+    {
+      sprite_character->SetFlip(Sprite::Flip::HORIZONTAL);
+      this->sprite_direction = Direction::RIGHT;
+    }
+    else if (destination.x < this->associated.box.x && this->sprite_direction == Direction::RIGHT)
+    {
+      sprite_character->SetFlip(Sprite::Flip::NONE);
+      this->sprite_direction = Direction::LEFT;
     }
 
-      this->taskQueue.push(new_action);
-  }
+    Vec2 current_position{this->associated.box.x, this->associated.box.y};
 
-  if(!this->taskQueue.empty()) {
-    Vec2 current_position{this->associated.box.x, this->associated.box.y}, final_position;
+    destination.x -= this->associated.box.w;
 
-    Action last_action = this->taskQueue.front();
-
-    final_position = last_action.pos;
-
-    final_position.x -= this->associated.box.w;
-
-    Vec2 result_position;
-
-    result_position = final_position - current_position;
+    Vec2 result_position = destination - current_position;
 
     result_position.normalise();
 
-    float distance = final_position.distance_x(current_position.x);
+    float distance = current_position.distance_x(destination);
 
-    if(distance <= 10.0) {
-
-      this->associated.box.x = final_position.x;
-      this->taskQueue.pop();
-    } else if (last_action.type == Action::MOVE) {
-      this->associated.box.x += result_position.x * this->speed.x * dt;
+    if (distance <= 10.0)
+    {
+      this->associated.box.x = destination.x;
+      this->destinations.pop();
     }
-  } else {
+    else
+      this->associated.box.x += result_position.x * this->speed.x * dt;
+  } 
+  else 
     sprite_character->SetFrame(0);
-  }
+  
 }
 
 void Character::Render(){}

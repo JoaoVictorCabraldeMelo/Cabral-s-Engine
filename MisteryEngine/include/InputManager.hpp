@@ -12,6 +12,7 @@
 #define S_KEY SDLK_s
 #define A_KEY SDLK_a
 #define D_KEY SDLK_d
+#define SPACE_KEY SDLK_SPACE
 
 
 class InputManager

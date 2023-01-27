@@ -6,11 +6,12 @@
 #include "Component.hpp"
 #include "GameObject.hpp"
 #include "Vec2.hpp"
+#include "Timer.hpp"
 
 class Sprite : public Component
 {
 public:
-  enum Flip
+  enum class Flip
   {
     HORIZONTAL,
     VERTICAL,
@@ -20,11 +21,9 @@ public:
 
   explicit Sprite(GameObject &associated);
 
-  explicit Sprite(GameObject &associated, std::string file, int frameCount = 1, float frameTime = 1.0F);
+  explicit Sprite(GameObject &associated, std::string file, int frameCount = 1, float frameTime = 1.0F, float secondsToSelfDestruct = 0.0f);
 
   ~Sprite();
-
-  Flip flip;
 
   void Open(std::string file);
 
@@ -61,8 +60,7 @@ public:
   Flip GetFlip();
 
 private:
-
-  SDL_Texture *texture;
+  std::shared_ptr<SDL_Texture> texture;
 
   int width;
 
@@ -79,6 +77,12 @@ private:
   int currentFrame;
 
   float timeElapsed = 0.0F;
+  
+  Flip flip;
+
+  Timer selfDestructCount;
+
+  float secondsToSelfDestruct;
 };
 
 #endif

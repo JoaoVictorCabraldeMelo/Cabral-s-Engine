@@ -65,14 +65,20 @@ void GameObject::Start()
 
 Component *GameObject::GetComponent(string type)
 {
-  vector<unique_ptr<Component>>::iterator it;
+  Component *result_cpt = nullptr;
 
-  for (it = this->components.begin(); it != this->components.end() && !(*it)->Is(type); ++it)
-  {
+  for (int i = 0; i < (int)this->components.size(); i++){
+    Component *cpt = this->components[i].get();
+    if(cpt && cpt->Is(type)){
+      result_cpt = cpt;
+      break;
+    }
   }
+  
+  return result_cpt;
+}
 
-  if (it == this->components.end())
-    return nullptr;
-  else
-    return it->get();
+void GameObject::NotifyCollision(GameObject &other) {
+  for (int i = 0; i < (int)this->components.size();i++)
+    this->components[i].get()->NotifyCollision(other);
 }
