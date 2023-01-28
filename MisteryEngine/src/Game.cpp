@@ -275,11 +275,6 @@ void Game::GetDisplaysSizes() {
   for (int i = 0; i < totalDisplays; i++)
     SDL_GetDisplayBounds(i, &this->displaysSize[i]);
 
-  for(auto &display : this->displaysSize) {
-    cout << "w -> " << display.w << endl;
-    cout << "h -> " << display.h << endl;
-  }
-
 }
 
 void Game::SetScreenScale() {

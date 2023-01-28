@@ -19,19 +19,17 @@ public:
 
   Vec2 operator*(Vec2 vector);
 
-  float magnitude(Vec2 vector = {0.0F, 0.0F});
+  float magnitude(Vec2 vector = {0.0F, 0.0F}) const;
 
   Vec2 normalise();
 
-  float distance(Vec2 vector);
+  float distance(Vec2 vector) const;
 
-  double inclination();
+  double inclination() const;
 
-  double inclination_two_points(Vec2 vector);
+  double inclination_two_points(Vec2 vector) const;
 
   Vec2 rotate(double angle);
-
-  float distance_x(const Vec2 &vector);
 
   static Vec2 Sub(const Vec2 &vectorA, const Vec2 &vectorB);
 

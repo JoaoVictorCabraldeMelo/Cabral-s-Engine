@@ -54,7 +54,7 @@ Vec2 Vec2::operator*(Vec2 vector){
   return *this;
 }
 
-float Vec2::magnitude(Vec2 vector)
+float Vec2::magnitude(Vec2 vector) const
 {
   float x1 = this->x;
   float y1 = this->y;
@@ -62,7 +62,7 @@ float Vec2::magnitude(Vec2 vector)
   float x2 = vector.x;
   float y2 = vector.y;
 
-  float magnitude = sqrt(pow((x1 - x2), 2) + pow(y1 - y2, 2));
+  float magnitude = sqrt(pow((x2 - x1), 2) + pow(y2 - y1, 2));
 
   return magnitude;
 }
@@ -80,19 +80,20 @@ Vec2 Vec2::normalise()
   return *this;
 }
 
-float Vec2::distance(Vec2 vector)
+float Vec2::distance(Vec2 vector) const
 {
   return this->magnitude(vector);
 }
 
-double Vec2::inclination()
+/* return angle in radians */
+double Vec2::inclination() const
 {
-  double result = atan2(this->y, this->x); // angle in radians
+  double result = atan2(this->y, this->x); 
 
   return result;
 }
 
-double Vec2::inclination_two_points(Vec2 vector)
+double Vec2::inclination_two_points(Vec2 vector) const
 {
 
   Vec2 initial_point{this->x, this->y};
@@ -115,14 +116,6 @@ Vec2 Vec2::rotate(double angle)
   this->y = y;
 
   return *this;
-}
-
-float Vec2::distance_x(const Vec2 &vector){
-
-  float x1 = this->x;
-  float x2 = vector.x;
-
-  return sqrt(pow(x1 - x2, 2));
 }
 
 Vec2 Vec2::Sub(const Vec2& vectorA, const Vec2& vectorB){
