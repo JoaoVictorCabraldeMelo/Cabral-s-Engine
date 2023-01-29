@@ -10,12 +10,10 @@
 
 using namespace std;
 
-TileMap::TileMap(GameObject &associated, string file, TileSet *tileSet) : Component(associated)
+TileMap::TileMap(GameObject &associated, const string& file, TileSet *tileSet) 
+: Component(associated), tileset(tileSet)
 {
-
-  this->Load(file);
-
-  this->tileset = tileSet;
+  Load(file);
 }
 
 void TileMap::Load(const string &file)
@@ -39,18 +37,15 @@ void TileMap::Load(const string &file)
 
         if (count == 0 && number != "\r" && number != "\n")
         {
-          this->mapWidth = stoi(number);
+          mapWidth = stoi(number);
           getline(numbers, number, ',');
-          this->mapHeight = stoi(number);
+          mapHeight = stoi(number);
           getline(numbers, number, ',');
-          this->mapDepth = stoi(number);
-          // cout << "Largura do Tile Map: " << this->mapWidth << endl;
-          // cout << "Altura do TileMap: " << this->mapHeight << endl;
-          // cout << "Profundidade do TileMap " << this->mapDepth << endl;
+          mapDepth = stoi(number);
         }
         else if (number != "\r" && number != "\n")
         {
-          this->tileMatrix.push_back(stoi(number)-1);
+          tileMatrix.push_back(stoi(number)-1);
         }
       }
       count++;
@@ -62,43 +57,36 @@ void TileMap::Load(const string &file)
 
     logfile << "TileMap cannot be read" << endl;
   }
-
-  // for (auto number : this->tileMatrix)
-  // {
-  //   ofstream logfile("Errors.log", ofstream::app);
-    
-  //   logfile << number << endl;
-  // }
 }
 
 void TileMap::SetTileSet(TileSet *tileSet)
 {
-  this->tileset = tileSet;
+  tileset = tileSet;
 }
 
-int &TileMap::At(int x, int y, int z)
+int &TileMap::At(const int x, const int y, const int z)
 {
-  int zCalculated = this->mapHeight * this->mapWidth * z;
+  int zCalculated = mapHeight * mapWidth * z;
   int xCalculated = x;
-  int yCalculated = this->mapWidth * y;
+  int yCalculated = mapWidth * y;
 
-  return this->tileMatrix[xCalculated + zCalculated + yCalculated];
+  return tileMatrix[xCalculated + zCalculated + yCalculated];
 }
 
-void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
+void TileMap::RenderLayer(const int layer, const int cameraX, const int cameraY) 
 {
 
   int parallax_x = cameraX * (layer + 1);
   int parallax_y = cameraY * (layer + 1);
 
-  for (int i = 0; i < this->mapWidth; i++)
+  for (int i = 0; i < mapWidth; i++)
   {
-    for (int j = 0; j < this->mapHeight; j++)
+    for (int j = 0; j < mapHeight; j++)
     {
-      int x = i * this->tileset->GetTileWidth() - parallax_x;
-      int y = j * this->tileset->GetTileHeight() - parallax_y;
+      int x = i * tileset->GetTileWidth() - parallax_x;
+      int y = j * tileset->GetTileHeight() - parallax_y;
 
-      this->tileset->RenderTile(this->At(i, j, layer), x, y);
+      tileset->RenderTile(At(i, j, layer), x, y);
     }
   }
 }
@@ -106,32 +94,32 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY)
 void TileMap::Render()
 {
 
-  for (int i = 0; i < this->mapDepth; i++)
+  for (int i = 0; i < mapDepth; i++)
   {
-    this->RenderLayer(i, Camera::pos.x, Camera::pos.y);
+    RenderLayer(i, Camera::pos.x, Camera::pos.y);
   }
 }
 
-int TileMap::GetWidth()
+int TileMap::GetWidth() const
 {
-  return this->mapWidth;
+  return mapWidth;
 }
 
-int TileMap::GetHeight()
+int TileMap::GetHeight() const
 {
-  return this->mapHeight;
+  return mapHeight;
 }
 
-int TileMap::GetDepth()
+int TileMap::GetDepth() const
 {
-  return this->mapDepth;
+  return mapDepth;
 }
 
 void TileMap::Update(float dt)
 {
 }
 
-bool TileMap::Is(const string type)
+bool TileMap::Is(const string& type)
 {
   if (type == "Tilemap")
     return true;

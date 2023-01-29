@@ -7,19 +7,19 @@
 
 class Collider : public Component {
   public:
-    Collider(GameObject &associated, Vec2 scale = {1, 1}, Vec2 offset = {0, 0});
+    Collider(GameObject &associated, const Vec2& scale = {1, 1}, const Vec2& offset = {0, 0});
 
     Rect box;
 
-    void Update(float dt);
+    void Update(float dt) override;
 
-    void Render();
+    void Render() override;
 
-    bool Is(std::string type);
+    bool Is(const std::string& type) override;
 
-    void SetScale(Vec2 scale);
+    void SetScale(const Vec2& scale);
 
-    void SetOffset(Vec2 offset);
+    void SetOffset(const Vec2& offset);
 
   private:
     Vec2 scale;

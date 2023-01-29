@@ -2,20 +2,21 @@
 
 using namespace std;
 
-Timer::Timer() {
-  this->time = 0.0f;
-  this->initialize = true;
+Timer::Timer()
+    : initialize(true), time(0.0f)
+{
 }
 
 void Timer::Update(float dt) {
-  this->time += dt;
+  time += dt;
 }
 
 void Timer::Restart() {
-  this->time = 0.0f;
-  this->initialize = false;
+  time = 0.0f;
+  initialize = false;
 }
 
-float Timer::Get() {
-  return this->time;
+float Timer::Get() const 
+{
+  return time;
 }

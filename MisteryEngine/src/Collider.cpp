@@ -3,27 +3,22 @@
 
 #ifdef DEBUG
 #include "../include/Game.hpp"
-extern const float PI;
 #endif
 
 using namespace std;
 
-Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(associated) {
-
-  this->scale = scale;
-
-  this->offset = offset;
-}
+Collider::Collider(GameObject &associated, const Vec2& scale, const Vec2& offset) 
+: Component(associated), scale(scale), offset(offset) {}
 
 void Collider::Update(float dt) {
-  this->box = this->associated.box * this->scale;
+  box = associated.box * scale;
 
-  Vec2 center_box = this->associated.box.get_center();
+  Vec2 center_box = associated.box.get_center();
 
-  float angleRadians = degrees_to_radians(this->associated.angleDeg);
-  this->offset.rotate(angleRadians);
+  float angleRadians = degrees_to_radians(associated.angleDeg);
+  offset.rotate(angleRadians);
 
-  this->box.set_center(center_box);
+  box.set_center(center_box);
 }
 
 void Collider::Render(){
@@ -32,17 +27,17 @@ void Collider::Render(){
   Vec2 center(box.get_center());
   SDL_Point points[5];
 
-  Vec2 point = (Vec2(this->box.x, this->box.y) - center).rotate(associated.angleDeg / (180 / PI)) + center - Camera::pos;
+  Vec2 point = (Vec2(box.x, box.y) - center).rotate(associated.angleDeg / (180 / Vec2::PI)) + center - Camera::pos;
   points[0] = {(int)point.x, (int)point.y};
   points[4] = {(int)point.x, (int)point.y};
 
-  point = (Vec2(this->box.x + this->box.w, this->box.y) - center).rotate(associated.angleDeg / (180 / PI)) + center - Camera::pos;
+  point = (Vec2(box.x + box.w, box.y) - center).rotate(associated.angleDeg / (180 / Vec2::PI)) + center - Camera::pos;
   points[1] = {(int)point.x, (int)point.y};
 
-  point = (Vec2(this->box.x + this->box.w, this->box.y + this->box.h) - center).rotate(associated.angleDeg / (180 / PI)) + center - Camera::pos;
+  point = (Vec2(box.x + box.w, box.y + box.h) - center).rotate(associated.angleDeg / (180 / Vec2::PI)) + center - Camera::pos;
   points[2] = {(int)point.x, (int)point.y};
 
-  point = (Vec2(this->box.x, this->box.y + this->box.h) - center).rotate(associated.angleDeg / (180 / PI)) + center - Camera::pos;
+  point = (Vec2(box.x, box.y + box.h) - center).rotate(associated.angleDeg / (180 / Vec2::PI)) + center - Camera::pos;
   points[3] = {(int)point.x, (int)point.y};
 
   SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
@@ -50,17 +45,17 @@ void Collider::Render(){
 #endif // DEBUG
 };
 
-bool Collider::Is(string type) {
+bool Collider::Is(const string& type) {
   if (type == "Collider")
     return true;
   return false;
 }
 
-void Collider::SetScale(Vec2 scale) {
+void Collider::SetScale(const Vec2& scale) {
   this->scale = scale;
 }
 
-void Collider::SetOffset(Vec2 offset) {
+void Collider::SetOffset(const Vec2& offset) {
   this->offset = offset;
 }
 

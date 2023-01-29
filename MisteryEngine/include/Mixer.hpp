@@ -23,34 +23,34 @@ private:
 public:
   explicit Mixer(GameObject &associated);
 
-  explicit Mixer(GameObject &associated, const std::string &sound_file);
+  Mixer(GameObject &associated, const std::string &sound_file);
 
-  explicit Mixer(GameObject &associated, const std::string &sound_file, const std::string &music_file);
+  Mixer(GameObject &associated, const std::string &sound_file, const std::string &music_file);
 
   ~Mixer();
 
-  void PlaySound(int times = 1);
+  void PlaySound(const int times = 1);
 
-  void PlayMusic(int times = 1);
+  void PlayMusic(const int times = 1) const;
 
-  void StopSound();
+  void StopSound() const;
 
-  void StopMusic();
+  void StopMusic() const;
 
   void OpenSound(const std::string &file);
 
   void OpenMusic(const std::string &file);
 
-  bool IsOpenSound();
+  bool IsOpenSound() const;
 
-  bool IsOpenMusic();
+  bool IsOpenMusic() const;
 
   void Update(float dt) override;
 
   void Render() override;
 
-  bool Is(std::string type) override;
+  bool Is(const std::string& type) override;
 
-  void ControlVolume(int channel, int volume);
+  void ControlVolume(const int channel, const int volume) const;
 };
 #endif

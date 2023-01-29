@@ -1,17 +1,17 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-class Component;
-
 #include "GameObject.hpp"
 #include <iostream>
+
+class GameObject;
 
 class Component
 {
 public:
   GameObject &associated;
 
-  explicit Component(GameObject &associated);
+  Component(GameObject &associated);
 
   virtual ~Component();
 
@@ -19,7 +19,7 @@ public:
 
   virtual void Render() = 0;
 
-  virtual bool Is(std::string type) = 0;
+  virtual bool Is(const std::string& type) = 0;
 
   virtual void Start();
 

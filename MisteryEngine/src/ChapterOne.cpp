@@ -22,18 +22,16 @@ ChapterOne::ChapterOne() {
 
   character_go->AddComponent(bianca);
 
+  AddObject(bg_go);
 
-
-  this->AddObject(bg_go);
-
-  this->AddObject(character_go);
+  AddObject(character_go);
 }
 
 ChapterOne::~ChapterOne(){}
 
 
 void ChapterOne::LoadAssets() {
-  GameObject *go = static_cast<GameObject *>(this->objectArray[0].get());
+  GameObject *go = static_cast<GameObject *>(objectArray[0].get());
 
   Sprite *background = static_cast<Sprite *>(go->GetComponent("Image"));
 
@@ -53,22 +51,22 @@ void ChapterOne::Update(float dt) {
 
   if (InputManager::GetInstance().QuitRequested() || InputManager::GetInstance().KeyPress(ESCAPE_KEY))
   {
-    this->quitRequested = true;
+    quitRequested = true;
   }
 
-  this->UpdateArray(dt);
+  UpdateArray(dt);
 }
 
 void ChapterOne::Render() {
-  this->RenderArray();
+  RenderArray();
 }
 
 void ChapterOne::Start() {
-  this->LoadAssets();
+  LoadAssets();
 
-  this->StartArray();
+  StartArray();
 
-  this->started = true;
+  started = true;
 }
 
 void ChapterOne::Pause() {}

@@ -6,6 +6,30 @@
 
 class TileMap : public Component
 {
+public:
+
+  TileMap(GameObject& associated, const std::string& file, TileSet* tileSet);
+
+  void Load(const std::string &file);
+
+  void SetTileSet(TileSet* TileSet);
+
+  int& At(const int x, const int y, const int z = 0);
+
+  void Render() override;
+
+  void RenderLayer(const int layer, const int cameraX = 0, const int cameraY = 0);
+
+  int GetWidth() const;
+
+  int GetHeight() const;
+
+  int GetDepth() const;
+
+  void Update(float dt) override;
+
+  bool Is(const std::string&  type) override;
+
 private:
   std::vector<int> tileMatrix;
 
@@ -16,30 +40,6 @@ private:
   int mapHeight;
 
   int mapDepth;
-
-public:
-
-  TileMap(GameObject &associated, std::string file, TileSet *tileSet);
-
-  void Load(const std::string &file);
-
-  void SetTileSet(TileSet *TileSet);
-
-  int& At(int x, int y, int z = 0);
-
-  void Render() override;
-
-  void RenderLayer(int layer, int cameraX = 0, int cameraY = 0);
-
-  int GetWidth();
-
-  int GetHeight();
-
-  int GetDepth();
-
-  void Update(float dt) override;
-
-  bool Is(std::string  type) override;
 };
 
 

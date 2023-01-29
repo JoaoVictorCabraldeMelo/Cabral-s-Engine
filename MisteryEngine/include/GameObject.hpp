@@ -1,9 +1,6 @@
 #ifndef _GAME_OBJECT_H_
 #define _GAME_OBJECT_H_
 
-
-class GameObject;
-
 #include <iostream>
 #include <memory>
 
@@ -11,16 +8,11 @@ class GameObject;
 #include <vector>
 #include "Component.hpp"
 
+class Component;
+
 class GameObject
 {
-private:
-
-  std::vector <std::unique_ptr<Component>> components;
-
-  bool isDead;
-
 public:
-
   bool started;
 
   GameObject();
@@ -31,7 +23,7 @@ public:
 
   void Render();
 
-  bool IsDead();
+  bool IsDead() const;
 
   void Start();
 
@@ -41,13 +33,19 @@ public:
 
   void RemoveComponent(Component *cpt);
 
-  Component* GetComponent(std::string type);
+  Component *GetComponent(const std::string& type) const;
 
   void NotifyCollision(GameObject &other);
 
   Rect box;
 
   double angleDeg;
+
+private:
+
+  std::vector <std::unique_ptr<Component>> components;
+
+  bool isDead;
 };
 
 #endif

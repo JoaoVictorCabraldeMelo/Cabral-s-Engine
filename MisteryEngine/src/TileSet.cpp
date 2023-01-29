@@ -6,7 +6,8 @@
 
 using namespace std;
 
-TileSet::TileSet(int tileWidth, int tileHeight, string file)
+TileSet::TileSet(const int tileWidth, const int tileHeight, const string &file)
+    : tileWidth(tileWidth), tileHeight(tileHeight)
 {
 
   GameObject *object = new GameObject();
@@ -17,37 +18,30 @@ TileSet::TileSet(int tileWidth, int tileHeight, string file)
 
   this->tileSet->Open(file);
 
-  this->rows = this->tileSet->GetHeight() / tileHeight;
+  rows = tileSet->GetHeight() / tileHeight;
 
-  this->columns = this->tileSet->GetWidth() / tileWidth;
+  columns = tileSet->GetWidth() / tileWidth;
 
-  this->tileHeight = tileHeight;
-
-  this->tileWidth = tileWidth;
 }
 
-void TileSet::RenderTile(int index, float x, float y)
+void TileSet::RenderTile(const int index, const float x, const float y)
 {
-  
   if (index <= ((rows * columns) - 1) && index >= 0)
   {
-    int xFor = (index % this->columns) * this->tileWidth;
-    int yFor = (index / this->columns) * this->tileHeight;
-    this->tileSet->SetClip(xFor, yFor, this->tileWidth, this->tileHeight);
-    this->tileSet->Render(x, y,64,64);
+    int xFor = (index % columns) * tileWidth;
+    int yFor = (index / columns) * tileHeight;
+    tileSet->SetClip(xFor, yFor, tileWidth, tileHeight);
+    tileSet->Render(x, y,64,64);
     return;
   }
-
-  // ofstream logfile("Errors.log", ofstream::app);
-  // logfile << "Index: "<< index << " out of TileSet" << endl;
 }
 
-int TileSet::GetTileWidth()
+int TileSet::GetTileWidth() const
 {
-  return this->tileWidth;
+  return tileWidth;
 }
 
-int TileSet::GetTileHeight()
+int TileSet::GetTileHeight() const
 {
-  return this->tileHeight;
+  return tileHeight;
 }

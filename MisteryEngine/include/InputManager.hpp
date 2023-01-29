@@ -37,18 +37,18 @@ public:
 
     void Update();
 
-    bool KeyPress(int key);
-    bool KeyRelease(int key);
-    bool isKeyDown(int key);
+    bool KeyPress(const int key);
+    bool KeyRelease(const int key);
+    bool isKeyDown(const int key);
 
-    bool MousePress(int button);
-    bool MouseRelease(int button);
-    bool isMouseDown(int button);
+    bool MousePress(const int button);
+    bool MouseRelease(const int button);
+    bool isMouseDown(const int button);
 
-    int GetMouseX();
-    int GetMouseY();
+    int GetMouseX() const ;
+    int GetMouseY() const;
 
-    bool QuitRequested();
+    bool QuitRequested() const ;
 
     static InputManager &GetInstance();
 

@@ -2,44 +2,36 @@
 #include "../include/Vec2.hpp"
 #include <math.h>
 
-extern const float PI = 3.14159265359;
-extern const float DEG30 = PI / 6;
-extern const float DEG45 = PI / 4;
-extern const float DEG60 = PI / 3;
-extern const float DEG90 = PI / 2;
-
-Vec2::Vec2()
+Vec2::Vec2() 
+: x(0.0f), y(0.0f)
 {
-  this->x = 0;
-  this->y = 0;
 }
 
 Vec2::Vec2(float x, float y)
+: x(x), y(y)
 {
-  this->x = x;
-  this->y = y;
 }
 
 Vec2 Vec2::operator+(const Vec2 &vector)
 {
-  this->x += vector.x;
-  this->y += vector.y;
+  x += vector.x;
+  y += vector.y;
 
   return *this;
 }
 
 Vec2 Vec2::operator-(const Vec2 &vector)
 {
-  this->x -= vector.x;
-  this->y -= vector.y;
+  x -= vector.x;
+  y -= vector.y;
 
   return *this;
 }
 
 Vec2 Vec2::operator*(float scalar)
 {
-  this->x *= scalar;
-  this->y *= scalar;
+  x *= scalar;
+  y *= scalar;
 
   return *this;
 }
@@ -56,8 +48,8 @@ Vec2 Vec2::operator*(Vec2 vector){
 
 float Vec2::magnitude(Vec2 vector) const
 {
-  float x1 = this->x;
-  float y1 = this->y;
+  float x1 = x;
+  float y1 = y;
 
   float x2 = vector.x;
   float y2 = vector.y;
@@ -71,11 +63,11 @@ Vec2 Vec2::normalise()
 {
   float magnitude = this->magnitude();
 
-  float x1 = this->x / magnitude;
-  float y1 = this->y / magnitude;
+  float x1 = x / magnitude;
+  float y1 = y / magnitude;
 
-  this->x = x1;
-  this->y = y1;
+  x = x1;
+  y = y1;
 
   return *this;
 }
@@ -88,7 +80,7 @@ float Vec2::distance(Vec2 vector) const
 /* return angle in radians */
 double Vec2::inclination() const
 {
-  double result = atan2(this->y, this->x); 
+  double result = atan2(y, x); 
 
   return result;
 }
@@ -96,7 +88,7 @@ double Vec2::inclination() const
 double Vec2::inclination_two_points(Vec2 vector) const
 {
 
-  Vec2 initial_point{this->x, this->y};
+  Vec2 initial_point{x, y};
 
   Vec2 diference = Vec2::Sub(vector, initial_point);
   
@@ -159,10 +151,10 @@ double Vec2::Dot(const Vec2 &vectorA, const Vec2 &vectorB)
 
 double radians_to_degrees(float angle_in_radians)
 {
-  return angle_in_radians * (180 / PI);
+  return angle_in_radians * (180 / Vec2::PI);
 }
 
 double degrees_to_radians(float angle_in_degrees) {
-  return angle_in_degrees * PI / 180;
+  return angle_in_degrees * Vec2::PI / 180;
 }
 

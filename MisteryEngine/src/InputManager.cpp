@@ -21,22 +21,22 @@ InputManager::InputManager()
 {
     for (int i = 0; i < 6; i++)
     {
-        this->mouseState[i] = false;
-        this->mouseUpdate[i] = 0;
+        mouseState[i] = false;
+        mouseUpdate[i] = 0;
     }
 
     for (int i = 0; i < 416; i++)
     {
-        this->keyState[i] = false;
-        this->keyUpdate[i] = 0;
+        keyState[i] = false;
+        keyUpdate[i] = 0;
     }
 
-    this->quitRequested = false;
+    quitRequested = false;
 
-    this->updateCounter = 0;
+    updateCounter = 0;
 
-    this->mouseX = 0;
-    this->mouseY = 0;
+    mouseX = 0;
+    mouseY = 0;
 }
 
 InputManager::~InputManager()
@@ -47,33 +47,33 @@ void InputManager::Update()
 {
     SDL_Event event;
 
-    SDL_GetMouseState(&this->mouseX, &this->mouseY);
+    SDL_GetMouseState(&mouseX, &mouseY);
 
-    this->quitRequested = false;
+    quitRequested = false;
 
-    this->updateCounter++;
+    updateCounter++;
 
      while (SDL_PollEvent(&event) > 0)
     {
         if (event.type == SDL_QUIT)
         {
-            this->quitRequested = true;
+            quitRequested = true;
         }
 
         if (event.type == SDL_MOUSEBUTTONDOWN && event.key.repeat != 1)
         {
             int newButton = (int) event.button.button;
 
-            this->mouseState[newButton] = true;
-            this->mouseUpdate[newButton] = this->updateCounter;
+            mouseState[newButton] = true;
+            mouseUpdate[newButton] = updateCounter;
         }
 
         if (event.type == SDL_MOUSEBUTTONUP && event.key.repeat != 1)
         {
             int newButton = (int)event.button.button;
 
-            this->mouseState[newButton] = false;
-            this->mouseUpdate[newButton] = this->updateCounter;
+            mouseState[newButton] = false;
+            mouseUpdate[newButton] = updateCounter;
         }
 
         if (event.type == SDL_KEYDOWN && event.key.repeat != 1)
@@ -84,8 +84,8 @@ void InputManager::Update()
                 newKey -= 0x3FFFFF80;
             }
 
-            this->keyState[newKey] = true;
-            this->keyUpdate[newKey] = this->updateCounter;
+            keyState[newKey] = true;
+            keyUpdate[newKey] = updateCounter;
         }
 
         if (event.type == SDL_KEYUP && event.key.repeat != 1)
@@ -96,77 +96,77 @@ void InputManager::Update()
                 newKey -= 0x3FFFFF80;
             }
 
-            this->keyState[newKey] = false;
-            this->keyUpdate[newKey] = this->updateCounter;
+            keyState[newKey] = false;
+            keyUpdate[newKey] = updateCounter;
         }
     }
 }
 
-bool InputManager::KeyPress(int key)
+bool InputManager::KeyPress(const int key)
 {
     int newKey = key;
     if (key >= 0x40000000)
         newKey -= 0x3FFFFF80;
 
-    if (this->keyUpdate[newKey] == this->updateCounter)
-        return this->keyState[newKey];
+    if (keyUpdate[newKey] == updateCounter)
+        return keyState[newKey];
 
     return false;
 }
 
-bool InputManager::KeyRelease(int key)
+bool InputManager::KeyRelease(const int key)
 {
     int newKey = key;
     if (key >= 0x40000000)
         newKey -= 0x3FFFFF80;
 
-    if (this->keyUpdate[newKey] == this->updateCounter)
-        return !this->keyState[newKey];
+    if (keyUpdate[newKey] == updateCounter)
+        return !keyState[newKey];
 
     return false;
 }
 
-bool InputManager::MousePress(int button)
+bool InputManager::MousePress(const int button)
 {
-    if (this->mouseUpdate[button] == this->updateCounter)
-        return this->mouseState[button];
+    if (mouseUpdate[button] == updateCounter)
+        return mouseState[button];
 
     return false;
 }
 
-bool InputManager::MouseRelease(int button)
+bool InputManager::MouseRelease(const int button)
 {
-    if (this->mouseUpdate[button] == this->updateCounter)
-        return !this->mouseState[button];
+    if (mouseUpdate[button] == updateCounter)
+        return !mouseState[button];
 
     return false;
 }
 
-bool InputManager::isKeyDown(int key)
+bool InputManager::isKeyDown(const int key)
 {
     int newKey = key;
     if (key >= 0x40000000)
         newKey -= 0x3FFFFF80;
 
-    return this->keyState[newKey];
+    return keyState[newKey];
 }
 
-bool InputManager::isMouseDown(int button)
+bool InputManager::isMouseDown(const int button)
 {
-    return this->mouseState[button];
+    return mouseState[button];
 }
 
-int InputManager::GetMouseX()
+int InputManager::GetMouseX() const
 {
-    return this->mouseX;
+    return mouseX;
 }
 
-int InputManager::GetMouseY()
+int InputManager::GetMouseY() const 
 {
-    return this->mouseY;
+    return mouseY;
 }
 
-bool InputManager::QuitRequested()
+bool InputManager::QuitRequested() const
 {
-    return this->quitRequested;
+    return quitRequested;
 }

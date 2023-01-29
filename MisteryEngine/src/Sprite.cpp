@@ -18,56 +18,32 @@
 
 using namespace std;
 
-Sprite::Sprite(GameObject &associated) : Component(associated)
+Sprite::Sprite(GameObject &associated)
+: Component(associated), texture(nullptr), width(associated.box.w), height(associated.box.h),
+  scale({1.0f, 1.0f}), frameCount(1), frameTime(1.0f), flip(Flip::NONE), 
+  selfDestructCount(Timer()), secondsToSelfDestruct(0.0f)
 {
-  this->width = this->associated.box.w;
-  this->height = this->associated.box.h;
-  this->texture = nullptr;
-
-  this->scale.x = 1;
-  this->scale.y = 1;
-
-  this->frameCount = 1;
-  this->frameTime = 1.0F;
-
-  this->secondsToSelfDestruct = 0.0F;
-
-  this->selfDestructCount = Timer();
-
-  this->associated.angleDeg = 0;
-
-  this->flip = Flip::NONE;
+  associated.angleDeg = 0;
 }
 
-Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated)
+Sprite::Sprite(GameObject &associated, const string &file, const int frameCount, const float frameTime,
+               const float secondsToSelfDestruct)
+: Component(associated), texture(nullptr), scale({1.0f, 1.0f}), frameCount(frameCount), frameTime(frameTime),
+  flip(Flip::NONE), selfDestructCount(Timer()), secondsToSelfDestruct(secondsToSelfDestruct)
 {
-  this->texture = nullptr;
-  this->scale.x = 1;
-  this->scale.y = 1;
-
-  this->associated.angleDeg = 0;
-
-  this->frameCount = frameCount;
-  this->frameTime = frameTime;
-
-  this->secondsToSelfDestruct = secondsToSelfDestruct;
-  this->selfDestructCount = Timer();
-
-  this->flip = Flip::NONE;
-
-  this->Open(file);
+  Open(file);
 }
 
 Sprite::~Sprite()
 {
 }
 
-void Sprite::Open(std::string file)
+void Sprite::Open(const std::string& file)
 {
 
-  this->texture = Resource::GetImage(file);
+  texture = Resource::GetImage(file);
 
-  int query = SDL_QueryTexture(this->texture.get(), nullptr, nullptr, &this->width, &this->height);
+  int query = SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height);
 
   if (query != 0)
   {
@@ -81,12 +57,12 @@ void Sprite::Open(std::string file)
     throw std::runtime_error(SDL_GetError());
   }
 
-  int frame_width = this->width / this->frameCount;
+  int frame_width = width / frameCount;
 
-  Sprite::SetClip(0, 0, frame_width, this->height);
+  Sprite::SetClip(0, 0, frame_width, height);
 }
 
-void Sprite::SetClip(int x, int y, int w, int h)
+void Sprite::SetClip(const int x, const int y, const int w, const int h)
 {
   this->clipRect.x = x;
   this->clipRect.y = y;
@@ -94,26 +70,25 @@ void Sprite::SetClip(int x, int y, int w, int h)
   this->clipRect.w = w;
 }
 
-void Sprite::Render(int x, int y, int w, int h)
+void Sprite::Render(const int x, const int y, const int w, const int h) const
 {
 
   SDL_Renderer *render = Game::GetInstance().GetRenderer();
 
   Vec2 screenScale = Game::GetInstance().GetScreenScale();
 
-  const SDL_Rect dstClip = {x, y, (int)(w * screenScale.x * this->scale.x), (int)(h * screenScale.y * this->scale.y)};
+  const SDL_Rect dstClip = {x, y, (int)(w * screenScale.x * scale.x), (int)(h * screenScale.y * scale.y)};
 
   SDL_RendererFlip flip_value = SDL_FLIP_NONE;
 
-  if (this->flip == Flip::HORIZONTAL)
+  if (flip == Flip::HORIZONTAL)
     flip_value = SDL_FLIP_HORIZONTAL;
-  else if (this->flip == Flip::VERTICAL)
+  else if (flip == Flip::VERTICAL)
     flip_value = SDL_FLIP_VERTICAL;
-  else if (this->flip == Flip::DIAGONAL)
+  else if (flip == Flip::DIAGONAL)
     flip_value = SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
 
-  int render_flag = SDL_RenderCopyEx(render, this->texture.get(), &this->clipRect, &dstClip, this->associated.angleDeg, nullptr, flip_value);
-
+  int render_flag = SDL_RenderCopyEx(render, texture.get(), &clipRect, &dstClip, associated.angleDeg, nullptr, flip_value);
 
   if (render_flag != 0)
   {
@@ -128,54 +103,52 @@ void Sprite::Render(int x, int y, int w, int h)
   }
 }
 
-void Sprite::Render(int x, int y)
+void Sprite::Render(const int x,const int y) const
 {
-  this->Render(x, y, this->width, this->height);
+  Render(x, y, width, height);
 }
 
 void Sprite::Render()
 {
-  this->Render(this->associated.box.x - Camera::pos.x, this->associated.box.y - Camera::pos.y);
+  Render(associated.box.x - Camera::pos.x, associated.box.y - Camera::pos.y);
 }
 
-bool Sprite::IsOpen()
+bool Sprite::IsOpen() const
 {
-  if (this->texture != nullptr)
-  {
+  if (texture != nullptr)
     return true;
-  }
   return false;
 }
 
 void Sprite::Update(float dt)
 {
-  this->timeElapsed += dt;
+  timeElapsed += dt;
 
-  if(this->secondsToSelfDestruct > 0.0f) {
-    this->selfDestructCount.Update(dt);
-    if (this->selfDestructCount.Get() >= this->secondsToSelfDestruct) {
-      this->associated.RequestDelete();
+  if(secondsToSelfDestruct > 0.0f) {
+    selfDestructCount.Update(dt);
+    if (selfDestructCount.Get() >= this->secondsToSelfDestruct) {
+      associated.RequestDelete();
     }
   }
 
-  if (this->timeElapsed > this->frameTime)
+  if (timeElapsed > frameTime)
   {
-    this->currentFrame += 1;
+    currentFrame += 1;
 
-    int frame_width = this->GetWidth() / this->scale.x;
+    int frame_width = GetWidth() / (scale.x * Game::GetInstance().GetScreenScale().x);
 
-    if (this->currentFrame >= this->frameCount)
+    if (currentFrame >= frameCount)
     {
-      this->currentFrame = 0;
+      currentFrame = 0;
     }
 
-    this->SetClip(frame_width * this->currentFrame, 0, frame_width, this->height);
+    SetClip(frame_width * currentFrame, 0, frame_width, height);
 
-    this->timeElapsed = 0.0F;
+    timeElapsed = 0.0F;
   }
 }
 
-bool Sprite::Is(const string type)
+bool Sprite::Is(const string& type)
 {
   if (type == "Image")
     return true;
@@ -183,69 +156,79 @@ bool Sprite::Is(const string type)
     return false;
 }
 
-int Sprite::GetHeight()
+int Sprite::GetHeight() const
 {
-  return this->height * this->scale.y;
+  Vec2 screenScale = Game::GetInstance().GetScreenScale();
+
+  return height * scale.y * screenScale.y;
 }
 
-int Sprite::GetWidth()
+int Sprite::GetWidth() const
 {
-  int frame_width = this->width / this->frameCount;
+  int frame_width = width / frameCount;
 
-  return frame_width * this->scale.x;
+  Vec2 screenScale = Game::GetInstance().GetScreenScale();
+
+  return frame_width * scale.x * screenScale.x;
 }
 
-void Sprite::SetScale(float scalex, float scaley)
+void Sprite::SetScale(const float scalex, const float scaley)
 {
-  Vec2 center = this->associated.box.get_center();
+  Vec2 center = associated.box.get_center();
+
+  Vec2 screenScale = Game::GetInstance().GetScreenScale();
 
   if (scalex != 0)
   {
     float center_x_before_scaling = center.x;
 
-    this->associated.box.x = center_x_before_scaling - ((this->associated.box.w * scalex) / 2.0);
+    associated.box.x = ((associated.box.w * scalex * screenScale.x) / 2.0f) - center_x_before_scaling ;
 
-    this->scale.x = scalex;
+    scale.x = scalex;
   }
 
   if (scaley != 0)
   {
     float center_y_before_scaling = center.y;
 
-    this->associated.box.y = center_y_before_scaling - ((this->associated.box.h * scaley) / 2.0);
+    Vec2 screenScale = Game::GetInstance().GetScreenScale();
 
-    this->scale.y = scaley;
+    associated.box.y = ((associated.box.h * scaley * screenScale.y) / 2.0) - center_y_before_scaling;
+
+    scale.y = scaley;
   }
 }
 
-void Sprite::SetFrame(int frame)
+void Sprite::SetFrame(const int frame)
 {
-  this->currentFrame = frame;
+  currentFrame = frame;
 
-  int frame_width = this->GetWidth() / this->scale.x;
+  Vec2 screenScale = Game::GetInstance().GetScreenScale();
 
-  this->SetClip(frame_width * currentFrame, 0, frame_width, this->height);
+  int frame_width = GetWidth() / (scale.x * screenScale.x);
+
+  SetClip(frame_width * currentFrame, 0, frame_width, height);
 }
 
-void Sprite::SetFrameCount(int frameCount)
+void Sprite::SetFrameCount(const int frameCount)
 {
   this->frameCount = frameCount;
 
-  this->associated.box.w = this->GetWidth();
+  associated.box.w = GetWidth();
 
-  this->currentFrame = 0;
+  currentFrame = 0;
 }
 
-void Sprite::SetFrameTime(float frameTime)
+void Sprite::SetFrameTime(const float frameTime)
 {
   this->frameTime = frameTime;
 }
 
-void Sprite::SetFlip(Flip value)
+void Sprite::SetFlip(const Flip value)
 {
-  this->flip = value;
+  flip = value;
 }
 
-Sprite::Flip Sprite::GetFlip(){
-  return this->flip;
+Sprite::Flip Sprite::GetFlip() const {
+  return flip;
 }

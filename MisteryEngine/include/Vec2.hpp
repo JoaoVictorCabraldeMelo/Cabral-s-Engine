@@ -7,7 +7,17 @@ class Vec2
 public:
   float x, y;
 
-  Vec2();
+  static constexpr float PI = 3.14159265359;
+  
+  static constexpr float DEG30 = PI / 6;
+
+  static constexpr float DEG45 = PI / 4;
+
+  static constexpr float DEG60 = PI / 3;
+
+  static constexpr float DEG90 = PI / 2;
+
+  explicit Vec2();
 
   Vec2(float x, float y);
 

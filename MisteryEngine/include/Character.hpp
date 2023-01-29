@@ -12,13 +12,13 @@ class Character : public Component  {
   public:
     Character(GameObject &associated, std::string sprite, int frame_count);
 
-    void Update(float dt);
+    void Update(float dt) override;
 
-    void Render();
+    void Render() override;
 
-    void Start();
+    void Start() override;
 
-    bool Is(std::string type);
+    bool Is(const std::string& type) override;
 
     enum class Direction
     {

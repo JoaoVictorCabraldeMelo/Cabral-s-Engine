@@ -9,9 +9,9 @@ class Rect
 public:
   float x, y, w, h;
 
-  Rect();
+  explicit Rect();
 
-  Rect(float x, float y, float w, float h);
+  Rect(const float x, const float y, const float w, const float h);
 
   Rect operator*(const Vec2& vector);
 

@@ -1,8 +1,8 @@
 #ifndef CAMERA_FOLLOWER_H
 #define CAMERA_FOLLOWER_H
 
-#include "../include/GameObject.hpp"
-#include "../include/Component.hpp"
+#include "GameObject.hpp"
+#include "Component.hpp"
 
 class CameraFollower : public Component
 {
@@ -14,7 +14,7 @@ public:
 
     void Render() override;
 
-    bool Is(std::string type) override;
+    bool Is(const std::string& type) override;
 };
 
 #endif

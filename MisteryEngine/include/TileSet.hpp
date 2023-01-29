@@ -20,13 +20,13 @@ private:
   int tileHeight;
 
 public:
-  TileSet(int tileWidth, int tileHeight, std::string file);
+  TileSet(const int tileWidth, const int tileHeight, const std::string& file);
 
-  void RenderTile(int index, float x, float y);
+  void RenderTile(const int index, const float x, const float y);
 
-  int GetTileWidth();
+  int GetTileWidth() const;
 
-  int GetTileHeight();
+  int GetTileHeight() const;
 
 };
 

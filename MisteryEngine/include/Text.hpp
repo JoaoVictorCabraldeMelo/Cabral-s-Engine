@@ -21,28 +21,29 @@ class Text : public Component {
       BLENDED
     };
 
-    Text(GameObject &associated, const std::string &fontFile, int fontSize, TextStyle style, 
-          const std::string &text, SDL_Color color, bool showText = true, bool wrapped = false, int wrapperLength = 0);
+    Text(GameObject &associated, const std::string &fontFile, const int fontSize, const TextStyle style, 
+          const std::string &text, const SDL_Color color, const bool showText = true, 
+          const bool wrapped = false, const int wrapperLength = 0);
 
     ~Text();
 
-    void Update(float dt);
+    void Update(float dt) override;
 
-    void Render();
+    void Render() override;
 
-    bool Is(std::string type);
+    bool Is(const std::string& type) override;
 
     void SetText(const std::string &text);
 
-    void SetColor(SDL_Color color);
+    void SetColor(const SDL_Color color);
 
-    void SetStyle(TextStyle style);
+    void SetStyle(const TextStyle style);
 
     void SetFontFile(const std::string &fontFile);
 
-    void SetFontSize(int size);
+    void SetFontSize(const int size);
 
-    void SetPosition(Vec2 position);
+    void SetPosition(const Vec2& position);
 
     void ToggleShow();
 

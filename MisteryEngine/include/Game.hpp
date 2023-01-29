@@ -41,7 +41,7 @@ private:
   void SetScreenScale();
 
 public:
-  Game(std::string title, int width, int height);
+  Game(const std::string& title, const int width, const int height);
 
   ~Game();
 

@@ -7,39 +7,31 @@
 
 using namespace std;
 
-Text::Text(GameObject &associated, const string &fontFile, int fontSize, TextStyle style, 
-            const string &text, SDL_Color color, bool showText, bool wrapped, int wrapperLength) 
-: Component(associated), texture(nullptr), showText(showText), wrapped(wrapped), wrapperLength(wrapperLength)
+Text::Text(GameObject &associated, const string &fontFile, const int fontSize, const TextStyle style,
+           const string &text, const SDL_Color color, const bool showText, const bool wrapped,
+           const int wrapperLength)
+: Component(associated), texture(nullptr), text(text), style(style), fontFile(fontFile),
+fontSize(fontSize), color(color), showText(showText), wrapped(wrapped), wrapperLength(wrapperLength)
 {
-  this->fontFile = fontFile;
-
-  this->fontSize = fontSize;
-
-  this->color = color;
-
-  this->style = style;
-
-  this->text = text;
-
-  this->RemakeTexture();
+  RemakeTexture();
 }
 
 Text::~Text() {
-  if (this->texture != nullptr)
-    SDL_DestroyTexture(this->texture);
+  if (texture != nullptr)
+    SDL_DestroyTexture(texture);
 }
 
 void Text::Update(float dt){};
 
 void Text::Render() {
-  if (this->texture != nullptr && this->showText) {
-    int w = this->associated.box.w, h = this->associated.box.h;
+  if (texture != nullptr && showText) {
+    int w = associated.box.w, h = associated.box.h;
 
-    const SDL_Rect dstRect = {(int)(this->associated.box.x - Camera::pos.x), (int)(this->associated.box.y - Camera::pos.y), w, h};
+    const SDL_Rect dstRect = {(int)(associated.box.x - Camera::pos.x), (int)(associated.box.y - Camera::pos.y), w, h};
     const SDL_Rect srcRect = {0, 0, w, h};
 
-    int render = SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), this->texture, &srcRect, &dstRect, 
-                                    this->associated.angleDeg, nullptr, SDL_FLIP_NONE);
+    int render = SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &srcRect, &dstRect, 
+                                    associated.angleDeg, nullptr, SDL_FLIP_NONE);
 
     if (render != 0) {
       ofstream logfile("Errors.log", ofstream::app);
@@ -59,12 +51,12 @@ void Text::SetText(const string &text) {
   RemakeTexture();
 }
 
-void Text::SetColor(SDL_Color color) {
+void Text::SetColor(const SDL_Color color) {
   this->color = color;
   RemakeTexture();
 }
 
-void Text::SetStyle(TextStyle style) {
+void Text::SetStyle(const TextStyle style) {
   this->style = style;
   RemakeTexture();
 }
@@ -74,43 +66,43 @@ void Text::SetFontFile(const string &fontFile) {
   RemakeTexture();
 }
 
-void Text::SetFontSize(int size){
-  this->fontSize = size;
+void Text::SetFontSize(const int size){
+  fontSize = size;
   RemakeTexture();
 }
 
-void Text::SetPosition(Vec2 position) {
-  this->associated.box.x = position.x;
-  this->associated.box.y = position.y;
+void Text::SetPosition(const Vec2& position) {
+  associated.box.x = position.x;
+  associated.box.y = position.y;
 }
 
 void Text::RemakeTexture() {
-  if (this->texture != nullptr) {
-    SDL_DestroyTexture(this->texture);
+  if (texture != nullptr) {
+    SDL_DestroyTexture(texture);
   }
 
-  this->font = Resource::GetFont(this->fontFile, this->fontSize);
+  font = Resource::GetFont(fontFile, fontSize);
 
-  if (this->font.get() == nullptr) {
+  if (font.get() == nullptr) {
     throw runtime_error("Retorned a null font to the Remake Texture");
   }
 
   SDL_Surface *surface;
 
   if (!wrapped) {
-    if (this->style == TextStyle::SOLID)
-      surface = TTF_RenderText_Solid(this->font.get(), this->text.c_str(), this->color);
-    else if (this->style == TextStyle::SHADED)
-      surface = TTF_RenderText_Shaded(this->font.get(), this->text.c_str(), this->color, {0, 0, 0, 0});
-    else if (this->style == TextStyle::BLENDED)
-      surface = TTF_RenderText_Blended(this->font.get(), this->text.c_str(), this->color);
+    if (style == TextStyle::SOLID)
+      surface = TTF_RenderText_Solid(font.get(), text.c_str(), color);
+    else if (style == TextStyle::SHADED)
+      surface = TTF_RenderText_Shaded(font.get(), text.c_str(), color, {0, 0, 0, 0});
+    else if (style == TextStyle::BLENDED)
+      surface = TTF_RenderText_Blended(font.get(), text.c_str(), color);
   } else {
-    if (this->style == TextStyle::SOLID)
-      surface = TTF_RenderText_Solid_Wrapped(this->font.get(), this->text.c_str(), this->color, this->wrapperLength);
-    else if (this->style == TextStyle::SHADED)
-      surface = TTF_RenderText_Shaded_Wrapped(this->font.get(), this->text.c_str(), this->color, {0, 0, 0, 0}, this->wrapperLength);
-    else if (this->style == TextStyle::BLENDED)
-      surface = TTF_RenderText_Blended_Wrapped(this->font.get(), this->text.c_str(), this->color, this->wrapperLength);
+    if (style == TextStyle::SOLID)
+      surface = TTF_RenderText_Solid_Wrapped(font.get(), text.c_str(), color, wrapperLength);
+    else if (style == TextStyle::SHADED)
+      surface = TTF_RenderText_Shaded_Wrapped(font.get(), text.c_str(), color, {0, 0, 0, 0}, wrapperLength);
+    else if (style == TextStyle::BLENDED)
+      surface = TTF_RenderText_Blended_Wrapped(font.get(), text.c_str(), color, wrapperLength);
   }
 
 
@@ -129,20 +121,20 @@ void Text::RemakeTexture() {
     throw runtime_error(SDL_GetError());
   }
 
-  this->associated.box.w = surface->w;
-  this->associated.box.h = surface->h;
+  associated.box.w = surface->w;
+  associated.box.h = surface->h;
 
-  this->texture = new_texture;
+  texture = new_texture;
 
   SDL_FreeSurface(surface);
 }
 
-bool Text::Is(string type) {
+bool Text::Is(const string& type) {
   if (type == "Text")
     return true;
   return false;
 }
 
 void Text::ToggleShow() {
-  this->showText = !this->showText;
+  showText = !showText;
 }

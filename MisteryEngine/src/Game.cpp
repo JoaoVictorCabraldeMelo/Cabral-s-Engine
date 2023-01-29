@@ -19,7 +19,7 @@ using namespace std;
 
 Game *Game::instance = nullptr;
 
-Game::Game(std::string title, int width, int height)
+Game::Game(const std::string& title, const int width, const int height)
 {
 
   /*Default Initialization*/

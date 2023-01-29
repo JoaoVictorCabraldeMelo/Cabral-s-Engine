@@ -9,17 +9,17 @@ class ChapterOne : public State {
 
     ~ChapterOne();
 
-    void LoadAssets();
+    void LoadAssets() override;
 
-    void Update(float dt);
+    void Update(float dt) override;
 
-    void Render();
+    void Render() override;
 
-    void Start();
+    void Start() override;
 
-    void Pause();
+    void Pause() override;
 
-    void Resume();
+    void Resume() override;
 };
 
 #endif

@@ -21,7 +21,7 @@ Character::Character(GameObject &associated, string sprite, int frame_count) : C
 
 
 void Character::Start() {
-  Sprite *character_sprite = static_cast<Sprite *> (associated.GetComponent("Image"));
+  Sprite *character_sprite = static_cast<Sprite*> (associated.GetComponent("Image"));
 
   character_sprite->SetFlip(Sprite::Flip::HORIZONTAL);  
   sprite_direction = Direction::RIGHT;
@@ -95,7 +95,7 @@ void Character::Update(float dt) {
 
 void Character::Render(){}
 
-bool Character::Is(string type) {
+bool Character::Is(const string& type) {
   if (type == "Character") 
     return true;
   return false;

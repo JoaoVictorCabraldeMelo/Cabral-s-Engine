@@ -36,7 +36,7 @@ public:
 
   static void ClearSounds();
 
-  static std::shared_ptr<TTF_Font> GetFont(const std::string &file, int size);
+  static std::shared_ptr<TTF_Font> GetFont(const std::string &file, const int size);
 
   static void ClearFont();
 };

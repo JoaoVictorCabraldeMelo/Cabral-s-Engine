@@ -16,25 +16,22 @@
 
 using namespace std;
 
-Mixer::Mixer(GameObject &associated) : Component(associated)
+Mixer::Mixer(GameObject &associated) 
+: Component(associated), sound(nullptr), music(nullptr), channel(0)
 {
-  this->sound = nullptr;
-  this->music = nullptr;
-  this->channel = 0;
 }
 
-Mixer::Mixer(GameObject &associated, const string &fileSound) : Component(associated)
+Mixer::Mixer(GameObject &associated, const string &fileSound) 
+: Component(associated), music(nullptr), channel(0)
 {
   Mixer::OpenSound(fileSound);
-  this->music = nullptr;
-  this->channel = 0;
 }
 
-Mixer::Mixer(GameObject &associated, const string &fileSound, const string &fileMusic) : Component(associated)
+Mixer::Mixer(GameObject &associated, const string &fileSound, const string &fileMusic) 
+: Component(associated), channel(0)
 {
   Mixer::OpenSound(fileSound);
   Mixer::OpenMusic(fileMusic);
-  this->channel = 0;
 }
 
 Mixer::~Mixer()
@@ -43,11 +40,11 @@ Mixer::~Mixer()
   Mixer::StopMusic();
 }
 
-void Mixer::PlaySound(int times)
+void Mixer::PlaySound(const int times)
 {
-  this->channel = Mix_PlayChannel(-1, this->sound.get(), times);
+  channel = Mix_PlayChannel(-1, sound.get(), times);
 
-  if (this->channel == -1)
+  if (channel == -1)
   {
     ofstream logfile("Errors.log", ofstream::app);
 
@@ -62,8 +59,8 @@ void Mixer::PlaySound(int times)
   }
 }
 
-void Mixer::PlayMusic(int times) {
-  int flag = Mix_PlayMusic(this->music.get(), times);
+void Mixer::PlayMusic(const int times) const {
+  int flag = Mix_PlayMusic(music.get(), times);
 
   if (flag == -1) {
     ofstream logfile("Errors.log", ofstream::app);
@@ -79,37 +76,39 @@ void Mixer::PlayMusic(int times) {
   }
 }
 
-void Mixer::StopSound()
+void Mixer::StopSound() const
 {
-  if (this->sound.get() != nullptr)
-    Mix_HaltChannel(this->channel);
+  if (sound.get() != nullptr)
+    Mix_HaltChannel(channel);
 }
 
-void Mixer::StopMusic()
+void Mixer::StopMusic() const
 {
-  if (this->music.get() != nullptr)
+  if (music.get() != nullptr)
     Mix_HaltMusic();
 }
 
+/*TODO: Colocar try catch no metodo*/
 void Mixer::OpenSound(const string &file)
 {
-  this->sound = Resource::GetSound(file);
+  sound = Resource::GetSound(file);
 }
 
+ /*TODO: Colocar try catch no metodo*/
 void Mixer::OpenMusic(const string &file){
-  this->music = Resource::GetMusic(file);
+  music = Resource::GetMusic(file);
 }
 
-bool Mixer::IsOpenSound()
+bool Mixer::IsOpenSound() const
 {
-  if (this->sound.get() != nullptr)
+  if (sound.get() != nullptr)
     return true;
   return false;
 }
 
-bool Mixer::IsOpenMusic()
+bool Mixer::IsOpenMusic() const
 {
-  if (this->music.get() != nullptr)
+  if (music.get() != nullptr)
     return true;
   return false;
 }
@@ -119,7 +118,7 @@ void Mixer::Update(float dt)
   // cout << dt << endl;
 }
 
-bool Mixer::Is(const string type)
+bool Mixer::Is(const string& type)
 {
   if (type == "Sound")
     return true;
@@ -131,6 +130,7 @@ void Mixer::Render()
 {
 }
 
-void Mixer::ControlVolume(int channel, int volume){
+void Mixer::ControlVolume(int channel, int volume) const 
+{
   Mix_Volume(channel, volume);
 }

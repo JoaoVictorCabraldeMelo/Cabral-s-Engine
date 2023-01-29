@@ -6,7 +6,7 @@
 
 class Object : public Component {
   public:
-    Object(GameObject &associated, std::string sprite);
+    Object(GameObject &associated, const std::string& sprite);
 
   private:
     

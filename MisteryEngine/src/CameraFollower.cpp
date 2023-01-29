@@ -24,7 +24,7 @@ void CameraFollower::Update(float dt)
 
 void CameraFollower::Render() {}
 
-bool CameraFollower::Is(string type)
+bool CameraFollower::Is(const string& type)
 {
     return "CameraFollower" == type;
 }

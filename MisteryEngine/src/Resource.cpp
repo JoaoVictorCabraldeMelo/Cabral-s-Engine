@@ -146,7 +146,7 @@ void Resource::ClearSounds()
 
 }
 
-shared_ptr<TTF_Font> Resource::GetFont(const string &file, int size) {
+shared_ptr<TTF_Font> Resource::GetFont(const string &file, const int size) {
 
   string key = file + to_string(size);
 

@@ -10,7 +10,7 @@ class Timer {
 
     void Restart();
 
-    float Get();
+    float Get() const;
 
     bool initialize;
 

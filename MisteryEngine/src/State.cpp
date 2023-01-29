@@ -5,15 +5,15 @@ using namespace std;
 State::State() : popRequested(false), quitRequested(false), started(false) {}
 
 State::~State() {
-    this->objectArray.clear();
+    objectArray.clear();
 }
 
 weak_ptr<GameObject> State::AddObject(GameObject *object) {
   shared_ptr<GameObject> shared_go(object);
 
-  this->objectArray.push_back(shared_go);
+  objectArray.push_back(shared_go);
 
-  if (this->started)
+  if (started)
     shared_go->Start();
 
   weak_ptr<GameObject> weak_go(shared_go);
@@ -22,11 +22,11 @@ weak_ptr<GameObject> State::AddObject(GameObject *object) {
 
 weak_ptr<GameObject>  State::GetObject(GameObject *object) {
 
-  for (size_t i = 0; i < this->objectArray.size(); i++)
+  for (size_t i = 0; i < objectArray.size(); i++)
   {
-    if (this->objectArray[i].get() == object)
+    if (objectArray[i].get() == object)
     {
-      weak_ptr<GameObject> weak_go(this->objectArray[i]);
+      weak_ptr<GameObject> weak_go(objectArray[i]);
       return weak_go;
     }
   }
@@ -34,25 +34,25 @@ weak_ptr<GameObject>  State::GetObject(GameObject *object) {
   return {};
 }
 
-bool State::PopRequested() { return this->popRequested; }
+bool State::PopRequested() const { return popRequested; }
 
-bool State::QuitRequested() { return this->quitRequested; }
+bool State::QuitRequested() const { return quitRequested; }
 
 void State::StartArray() {
-  for (size_t i = 0; i < this->objectArray.size();++i)
-    this->objectArray[i].get()->Start();
+  for (size_t i = 0; i < objectArray.size();++i)
+    objectArray[i].get()->Start();
 }
 
 void State::UpdateArray(float dt) {
-  for (size_t i = 0; i < this->objectArray.size();++i)
-    this->objectArray[i].get()->Update(dt);
+  for (size_t i = 0; i < objectArray.size();++i)
+    objectArray[i].get()->Update(dt);
 }
 
 void State::RenderArray() {
-  for (size_t i = 0; i < this->objectArray.size(); ++i)
-    this->objectArray[i].get()->Render();
+  for (size_t i = 0; i < objectArray.size(); ++i)
+    objectArray[i].get()->Render();
 }
 
-void State::RemoveObject(int position) {
-  this->objectArray.erase(this->objectArray.begin() + position);
+void State::RemoveObject(const int position) {
+  objectArray.erase(objectArray.begin() + position);
 }

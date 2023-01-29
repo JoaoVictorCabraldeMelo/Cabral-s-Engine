@@ -7,68 +7,64 @@
 
 using namespace std;
 
-GameObject::GameObject()
-{
-  this->isDead = false;
-  this->started = false;
-  this->angleDeg = 0;
-}
+GameObject::GameObject() : started(false), angleDeg(0.0), isDead(false)
+{}
 
 GameObject::~GameObject()
 {
-  this->components.clear();
+  components.clear();
 }
 
 void GameObject::Update(float dt)
 {
-  for (int i = 0; i < (int)this->components.size(); i++)
-    this->components[i]->Update(dt);
+  for (size_t i = 0; i < components.size(); i++)
+    components[i]->Update(dt);
 }
 
 void GameObject::Render()
 {
-  for (int i = 0; i < (int)this->components.size(); i++)
-    this->components[i]->Render();
+  for (size_t i = 0; i < components.size(); i++)
+    components[i]->Render();
 }
 
-bool GameObject::IsDead()
+bool GameObject::IsDead() const
 {
-  return this->isDead;
+  return isDead;
 }
 
 void GameObject::RequestDelete()
 {
-  this->isDead = true;
+  isDead = true;
 }
 
 void GameObject::AddComponent(Component *cpt)
 {
-  this->components.emplace_back(cpt);
-  if (this->started)
+  components.emplace_back(cpt);
+  if (started)
     cpt->Start();
 }
 
 void GameObject::RemoveComponent(Component *cpt_recebido)
 {
-  remove_if(this->components.begin(), this->components.end(), [=](unique_ptr<Component> &cpt_alocado)
+  remove_if(components.begin(), components.end(), [=](unique_ptr<Component> &cpt_alocado)
             { return cpt_recebido == cpt_alocado.get(); });
 }
 
 void GameObject::Start()
 {
-  for (auto &component : this->components)
+  for (const auto &component : components)
   {
     component->Start();
   }
-  this->started = true;
+  started = true;
 }
 
-Component *GameObject::GetComponent(string type)
+Component *GameObject::GetComponent(const string& type) const
 {
   Component *result_cpt = nullptr;
 
-  for (int i = 0; i < (int)this->components.size(); i++){
-    Component *cpt = this->components[i].get();
+  for (size_t i = 0; i < components.size(); i++){
+    Component *cpt = components[i].get();
     if(cpt && cpt->Is(type)){
       result_cpt = cpt;
       break;
@@ -79,6 +75,6 @@ Component *GameObject::GetComponent(string type)
 }
 
 void GameObject::NotifyCollision(GameObject &other) {
-  for (int i = 0; i < (int)this->components.size();i++)
-    this->components[i].get()->NotifyCollision(other);
+  for (size_t i = 0; i < components.size();i++)
+    components[i].get()->NotifyCollision(other);
 }

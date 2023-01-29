@@ -21,43 +21,43 @@ public:
 
   explicit Sprite(GameObject &associated);
 
-  explicit Sprite(GameObject &associated, std::string file, int frameCount = 1, float frameTime = 1.0F, float secondsToSelfDestruct = 0.0f);
+  Sprite(GameObject &associated, const std::string& file, const int frameCount = 1, const float frameTime = 1.0F, const float secondsToSelfDestruct = 0.0f);
 
   ~Sprite();
 
-  void Open(std::string file);
+  void Open(const std::string& file);
 
-  void SetClip(int x, int y, int w, int h);
+  void SetClip(const int x, const int y, const int w, const int h);
 
-  void Render();
+  void Render() override;
 
-  void Render(int x, int y, int w, int h);
+  void Render(const int x, const int y, const int w, const int h) const;
 
-  void Render(int x, int y);
+  void Render(const int x, const int y) const;
 
-  int GetWidth();
+  int GetWidth() const;
 
-  int GetHeight();
+  int GetHeight() const;
 
-  bool IsOpen();
+  bool IsOpen() const;
 
   void Update(float dt) override;
 
-  bool Is(std::string type) override;
+  bool Is(const std::string& type) override;
 
   Vec2 GetScale();
 
-  void SetScale(float scalex, float scaley);
+  void SetScale(const float scalex = 1.0f, const float scaley = 1.0f);
 
-  void SetFrame(int frame);
+  void SetFrame(const int frame);
 
-  void SetFrameCount(int frameCount);
+  void SetFrameCount(const int frameCount);
 
-  void SetFrameTime(float frameTime);
+  void SetFrameTime(const float frameTime);
 
-  void SetFlip(Flip value);
+  void SetFlip(const Flip value);
 
-  Flip GetFlip();
+  Flip GetFlip() const;
 
 private:
   std::shared_ptr<SDL_Texture> texture;

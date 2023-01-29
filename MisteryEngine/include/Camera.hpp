@@ -1,8 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "../include/Vec2.hpp"
-#include "../include/GameObject.hpp"
+#include "Vec2.hpp"
+#include "GameObject.hpp"
 
 class Camera
 {
