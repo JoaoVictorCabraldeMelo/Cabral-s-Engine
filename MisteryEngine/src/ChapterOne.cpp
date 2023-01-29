@@ -35,7 +35,7 @@ void ChapterOne::LoadAssets() {
 
   Sprite *background = static_cast<Sprite *>(go->GetComponent("Image"));
 
-  background->Open("assets/img/sala_horizontal.png");
+  background->Open("assets/img/bar.png");
 
   background->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
 
