@@ -1,6 +1,13 @@
 #ifndef INPUT_MANAGER
 #define INPUT_MANAGER
 
+#define INCLUDE_SDL
+#define INCLUDE_SDL_IMAGE
+#define INCLUDE_SDL_MIXER
+#define INCLUDE_SDL_TTF
+#define INCLUDE_SDL_NET
+#include "../include/SDL_include.hpp"
+
 #define LEFT_ARROW_KEY    SDLK_LEFT
 #define RIGHT_ARROW_KEY   SDLK_RIGHT
 #define UP_ARROW_KEY      SDLK_UP
@@ -14,6 +21,8 @@
 #define D_KEY SDLK_d
 #define SPACE_KEY SDLK_SPACE
 #define ENTER_KEY SDLK_RETURN
+
+#include <memory>
 
 
 class InputManager
@@ -32,11 +41,16 @@ private:
     int mouseX;
     int mouseY;
 
+    std::shared_ptr<SDL_Texture> mouse_texture;
+
+
 public:
     InputManager(/* args */);
     ~InputManager();
 
     void Update();
+
+    void Render();
 
     bool KeyPress(const int key);
     bool KeyRelease(const int key);

@@ -141,6 +141,18 @@ Game::Game(const std::string& title, const int width, const int height)
     throw std::runtime_error(SDL_GetError());
   }
 
+  int cursor_flag = SDL_ShowCursor(0);
+
+  if (cursor_flag < 0){
+    std::ofstream logfile("Errors.log", std::ofstream::app);
+
+    logfile << SDL_GetError() << std::endl;
+
+    logfile.close();
+
+    std::cout << "Couldn't hide cursor !!" << std::endl;
+    std::cout << "Error hiding cursor: " << SDL_GetError() << std::endl;
+  }
 
   /*State Initialization*/
   this->storedState = nullptr;

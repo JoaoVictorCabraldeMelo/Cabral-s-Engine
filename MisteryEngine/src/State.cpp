@@ -1,4 +1,5 @@
 #include "../include/State.hpp"
+#include "../include/InputManager.hpp"
 
 using namespace std;
 
@@ -51,6 +52,7 @@ void State::UpdateArray(float dt) {
 void State::RenderArray() {
   for (size_t i = 0; i < objectArray.size(); ++i)
     objectArray[i].get()->Render();
+  InputManager::GetInstance().Render();
 }
 
 void State::RemoveObject(const int position) {

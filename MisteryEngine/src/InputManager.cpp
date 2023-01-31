@@ -1,13 +1,11 @@
-#define INCLUDE_SDL
-#define INCLUDE_SDL_IMAGE
-#define INCLUDE_SDL_MIXER
-#define INCLUDE_SDL_TTF
-#define INCLUDE_SDL_NET
-#include "../include/SDL_include.hpp"
+
 
 #include "../include/InputManager.hpp"
+#include "../include/Resource.hpp"
+#include "../include/Game.hpp"
 
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -37,10 +35,13 @@ InputManager::InputManager()
 
     mouseX = 0;
     mouseY = 0;
+
+    mouse_texture = Resource::GetImage("assets/img/cursor.png");
 }
 
 InputManager::~InputManager()
 {
+
 }
 
 void InputManager::Update()
@@ -99,6 +100,27 @@ void InputManager::Update()
             keyState[newKey] = false;
             keyUpdate[newKey] = updateCounter;
         }
+    }
+}
+
+void InputManager::Render()
+{
+    SDL_Renderer *render = Game::GetInstance().GetRenderer();
+
+    SDL_Rect dst_cursor = {mouseX, mouseY, 50, 50};
+
+    int render_flag = SDL_RenderCopy(render, mouse_texture.get(), NULL, &dst_cursor);
+
+    if (render_flag != 0)
+    {
+        std::fstream logfile("Errors.log", fstream::app);
+
+        logfile << SDL_GetError() << std::endl;
+
+        std::cout << "Couldn't Render Copy in Mouse !!" << std::endl;
+        std::cout << "Error Render Copy: " << SDL_GetError() << std::endl;
+
+        throw std::runtime_error(SDL_GetError());
     }
 }
 
