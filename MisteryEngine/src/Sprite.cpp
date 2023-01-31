@@ -77,7 +77,7 @@ void Sprite::Render(const int x, const int y, const int w, const int h) const
 
   Vec2 screenScale = Game::GetInstance().GetScreenScale();
 
-  const SDL_Rect dstClip = {x, y, (int)(w * screenScale.x * scale.x), (int)(h * screenScale.y * scale.y)};
+  const SDL_Rect dstClip = {x, y, (int)(clipRect.w * screenScale.x * scale.x), (int)(clipRect.h * screenScale.y * scale.y)};
 
   SDL_RendererFlip flip_value = SDL_FLIP_NONE;
 
@@ -87,6 +87,7 @@ void Sprite::Render(const int x, const int y, const int w, const int h) const
     flip_value = SDL_FLIP_VERTICAL;
   else if (flip == Flip::DIAGONAL)
     flip_value = SDL_RendererFlip(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
+
 
   int render_flag = SDL_RenderCopyEx(render, texture.get(), &clipRect, &dstClip, associated.angleDeg, nullptr, flip_value);
 

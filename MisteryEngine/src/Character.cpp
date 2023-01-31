@@ -19,14 +19,11 @@ Character::Character(GameObject &associated, string sprite, int frame_count) : C
   associated.box.h = character_sprite->GetHeight();
 }
 
-
 void Character::Start() {
   Sprite *character_sprite = static_cast<Sprite*> (associated.GetComponent("Image"));
 
   character_sprite->SetFlip(Sprite::Flip::HORIZONTAL);  
   sprite_direction = Direction::RIGHT;
-
-  character_sprite->SetScale(.4F, 1.0F);
 
   associated.box.y = 360 * Game::GetInstance().GetScreenScale().y;
   associated.box.x = 20 * Game::GetInstance().GetScreenScale().x;
@@ -52,15 +49,9 @@ void Character::Update(float dt) {
 
     Vec2 face { associated.box.x, associated.box.y};
 
-
-
     // if (sprite_direction == Direction::RIGHT) {
     //   face.x += associated.box.w;
     // }
-
-    printf("Destination: x-> %f e y-> %f\n", destination.x, destination.y);
-
-    printf("Face: x-> %f e y -> %f\n", face.x, face.y);
 
     if (destination.x > face.x && sprite_direction == Direction::LEFT)
     {
