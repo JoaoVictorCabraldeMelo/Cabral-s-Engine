@@ -1,5 +1,5 @@
 #include "../include/Game.hpp"
-#include "../include/ChapterOne.hpp"
+#include "../include/Menu.hpp"
 #include <ctime>
 #include <cstdlib>
 
@@ -9,7 +9,7 @@ int main() {
 
   Game &game = Game::GetInstance();
   
-  State *initial_state = new ChapterOne();
+  State *initial_state = new Menu();
 
   game.Push(initial_state);
 

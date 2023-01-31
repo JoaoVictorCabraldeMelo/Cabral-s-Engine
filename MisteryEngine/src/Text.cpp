@@ -8,10 +8,10 @@
 using namespace std;
 
 Text::Text(GameObject &associated, const string &fontFile, const int fontSize, const TextStyle style,
-           const string &text, const SDL_Color color, const bool showText, const bool wrapped,
-           const int wrapperLength)
-: Component(associated), texture(nullptr), text(text), style(style), fontFile(fontFile),
-fontSize(fontSize), color(color), showText(showText), wrapped(wrapped), wrapperLength(wrapperLength)
+           const string &text, const SDL_Color color, const SDL_Color fg, const bool showText, 
+           const bool wrapped, const int wrapperLength)
+    : Component(associated), texture(nullptr), text(text), style(style), fontFile(fontFile),
+      fontSize(fontSize), color(color), fg(fg), showText(showText), wrapped(wrapped), wrapperLength(wrapperLength)
 {
   RemakeTexture();
 }
@@ -30,8 +30,9 @@ void Text::Render() {
     const SDL_Rect dstRect = {(int)(associated.box.x - Camera::pos.x), (int)(associated.box.y - Camera::pos.y), w, h};
     const SDL_Rect srcRect = {0, 0, w, h};
 
-    int render = SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &srcRect, &dstRect, 
-                                    associated.angleDeg, nullptr, SDL_FLIP_NONE);
+
+    int render = SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &srcRect, &dstRect,
+                                  associated.angleDeg, nullptr, SDL_FLIP_NONE);
 
     if (render != 0) {
       ofstream logfile("Errors.log", ofstream::app);
@@ -93,14 +94,14 @@ void Text::RemakeTexture() {
     if (style == TextStyle::SOLID)
       surface = TTF_RenderText_Solid(font.get(), text.c_str(), color);
     else if (style == TextStyle::SHADED)
-      surface = TTF_RenderText_Shaded(font.get(), text.c_str(), color, {0, 0, 0, 0});
+      surface = TTF_RenderText_Shaded(font.get(), text.c_str(), color, fg);
     else if (style == TextStyle::BLENDED)
       surface = TTF_RenderText_Blended(font.get(), text.c_str(), color);
   } else {
     if (style == TextStyle::SOLID)
       surface = TTF_RenderText_Solid_Wrapped(font.get(), text.c_str(), color, wrapperLength);
     else if (style == TextStyle::SHADED)
-      surface = TTF_RenderText_Shaded_Wrapped(font.get(), text.c_str(), color, {0, 0, 0, 0}, wrapperLength);
+      surface = TTF_RenderText_Shaded_Wrapped(font.get(), text.c_str(), color, fg, wrapperLength);
     else if (style == TextStyle::BLENDED)
       surface = TTF_RenderText_Blended_Wrapped(font.get(), text.c_str(), color, wrapperLength);
   }
