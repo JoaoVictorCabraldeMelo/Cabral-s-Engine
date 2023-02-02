@@ -27,6 +27,8 @@ class State {
 
     virtual void RemoveObject(const int position);
 
+    virtual std::weak_ptr<GameObject> FindObjectByName(const std::string &name);
+
     bool PopRequested() const;
 
     bool QuitRequested() const;

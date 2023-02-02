@@ -2,6 +2,7 @@
 #define _CHAPTER_ONE_H_
 
 #include "State.hpp"
+#include "GameObject.hpp"
 
 class ChapterOne : public State {
   public:
@@ -20,6 +21,8 @@ class ChapterOne : public State {
     void Pause() override;
 
     void Resume() override;
+
+    GameObject *inventory;
 };
 
 #endif

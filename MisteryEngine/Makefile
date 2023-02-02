@@ -32,7 +32,7 @@ FILE_NAMES = $(sort $(notdir $(CPP_FILES:.cpp=)) $(notdir $(INC_FILES:.hpp=)))
 DEP_FILES  = $(addprefix $(DEP_PATH)/, $(addsuffix .d, $(FILE_NAMES)))
 OBJ_FILES  = $(addprefix $(BIN_PATH)/, $(notdir $(CPP_FILES:.cpp=.o)))
 
-EXEC = JOGO
+EXEC = ANAMNESE
 
 ###############
 #   Windows   #

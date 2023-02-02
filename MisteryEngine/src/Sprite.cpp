@@ -23,6 +23,7 @@ Sprite::Sprite(GameObject &associated)
   scale({1.0f, 1.0f}), frameCount(1), frameTime(1.0f), flip(Flip::NONE), 
   selfDestructCount(Timer()), secondsToSelfDestruct(0.0f)
 {
+  currentFrame = 0;
   associated.angleDeg = 0;
 }
 
@@ -31,6 +32,7 @@ Sprite::Sprite(GameObject &associated, const string &file, const int frameCount,
 : Component(associated), texture(nullptr), scale({1.0f, 1.0f}), frameCount(frameCount), frameTime(frameTime),
   flip(Flip::NONE), selfDestructCount(Timer()), secondsToSelfDestruct(secondsToSelfDestruct)
 {
+  currentFrame = 0;
   Open(file);
 }
 
@@ -68,6 +70,7 @@ void Sprite::SetClip(const int x, const int y, const int w, const int h)
   this->clipRect.y = y;
   this->clipRect.h = h;
   this->clipRect.w = w;
+
 }
 
 void Sprite::Render(const int x, const int y, const int w, const int h) const
@@ -78,6 +81,8 @@ void Sprite::Render(const int x, const int y, const int w, const int h) const
   Vec2 screenScale = Game::GetInstance().GetScreenScale();
 
   const SDL_Rect dstClip = {x, y, (int)(clipRect.w * screenScale.x * scale.x), (int)(clipRect.h * screenScale.y * scale.y)};
+
+  // printf("Dst Rect: x -> %d || y -> %d || w -> %d || h -> %d\n", dstClip.x, dstClip.y, dstClip.w, dstClip.h);
 
   SDL_RendererFlip flip_value = SDL_FLIP_NONE;
 
@@ -164,7 +169,7 @@ int Sprite::GetHeight() const
   return height * scale.y * screenScale.y;
 }
 
-int Sprite::GetWidth() const
+int Sprite::  GetWidth() const
 {
   int frame_width = width / frameCount;
 

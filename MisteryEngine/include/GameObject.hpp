@@ -13,9 +13,13 @@ class Component;
 class GameObject
 {
 public:
+  std::string name;
+
   bool started;
 
   GameObject();
+
+  GameObject(const std::string& name);
 
   ~GameObject();
 

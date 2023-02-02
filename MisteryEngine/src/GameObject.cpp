@@ -7,7 +7,10 @@
 
 using namespace std;
 
-GameObject::GameObject() : started(false), angleDeg(0.0), isDead(false)
+GameObject::GameObject() : name(""), started(false), angleDeg(0.0), isDead(false)
+{}
+
+GameObject::GameObject(const string& name) : name(name), started(false), angleDeg(0.0), isDead(false)
 {}
 
 GameObject::~GameObject()
@@ -46,8 +49,12 @@ void GameObject::AddComponent(Component *cpt)
 
 void GameObject::RemoveComponent(Component *cpt_recebido)
 {
-  remove_if(components.begin(), components.end(), [=](unique_ptr<Component> &cpt_alocado)
-            { return cpt_recebido == cpt_alocado.get(); });
+  for (size_t i = 0; i < components.size(); i++){
+    if (components[i].get() == cpt_recebido){
+      components.erase(components.begin() + i);
+      return;
+    }
+  }
 }
 
 void GameObject::Start()

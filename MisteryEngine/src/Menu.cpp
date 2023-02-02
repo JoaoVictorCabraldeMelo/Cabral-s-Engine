@@ -74,7 +74,7 @@ void Menu::LoadAssets() {
   start_go->box.y = 600 * Game::GetInstance().GetScreenScale().y;
   text->SetFontFile("assets/font/Mukta-Bold.ttf");
   chooser_go->box.x = 1480 * Game::GetInstance().GetScreenScale().x;
-  chooser_go->box.y = 620 * Game::GetInstance().GetScreenScale().y;
+  chooser_go->box.y = 600 * Game::GetInstance().GetScreenScale().y;
 
   config_go->box.x = 1500 * Game::GetInstance().GetScreenScale().x;
   config_go->box.y = 700 * Game::GetInstance().GetScreenScale().y;
@@ -99,7 +99,7 @@ void Menu::Update(float dt) {
       button = MenuButton::CONFIG;
       GameObject *chooser_go = static_cast<GameObject *>(objectArray[5].get());
       chooser_go->box.x = 1480 * Game::GetInstance().GetScreenScale().x;
-      chooser_go->box.y = 720 * Game::GetInstance().GetScreenScale().y;
+      chooser_go->box.y = 700 * Game::GetInstance().GetScreenScale().y;
 
       GameObject *text_go_fst = static_cast<GameObject *>(objectArray[3].get());
       Text *text_fst = static_cast<Text *>(text_go_fst->GetComponent("Text"));
@@ -114,7 +114,7 @@ void Menu::Update(float dt) {
       button = MenuButton::QUIT;
       GameObject *chooser_go = static_cast<GameObject *>(objectArray[5].get());
       chooser_go->box.x = 1480 * Game::GetInstance().GetScreenScale().x;
-      chooser_go->box.y = 820 * Game::GetInstance().GetScreenScale().y;
+      chooser_go->box.y = 800 * Game::GetInstance().GetScreenScale().y;
 
       GameObject *text_go_fst = static_cast<GameObject *>(objectArray[4].get());
       Text *text_fst = static_cast<Text *>(text_go_fst->GetComponent("Text"));
@@ -129,7 +129,7 @@ void Menu::Update(float dt) {
       button = MenuButton::CONFIG;
       GameObject *chooser_go = static_cast<GameObject *>(objectArray[5].get());
       chooser_go->box.x = 1480 * Game::GetInstance().GetScreenScale().x;
-      chooser_go->box.y = 720 * Game::GetInstance().GetScreenScale().y;
+      chooser_go->box.y = 700 * Game::GetInstance().GetScreenScale().y;
 
       GameObject *text_go_fst = static_cast<GameObject *>(objectArray[3].get());
       Text *text_fst = static_cast<Text *>(text_go_fst->GetComponent("Text"));
@@ -143,7 +143,7 @@ void Menu::Update(float dt) {
       button = MenuButton::START;
       GameObject *chooser_go = static_cast<GameObject *>(objectArray[5].get());
       chooser_go->box.x = 1480 * Game::GetInstance().GetScreenScale().x;
-      chooser_go->box.y = 620 * Game::GetInstance().GetScreenScale().y;
+      chooser_go->box.y = 600 * Game::GetInstance().GetScreenScale().y;
 
       GameObject *text_go_fst = static_cast<GameObject *>(objectArray[2].get());
       Text *text_fst = static_cast<Text *>(text_go_fst->GetComponent("Text"));

@@ -107,7 +107,9 @@ void InputManager::Render()
 {
     SDL_Renderer *render = Game::GetInstance().GetRenderer();
 
-    SDL_Rect dst_cursor = {mouseX, mouseY, 50, 50};
+    SDL_Rect dst_cursor = {mouseX - 25, mouseY - 25, 50, 50};
+
+
 
     int render_flag = SDL_RenderCopy(render, mouse_texture.get(), NULL, &dst_cursor);
 

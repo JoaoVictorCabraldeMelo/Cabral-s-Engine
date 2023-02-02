@@ -21,6 +21,7 @@
 #define D_KEY SDLK_d
 #define SPACE_KEY SDLK_SPACE
 #define ENTER_KEY SDLK_RETURN
+#define TAB_KEY SDLK_TAB
 
 #include <memory>
 

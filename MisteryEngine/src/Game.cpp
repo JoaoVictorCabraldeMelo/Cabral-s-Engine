@@ -163,8 +163,7 @@ Game::~Game()
 
   if (this->storedState != nullptr) {
     this->storedState = nullptr;
-    while(!this->stateStack.empty()){
-      this->stateStack.top().get()->~State();
+    while(!this->stateStack.empty()){      
       this->stateStack.pop();
     }
   }
@@ -248,11 +247,6 @@ void Game::Run()
       SDL_RenderPresent(this->renderer);
 
       SDL_Delay(33);
-    }
-
-    //Clear State Stack
-    while(!this->stateStack.empty()) {
-      this->stateStack.pop();
     }
   }
 

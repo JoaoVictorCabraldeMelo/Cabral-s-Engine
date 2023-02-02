@@ -5,8 +5,9 @@ using namespace std;
 
 State::State() : popRequested(false), quitRequested(false), started(false) {}
 
-State::~State() {
-    objectArray.clear();
+State::~State() 
+{
+  objectArray.clear();
 }
 
 weak_ptr<GameObject> State::AddObject(GameObject *object) {
@@ -47,6 +48,11 @@ void State::StartArray() {
 void State::UpdateArray(float dt) {
   for (size_t i = 0; i < objectArray.size();++i)
     objectArray[i].get()->Update(dt);
+
+  for (size_t i = 0; i < objectArray.size();++i){
+    if (objectArray[i].get()->IsDead())
+      RemoveObject(i);
+  }
 }
 
 void State::RenderArray() {
@@ -56,5 +62,18 @@ void State::RenderArray() {
 }
 
 void State::RemoveObject(const int position) {
+  
   objectArray.erase(objectArray.begin() + position);
+
+}
+
+weak_ptr<GameObject> State::FindObjectByName(const string& name)
+{
+  for (size_t i = 0; i < objectArray.size(); i++){
+    if (objectArray[i].get()->name == name){
+      weak_ptr<GameObject> weak_go(objectArray[i]);
+      return weak_go;
+    }
+  }
+  return {};
 }
