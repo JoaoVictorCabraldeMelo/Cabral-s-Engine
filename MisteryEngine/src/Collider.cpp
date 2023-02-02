@@ -13,14 +13,12 @@ Collider::Collider(GameObject &associated, const Vec2& scale, const Vec2& offset
 void Collider::Update(float dt) {
   box = associated.box * scale;
 
-  Vec2 center_box = associated.box.get_center();
 
   float angleRadians = degrees_to_radians(associated.angleDeg);
   offset.rotate(angleRadians);
 
-  // printf("Center Box:  %f %f\n", center_box.x, center_box.y);
-
-  box.set_center(center_box);
+  box.x = associated.box.x;
+  box.y = associated.box.y;
 }
 
 void Collider::Render(){

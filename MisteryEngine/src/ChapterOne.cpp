@@ -5,6 +5,7 @@
 #include "../include/Camera.hpp"
 #include "../include/Mouse.hpp"
 #include "../include/Object.hpp"
+#include "../include/Collider.hpp"
 
 using namespace std;
 
@@ -77,12 +78,12 @@ void ChapterOne::LoadAssets() {
   inventory->box.x = 300 * Game::GetInstance().GetScreenScale().x;
   inventory->box.y = 30 * Game::GetInstance().GetScreenScale().y;
 
-  Sprite *phone_sprite = static_cast<Sprite*>(phone->GetComponent("Image"));
+  Collider *phone_collider = static_cast<Collider *>(phone->GetComponent("Collider"));
 
-  phone_sprite->SetScale(5.0, 5.0);
+  phone_collider->SetScale({3.5, 3.5});
 
   phone->box.x = 1300 * Game::GetInstance().GetScreenScale().x;
-  phone->box.y = 500 * Game::GetInstance().GetScreenScale().y;
+  phone->box.y = 495 * Game::GetInstance().GetScreenScale().y;
 
   background->Render();
 }
