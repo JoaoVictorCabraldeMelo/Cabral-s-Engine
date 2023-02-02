@@ -8,7 +8,17 @@ class Object : public Component {
   public:
     Object(GameObject &associated, const std::string& sprite);
 
-  private:
+    ~Object();
+
+    void Update(float dt);
+
+    void Render();
+
+    bool Is(const std::string &type);
+
+    void Start();
+
+    void NotifyCollision(GameObject &other);
     
 };
 

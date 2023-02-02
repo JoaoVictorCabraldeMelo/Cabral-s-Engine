@@ -18,6 +18,8 @@ void Collider::Update(float dt) {
   float angleRadians = degrees_to_radians(associated.angleDeg);
   offset.rotate(angleRadians);
 
+  // printf("Center Box:  %f %f\n", center_box.x, center_box.y);
+
   box.set_center(center_box);
 }
 

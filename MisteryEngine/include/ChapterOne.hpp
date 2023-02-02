@@ -23,6 +23,18 @@ class ChapterOne : public State {
     void Resume() override;
 
     GameObject *inventory;
+
+    GameObject *inventory_icon;
+
+    GameObject *bianca;
+
+    GameObject *tv;
+
+    GameObject *phone;
+
+    GameObject *background;
+
+    GameObject *mouse;
 };
 
 #endif

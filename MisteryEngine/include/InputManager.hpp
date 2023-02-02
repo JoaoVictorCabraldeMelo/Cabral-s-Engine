@@ -42,16 +42,12 @@ private:
     int mouseX;
     int mouseY;
 
-    std::shared_ptr<SDL_Texture> mouse_texture;
-
 
 public:
     InputManager(/* args */);
     ~InputManager();
 
     void Update();
-
-    void Render();
 
     bool KeyPress(const int key);
     bool KeyRelease(const int key);

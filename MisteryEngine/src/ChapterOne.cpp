@@ -3,39 +3,55 @@
 #include "../include/Game.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Mouse.hpp"
+#include "../include/Object.hpp"
 
 using namespace std;
 
-ChapterOne::ChapterOne() : inventory(new GameObject()) {
+ChapterOne::ChapterOne() 
+: inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()), tv(new GameObject()), phone(new GameObject()),
+background(new GameObject()), mouse(new GameObject())
+{
+  Sprite *background_sprite = new Sprite(*background);
 
-  GameObject *bg_go = new GameObject();
-
-  Sprite *background = new Sprite(*bg_go);
-
-  bg_go->AddComponent(background);
+  background->AddComponent(background_sprite);
 
 
-  GameObject *character_go = new GameObject();
+  Character *bianca_character = new Character(*bianca, "assets/img/spritesheet.png", 7);
 
-  Character *bianca = new Character(*character_go, "assets/img/spritesheet.png", 7);
-
-  character_go->AddComponent(bianca);
+  bianca->AddComponent(bianca_character);
 
   
-  GameObject *inventory_icon_go = new GameObject();
+  Sprite *inventory_sprite = new Sprite(*inventory_icon, "assets/img/bookIcon.png");
 
-  Sprite *inventory_sprite = new Sprite(*inventory_icon_go, "assets/img/bookIcon.png");
+  inventory_icon->AddComponent(inventory_sprite);
 
-  inventory_icon_go->AddComponent(inventory_sprite);
+ 
+ 
+  Object *phone_obj = new Object(*phone, "assets/img/telefoneOutline.png");
+
+  phone->AddComponent(phone_obj);
 
 
-  AddObject(bg_go);
+  Mouse *mouse_cpt = new Mouse(*mouse, "assets/img/cursor.png");
 
-  AddObject(character_go);
+  mouse->AddComponent(mouse_cpt);
 
-  AddObject(inventory_icon_go);
+
+
+  AddObject(background);
+
+  AddObject(bianca);
+
+  AddObject(inventory_icon);
 
   AddObject(inventory);
+
+  AddObject(tv);
+
+  AddObject(phone);
+
+  AddObject(mouse);
 }
 
 ChapterOne::~ChapterOne(){}
@@ -60,6 +76,13 @@ void ChapterOne::LoadAssets() {
 
   inventory->box.x = 300 * Game::GetInstance().GetScreenScale().x;
   inventory->box.y = 30 * Game::GetInstance().GetScreenScale().y;
+
+  Sprite *phone_sprite = static_cast<Sprite*>(phone->GetComponent("Image"));
+
+  phone_sprite->SetScale(5.0, 5.0);
+
+  phone->box.x = 1300 * Game::GetInstance().GetScreenScale().x;
+  phone->box.y = 500 * Game::GetInstance().GetScreenScale().y;
 
   background->Render();
 }

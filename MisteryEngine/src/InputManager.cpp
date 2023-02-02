@@ -36,7 +36,6 @@ InputManager::InputManager()
     mouseX = 0;
     mouseY = 0;
 
-    mouse_texture = Resource::GetImage("assets/img/cursor.png");
 }
 
 InputManager::~InputManager()
@@ -103,28 +102,6 @@ void InputManager::Update()
     }
 }
 
-void InputManager::Render()
-{
-    SDL_Renderer *render = Game::GetInstance().GetRenderer();
-
-    SDL_Rect dst_cursor = {mouseX - 25, mouseY - 25, 50, 50};
-
-
-
-    int render_flag = SDL_RenderCopy(render, mouse_texture.get(), NULL, &dst_cursor);
-
-    if (render_flag != 0)
-    {
-        std::fstream logfile("Errors.log", fstream::app);
-
-        logfile << SDL_GetError() << std::endl;
-
-        std::cout << "Couldn't Render Copy in Mouse !!" << std::endl;
-        std::cout << "Error Render Copy: " << SDL_GetError() << std::endl;
-
-        throw std::runtime_error(SDL_GetError());
-    }
-}
 
 bool InputManager::KeyPress(const int key)
 {
