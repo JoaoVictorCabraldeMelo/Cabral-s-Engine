@@ -50,7 +50,7 @@ Game::Game(const std::string& title, const int width, const int height)
 
 
   /*Image Initialization*/
-  int image_flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF;
+  int image_flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF ;
 
   int initiated_image = IMG_Init(image_flags);
 
@@ -64,7 +64,7 @@ Game::Game(const std::string& title, const int width, const int height)
 
 
    /*Sound Initialization*/
-  int sound_flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_OGG;
+  int sound_flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_MOD;
 
   int initiated_sound = Mix_Init(sound_flags);
 
