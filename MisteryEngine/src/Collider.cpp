@@ -13,12 +13,6 @@ Collider::Collider(GameObject &associated, const Vec2& scale, const Vec2& offset
 void Collider::Update(float dt) {
   box = associated.box * scale;
 
-  printf("Scale: %f %f \n", scale.x, scale.y);
-
-  printf("Associted Box: %f %f %f %f \n", associated.box.x, associated.box.y, associated.box.w, associated.box.h);
-
-  printf("Box: %f %f %f %f \n", box.x, box.y, box.w, box.h);
-
   float angleRadians = degrees_to_radians(associated.angleDeg);
   offset.rotate(angleRadians);
 

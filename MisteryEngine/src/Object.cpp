@@ -33,8 +33,10 @@ void Object::Update(float dt) {
   bool is_colliding = Collision::IsColliding(object_collider->box, mouse_collider->box, associated.angleDeg, mouse.angleDeg);
 
   if (!is_colliding) {
-    if (sprite)
+    if (sprite) {
       associated.RemoveComponent(sprite);
+      sprite = nullptr;
+    }
   }
 }
 
@@ -47,14 +49,19 @@ bool Object::Is(const std::string& type){
 }
 
 void Object::Start() {
-  if (sprite) /*segfault protection*/
+  if (sprite) {
     associated.RemoveComponent(sprite);
+    sprite = nullptr;
+  } /*segfault protection*/
 }
 
 void Object::NotifyCollision(GameObject &other) {
-  if (!sprite) {
-    Sprite *object_sprite = new Sprite(associated, file);
+  if (sprite == nullptr) {
+    Sprite *object_sprite = new Sprite(associated, "assets/img/telefoneOutline.png");
 
     sprite = object_sprite;
+
+    associated.AddComponent(object_sprite);
+    // sprite->SetScale(3.7, 3.7);
   }
 }
