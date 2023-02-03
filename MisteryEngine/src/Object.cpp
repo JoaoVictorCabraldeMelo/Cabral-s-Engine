@@ -1,12 +1,16 @@
 #include "../include/Object.hpp"
 #include "../include/Sprite.hpp"
 #include "../include/Collider.hpp"
+#include "../include/Collision.hpp"
 
 using namespace std;
 
-Object::Object(GameObject &associated, const std::string& file) : Component(associated) 
+Object::Object(GameObject &associated, const std::string& file, GameObject &mouse,  const Vec2& scale) 
+: Component(associated), file(file), sprite(nullptr), mouse(mouse), scale(scale) 
 {
   Sprite *object_sprite = new Sprite(associated, file);
+
+  sprite = object_sprite;
 
   associated.box.w = object_sprite->GetWidth();
 
@@ -15,11 +19,23 @@ Object::Object(GameObject &associated, const std::string& file) : Component(asso
   associated.AddComponent(object_sprite);
 
   associated.AddComponent(new Collider(associated));
+
+  sprite->SetScale(scale.x, scale.y);
 }
 
 Object::~Object(){}
 
 void Object::Update(float dt) {
+
+  Collider *object_collider = static_cast<Collider *>(associated.GetComponent("Collider"));
+  Collider *mouse_collider = static_cast<Collider *>(mouse.GetComponent("Collider"));
+
+  bool is_colliding = Collision::IsColliding(object_collider->box, mouse_collider->box, associated.angleDeg, mouse.angleDeg);
+
+  if (!is_colliding) {
+    if (sprite)
+      associated.RemoveComponent(sprite);
+  }
 }
 
 void Object::Render() {}
@@ -30,8 +46,15 @@ bool Object::Is(const std::string& type){
   return false;
 }
 
-void Object::Start() {}
+void Object::Start() {
+  if (sprite) /*segfault protection*/
+    associated.RemoveComponent(sprite);
+}
 
 void Object::NotifyCollision(GameObject &other) {
-  printf("Colidiu\n");
+  if (!sprite) {
+    Sprite *object_sprite = new Sprite(associated, file);
+
+    sprite = object_sprite;
+  }
 }

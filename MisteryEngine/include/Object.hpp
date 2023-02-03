@@ -3,10 +3,13 @@
 
 #include "Component.hpp"
 #include "GameObject.hpp"
+#include "Sprite.hpp"
+#include "Vec2.hpp"
+#include "Mouse.hpp"
 
 class Object : public Component {
   public:
-    Object(GameObject &associated, const std::string& sprite);
+    Object(GameObject &associated, const std::string &file, GameObject &mouse, const Vec2 &scale = {1.0, 1.0});
 
     ~Object();
 
@@ -19,7 +22,15 @@ class Object : public Component {
     void Start();
 
     void NotifyCollision(GameObject &other);
-    
+
+    const std::string &file;
+
+    Sprite *sprite;
+
+    GameObject& mouse;
+
+  private:
+    Vec2 scale;
 };
 
 #endif
