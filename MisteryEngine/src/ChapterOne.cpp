@@ -28,11 +28,14 @@ background(new GameObject()), mouse(new GameObject())
   inventory_icon->AddComponent(inventory_sprite);
 
  
- 
   Object *phone_obj = new Object(*phone, "assets/img/telefoneOutline.png");
 
   phone->AddComponent(phone_obj);
 
+
+  Object *tv_obj = new Object(*tv, "assets/img/tvOutline.png");
+
+  tv->AddComponent(tv_obj);
 
   Mouse *mouse_cpt = new Mouse(*mouse, "assets/img/cursor.png");
 
@@ -85,6 +88,14 @@ void ChapterOne::LoadAssets() {
   phone->box.x = 1300 * Game::GetInstance().GetScreenScale().x;
   phone->box.y = 495 * Game::GetInstance().GetScreenScale().y;
 
+
+  Collider *tv_collider = static_cast<Collider *>(tv->GetComponent("Collider"));
+
+  tv_collider->SetScale({3.5, 3.5});
+
+  tv->box.x = 535 * Game::GetInstance().GetScreenScale().x;
+  tv->box.y = 430 * Game::GetInstance().GetScreenScale().y;
+
   background->Render();
 }
 
@@ -95,6 +106,16 @@ void ChapterOne::Update(float dt) {
   Component *inventory_cpt = inventory->GetComponent("Image");
 
   input.Update();
+
+
+  if(false) {
+    // tv->NotifyCollision() precisa renderizar a imagem na durante a colizao
+  }
+
+    if(mouse->box.x > 535) {
+      printf("fuuu\n");
+    // mouse sobre x,y da tv precisa renderizar a imagem
+  }
 
   if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY))
   {
