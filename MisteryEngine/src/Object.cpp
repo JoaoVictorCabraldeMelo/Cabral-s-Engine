@@ -20,7 +20,7 @@ Object::Object(GameObject &associated, const std::string& file, GameObject &mous
 
   associated.AddComponent(new Collider(associated));
 
-  sprite->SetScale(scale.x, scale.y);
+  //sprite->SetScale(scale.x, scale.y);
 }
 
 Object::~Object(){}
@@ -57,11 +57,11 @@ void Object::Start() {
 
 void Object::NotifyCollision(GameObject &other) {
   if (sprite == nullptr) {
-    Sprite *object_sprite = new Sprite(associated, "assets/img/telefoneOutline.png");
+    Sprite *object_sprite = new Sprite(associated, "assets/img/telefone.png");
 
     sprite = object_sprite;
 
     associated.AddComponent(object_sprite);
-    // sprite->SetScale(3.7, 3.7);
+    //sprite->SetScale(3.7, 3.7);
   }
 }
