@@ -35,6 +35,11 @@ class ChapterOne : public State {
     GameObject *background;
 
     GameObject *mouse;
+
+    GameObject *loading_screen;
+
+  private:
+    void CreateLoadingScreen();
 };
 
 #endif

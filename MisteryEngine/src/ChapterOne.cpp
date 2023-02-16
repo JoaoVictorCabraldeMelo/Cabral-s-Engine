@@ -6,12 +6,13 @@
 #include "../include/Mouse.hpp"
 #include "../include/Object.hpp"
 #include "../include/Collider.hpp"
+#include "../include/Loading.hpp"
 
 using namespace std;
 
 ChapterOne::ChapterOne() 
 : inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()), tv(new GameObject()), phone(new GameObject()),
-background(new GameObject()), mouse(new GameObject())
+background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject())
 {
   Sprite *background_sprite = new Sprite(*background);
 
@@ -40,6 +41,23 @@ background(new GameObject()), mouse(new GameObject())
 
   tv->AddComponent(tv_obj);
 
+  vector<string> loading = {};
+
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.2.png");
+  loading.push_back("assets/img/loading1.3.png");
+  loading.push_back("assets/img/loading1.4.png");
+  loading.push_back("assets/img/loading1.5.png");
+  loading.push_back("assets/img/loading1.6.png");
+  loading.push_back("assets/img/loading1.7.png");
+  loading.push_back("assets/img/loading1.8.png");
+  loading.push_back("assets/img/loading1.9.png");
+  loading.push_back("assets/img/loading1.10.png");
+
+  Loading *loading_obj = new Loading(*loading_screen, loading);
+
+  loading_screen->AddComponent(loading_obj);
+
 
 
 
@@ -56,6 +74,8 @@ background(new GameObject()), mouse(new GameObject())
   AddObject(phone);
 
   AddObject(mouse);
+
+  AddObject(loading_screen);
 }
 
 ChapterOne::~ChapterOne(){}

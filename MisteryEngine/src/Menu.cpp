@@ -154,6 +154,7 @@ void Menu::Update(float dt) {
       text_snd->SetFontFile("assets/font/Mukta-Regular.ttf");
     }
   } else if (input.KeyPress(ENTER_KEY) && button == MenuButton::START) {
+    
     ChapterOne *chapter = new ChapterOne();
     Game::GetInstance().Push(chapter);
   }
