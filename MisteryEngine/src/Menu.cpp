@@ -39,15 +39,50 @@ Menu::Menu() {
 
   chooser_go->AddComponent(chooser);
 
+  GameObject *music_go = new GameObject();
+  Mixer *music = new Mixer(*music_go);
+
+  music_go->AddComponent(music);
+
+  music->OpenSound("assets/audio/music_for_title.mp3");
+
+  GameObject *switch_go = new GameObject();
+  Mixer *switch_button = new Mixer(*switch_go);
+
+  switch_go->AddComponent(switch_button);
+
+  switch_button->OpenSound("assets/audio/switch.mp3");
+
+
+  GameObject *click_go = new GameObject();
+  Mixer *click_button = new Mixer(*click_go);
+
+  click_go->AddComponent(click_button);
+
+  click_button->OpenSound("assets/audio/click.mp3");
+
+
+
+
+  click = click_button;
+
+  this->switch_button = switch_button;
+
+  this->music = music;
+
   AddObject(bg_go);
   AddObject(title_go);
   AddObject(start_text_go);
   AddObject(config_text_go);
   AddObject(quit_text_go);
   AddObject(chooser_go);
+  AddObject(music_go);
+  AddObject(switch_go);
+  AddObject(click_go);
 }
 
-Menu::~Menu(){}
+Menu::~Menu(){
+}
 
 void Menu::LoadAssets() {
   GameObject *go = static_cast<GameObject *>(objectArray[0].get());
@@ -82,6 +117,8 @@ void Menu::LoadAssets() {
   quit_go->box.x = 1500 * Game::GetInstance().GetScreenScale().x;
   quit_go->box.y = 800 * Game::GetInstance().GetScreenScale().y;
 
+  music->PlaySound(-1);
+
   background->Render();
 }
 
@@ -108,6 +145,8 @@ void Menu::Update(float dt) {
       GameObject *text_go_snd = static_cast<GameObject *>(objectArray[2].get());
       Text *text_snd = static_cast<Text *>(text_go_snd->GetComponent("Text"));
       text_snd->SetFontFile("assets/font/Mukta-Regular.ttf");
+
+      switch_button->PlaySound();
     }
     else if (button == MenuButton::CONFIG)
     {
@@ -123,6 +162,8 @@ void Menu::Update(float dt) {
       GameObject *text_go_snd = static_cast<GameObject *>(objectArray[3].get());
       Text *text_snd = static_cast<Text *>(text_go_snd->GetComponent("Text"));
       text_snd->SetFontFile("assets/font/Mukta-Regular.ttf");
+
+      switch_button->PlaySound();
     }
   } else if (input.KeyPress(UP_ARROW_KEY)) {
     if (button == MenuButton::QUIT) {
@@ -139,6 +180,7 @@ void Menu::Update(float dt) {
       Text *text_snd = static_cast<Text *>(text_go_snd->GetComponent("Text"));
       text_snd->SetFontFile("assets/font/Mukta-Regular.ttf");
 
+      switch_button->PlaySound();
     } else if (button == MenuButton::CONFIG) {
       button = MenuButton::START;
       GameObject *chooser_go = static_cast<GameObject *>(objectArray[5].get());
@@ -152,13 +194,16 @@ void Menu::Update(float dt) {
       GameObject *text_go_snd = static_cast<GameObject *>(objectArray[3].get());
       Text *text_snd = static_cast<Text *>(text_go_snd->GetComponent("Text"));
       text_snd->SetFontFile("assets/font/Mukta-Regular.ttf");
+
+      switch_button->PlaySound();
     }
   } else if (input.KeyPress(ENTER_KEY) && button == MenuButton::START) {
-    
+    music->StopSound();
+    click->PlaySound();
+
     ChapterOne *chapter = new ChapterOne();
     Game::GetInstance().Push(chapter);
   }
-
 
   UpdateArray(dt);
 }

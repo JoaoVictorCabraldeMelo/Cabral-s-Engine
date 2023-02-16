@@ -21,11 +21,12 @@ Loading::~Loading(){}
 
 void Loading::Update(float dt) {
 
-  if (time_to_finish.Get() > .75F && index >= 0){
+  if (time_to_finish.Get() > .1F && index > 0){
     associated.RemoveComponent(sprites[index]);
     index = index - 1;
     time_to_finish.Restart();
-  } else if (index == size) {
+  } else if (index == 0 && time_to_finish.Get() > .7F) {
+    associated.RemoveComponent(sprites[index]);
     associated.RequestDelete();
   }
 

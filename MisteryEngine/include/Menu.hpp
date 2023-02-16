@@ -2,6 +2,7 @@
 #define _MENU_H_
 
 #include "State.hpp"
+#include "Mixer.hpp"
 
 class Menu : public State {
   public:
@@ -32,6 +33,12 @@ class Menu : public State {
     };
 
     MenuButton button = MenuButton::START;
+
+    Mixer *music;
+
+    Mixer *switch_button;
+
+    Mixer *click;
 };
 
 #endif

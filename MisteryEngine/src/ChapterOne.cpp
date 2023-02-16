@@ -7,6 +7,7 @@
 #include "../include/Object.hpp"
 #include "../include/Collider.hpp"
 #include "../include/Loading.hpp"
+#include "../include/Mixer.hpp"
 
 using namespace std;
 
@@ -58,7 +59,14 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
 
   loading_screen->AddComponent(loading_obj);
 
+  GameObject *fade_go = new GameObject();
+  Mixer *fade_sound = new Mixer(*fade_go);
 
+  fade_go->AddComponent(fade_sound);
+
+  fade_sound->OpenSound("assets/audio/fade_sound.mp3");
+
+  fade_sound->PlaySound(0);
 
 
   AddObject(background);
@@ -76,6 +84,8 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
   AddObject(mouse);
 
   AddObject(loading_screen);
+
+  AddObject(fade_go);
 }
 
 ChapterOne::~ChapterOne(){}
