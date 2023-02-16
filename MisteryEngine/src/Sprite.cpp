@@ -82,7 +82,7 @@ void Sprite::Render(const int x, const int y, const int w, const int h) const
 
   const SDL_Rect dstClip = {x, y, (int)(clipRect.w * screenScale.x * scale.x), (int)(clipRect.h * screenScale.y * scale.y)};
 
-  // printf("Dst Rect: x -> %d || y -> %d || w -> %d || h -> %d\n", dstClip.x, dstClip.y, dstClip.w, dstClip.h);
+  printf("Dst Rect: x -> %d || y -> %d || w -> %d || h -> %d\n", dstClip.x, dstClip.y, dstClip.w, dstClip.h);
 
   SDL_RendererFlip flip_value = SDL_FLIP_NONE;
 

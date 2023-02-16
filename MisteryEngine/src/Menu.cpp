@@ -25,7 +25,7 @@ Menu::Menu() {
   start_text_go->AddComponent(start);
 
   GameObject *config_text_go = new GameObject();
-  Text *config = new Text(*config_text_go, "assets/font/Mukta-Regular.ttf", 50, Text::TextStyle::SOLID, "Settings", {255, 255, 255, 255});
+  Text *config = new Text(*config_text_go, "assets/font/Mukta-Regular.ttf", 50, Text::TextStyle::SOLID, "Séttings", {255, 255, 255, 255});
 
   config_text_go->AddComponent(config);
 

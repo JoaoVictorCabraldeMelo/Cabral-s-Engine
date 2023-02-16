@@ -33,10 +33,9 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
 
   mouse->AddComponent(mouse_cpt);
 
-  Object *phone_obj = new Object(*phone, "assets/img/telefoneOutline.png", *mouse, {3.7, 3.7});
+  Object *phone_obj = new Object(*phone, "assets/img/phone.png", *mouse, {3.5, 3.5});
 
   phone->AddComponent(phone_obj);
-
 
   Object *tv_obj = new Object(*tv, "assets/img/tvOutline.png", *mouse);
 
@@ -112,13 +111,13 @@ void ChapterOne::LoadAssets() {
   inventory->box.y = 30 * Game::GetInstance().GetScreenScale().y;
 
   Collider *phone_collider = static_cast<Collider *>(phone->GetComponent("Collider"));
-  // Sprite *phone_sprite = static_cast<Sprite *>(phone->GetComponent("Image"));
+  Sprite *phone_sprite = static_cast<Sprite *>(phone->GetComponent("Image"));
 
-  phone_collider->SetScale({3.5, 3.5});
-  // phone_sprite->SetScale(3.7, 3.7);
+  phone_collider->SetScale({1.8, 1.8});
+  phone_sprite->SetScale(3.5, 3.5);
 
   phone->box.x = 1300 * Game::GetInstance().GetScreenScale().x;
-  phone->box.y = 495 * Game::GetInstance().GetScreenScale().y;
+  phone->box.y = 485 * Game::GetInstance().GetScreenScale().y;
 
 
   Collider *tv_collider = static_cast<Collider *>(tv->GetComponent("Collider"));
