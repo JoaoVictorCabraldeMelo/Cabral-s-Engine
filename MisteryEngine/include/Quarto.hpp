@@ -43,6 +43,13 @@ class Quarto : public State {
     Mixer *music;
 
     Timer timer;
+
+    GameObject *wardrobe;
+
+    GameObject *bed;
+
+    GameObject *door;
+
   private:
     int first_time = 0;
 

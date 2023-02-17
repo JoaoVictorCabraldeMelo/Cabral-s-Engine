@@ -7,7 +7,7 @@
 class Dialog : public Component {
 
   public:
-    Dialog(GameObject &associated, std::vector<std::string> dialogs, float frameTime = .1F);
+    Dialog(GameObject &associated, std::vector<std::string>& dialogs, float frameTime = .1F);
 
     ~Dialog();
 
