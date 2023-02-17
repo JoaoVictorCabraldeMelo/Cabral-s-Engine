@@ -25,8 +25,8 @@ void Character::Start() {
   character_sprite->SetFlip(Sprite::Flip::HORIZONTAL);  
   sprite_direction = Direction::RIGHT;
 
-  associated.box.y = 360 * Game::GetInstance().GetScreenScale().y;
-  associated.box.x = 20 * Game::GetInstance().GetScreenScale().x;
+  associated.box.y = 420 * Game::GetInstance().GetScreenScale().y;
+  associated.box.x = 80 * Game::GetInstance().GetScreenScale().x;
 }
 
 void Character::Update(float dt) {
@@ -49,9 +49,6 @@ void Character::Update(float dt) {
 
     Vec2 face { associated.box.x, associated.box.y};
 
-    // if (sprite_direction == Direction::RIGHT) {
-    //   face.x += associated.box.w;
-    // }
 
     if (destination.x > face.x && sprite_direction == Direction::LEFT)
     {
@@ -71,9 +68,8 @@ void Character::Update(float dt) {
     float distance = current_position.distance(destination);
 
 
-    if (distance <= 200.0)
+    if (distance <= 20.0)
     {
-      // associated.box.x = destination.x;
       destinations.pop();
     }
     else

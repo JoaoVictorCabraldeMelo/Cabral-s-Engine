@@ -88,6 +88,11 @@ void Mixer::StopMusic() const
     Mix_HaltMusic();
 }
 
+void Mixer::StopAllSounds() 
+{
+  Mix_HaltChannel(-1);
+}
+
 /*TODO: Colocar try catch no metodo*/
 void Mixer::OpenSound(const string &file)
 {

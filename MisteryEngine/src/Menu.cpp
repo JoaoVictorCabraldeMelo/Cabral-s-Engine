@@ -54,18 +54,6 @@ Menu::Menu() {
   switch_button->OpenSound("assets/audio/switch.mp3");
 
 
-  GameObject *click_go = new GameObject();
-  Mixer *click_button = new Mixer(*click_go);
-
-  click_go->AddComponent(click_button);
-
-  click_button->OpenSound("assets/audio/click.mp3");
-
-
-
-
-  click = click_button;
-
   this->switch_button = switch_button;
 
   this->music = music;
@@ -78,7 +66,6 @@ Menu::Menu() {
   AddObject(chooser_go);
   AddObject(music_go);
   AddObject(switch_go);
-  AddObject(click_go);
 }
 
 Menu::~Menu(){
@@ -199,7 +186,9 @@ void Menu::Update(float dt) {
     }
   } else if (input.KeyPress(ENTER_KEY) && button == MenuButton::START) {
     music->StopSound();
-    click->PlaySound();
+
+    switch_button->OpenSound("assets/audio/click.mp3");
+    switch_button->PlaySound(1);
 
     ChapterOne *chapter = new ChapterOne();
     Game::GetInstance().Push(chapter);
