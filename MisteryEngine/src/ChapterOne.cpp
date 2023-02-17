@@ -33,7 +33,7 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
 
   mouse->AddComponent(mouse_cpt);
 
-  Object *phone_obj = new Object(*phone, "assets/img/phone.png", *mouse, {3.5, 3.5});
+  Object *phone_obj = new Object(*phone, "assets/img/telefone.png", *mouse, {3.5, 3.5});
 
   phone->AddComponent(phone_obj);
 
