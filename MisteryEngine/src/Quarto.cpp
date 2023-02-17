@@ -6,13 +6,14 @@
 #include "../include/Game.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Dialog.hpp"
 
 using namespace std;
 
 Quarto::Quarto()
     : inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()),
       background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), dialog_screen(new GameObject()), 
-      timer(Timer())
+      dialogs(new GameObject()), timer(Timer())
 {
   Sprite *background_sprite = new Sprite(*background);
 
@@ -156,6 +157,22 @@ void Quarto::Update(float dt) {
       music->PlayMusic(-1);
       first_time = 1;
     }
+  }
+
+  if (timer.Get() > 17.0f && !flag_initial_dialogs)
+  {
+    flag_initial_dialogs = true;
+    vector<string> dialogs_ar = {};
+
+    dialogs_ar.push_back("assets/img/01.png");
+    dialogs_ar.push_back("assets/img/02.png");
+    dialogs_ar.push_back("assets/img/03.png");
+
+    Dialog *dialogs_obj = new Dialog(*dialogs, dialogs_ar, 2.0f);
+
+    dialogs->AddComponent(dialogs_obj);
+
+    AddObject(dialogs);
   }
 
   UpdateArray(dt);
