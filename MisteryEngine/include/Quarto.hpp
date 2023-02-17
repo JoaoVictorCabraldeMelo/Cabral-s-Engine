@@ -38,11 +38,15 @@ class Quarto : public State {
 
     GameObject *dialog_screen;
 
+    GameObject *dialogs;
+
     Mixer *music;
 
     Timer timer;
   private:
     int first_time = 0;
+
+    bool flag_initial_dialogs = false;
 };
 
 #endif 
