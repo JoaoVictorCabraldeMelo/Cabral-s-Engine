@@ -7,13 +7,14 @@
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Dialog.hpp"
+#include "../include/Armario.hpp"
 
 using namespace std;
 
 Quarto::Quarto()
     : inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()),
       background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), dialog_screen(new GameObject()), 
-      dialogs(new GameObject()), timer(Timer())
+      dialogs(new GameObject()), timer(Timer()), wardrobe(new GameObject()), bed(new GameObject()), door(new GameObject())
 {
   Sprite *background_sprite = new Sprite(*background);
 
@@ -30,6 +31,17 @@ Quarto::Quarto()
   Mouse *mouse_cpt = new Mouse(*mouse, "assets/img/cursor.png");
 
   mouse->AddComponent(mouse_cpt);
+
+  vector<string> actions_wardrobe = {};
+
+  actions_wardrobe.push_back("Procurar");
+  actions_wardrobe.push_back("Voltar");
+
+  Armario *wardrobe_obj = new Armario(*wardrobe, "assets/img/wardrobe.png", actions_wardrobe, *mouse, {1.0f, 1.0f});
+
+  wardrobe->AddComponent(wardrobe_obj);
+
+
 
   vector<string> loading = {};
 
@@ -65,6 +77,8 @@ Quarto::Quarto()
 
   AddObject(background);
 
+  AddObject(wardrobe);
+
   AddObject(bianca);
 
   AddObject(inventory_icon);
@@ -76,6 +90,7 @@ Quarto::Quarto()
   AddObject(loading_screen);
 
   AddObject(music_go);
+
 }
 
 Quarto::~Quarto() {
@@ -98,7 +113,8 @@ void Quarto::LoadAssets() {
   go->box.x = 0;
   go->box.y = 0;
 
-
+  wardrobe->box.x = 3 * Game::GetInstance().GetScreenScale().x;
+  wardrobe->box.y = 350 * Game::GetInstance().GetScreenScale().y;
 
   inventory_go->box.x = 30 * Game::GetInstance().GetScreenScale().x;
   inventory_go->box.y = 30 * Game::GetInstance().GetScreenScale().y;
@@ -189,7 +205,7 @@ void Quarto::Start() {
 
   started = true;
 
-  GameObject *bianca_go = static_cast<GameObject *>(objectArray[1].get());
+  GameObject *bianca_go = static_cast<GameObject *>(objectArray[2].get());
 
   bianca_go->box.x = 700 * Game::GetInstance().GetScreenScale().x;
   bianca_go->box.y = 400 * Game::GetInstance().GetScreenScale().y;

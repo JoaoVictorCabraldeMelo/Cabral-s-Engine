@@ -1,17 +1,14 @@
-#ifndef _OBJECT_H_
-#define _OBJECT_H_
+#ifndef _ARMARIO_H_
+#define _ARMARIO_H_
 
 #include "Component.hpp"
-#include "GameObject.hpp"
 #include "Sprite.hpp"
-#include "Vec2.hpp"
-#include "Mouse.hpp"
 
-class Object : public Component {
+class Armario : public Component {
   public:
-    Object(GameObject &associated, const std::string &file, GameObject &mouse, const Vec2 &scale = {1.0, 1.0});
+    Armario(GameObject &associated, const std::string &file, std::vector<std::string>& actions, GameObject &mouse, const Vec2 &scale);
 
-    ~Object();
+    ~Armario();
 
     void Update(float dt) override;
 
@@ -25,9 +22,11 @@ class Object : public Component {
 
     const std::string &file;
 
+    std::vector<std::string> actions;
+
     Sprite *sprite;
 
-    GameObject& mouse;
+    GameObject &mouse;
 
   private:
     Vec2 scale;

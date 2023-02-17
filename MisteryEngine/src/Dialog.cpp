@@ -6,7 +6,7 @@
 using namespace std;
 
 
-Dialog::Dialog(GameObject &associated, std::vector<std::string> dialogs, float frameTime) 
+Dialog::Dialog(GameObject &associated, std::vector<std::string>& dialogs, float frameTime) 
 : Component(associated), time_to_finish(Timer()), frameTime(frameTime), dialogs(dialogs)
 {
 
