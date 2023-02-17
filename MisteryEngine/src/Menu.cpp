@@ -3,7 +3,7 @@
 #include "../include/Sprite.hpp"
 #include "../include/Game.hpp"
 #include "../include/InputManager.hpp"
-#include "../include/ChapterOne.hpp"
+#include "../include/Quarto.hpp"
 #include "../include/Text.hpp"
 
 using namespace std;
@@ -190,8 +190,8 @@ void Menu::Update(float dt) {
     switch_button->OpenSound("assets/audio/click.mp3");
     switch_button->PlaySound(1);
 
-    ChapterOne *chapter = new ChapterOne();
-    Game::GetInstance().Push(chapter);
+    Quarto *quarto = new Quarto();
+    Game::GetInstance().Push(quarto);
   }
 
   UpdateArray(dt);

@@ -6,7 +6,7 @@
 
 class Loading : public Component {
   public:
-    Loading(GameObject &associated, std::vector<std::string>& backgrounds);
+    Loading(GameObject &associated, std::vector<std::string>& backgrounds, float frameTime = .1F);
 
     ~Loading();
 
@@ -25,6 +25,8 @@ class Loading : public Component {
     int size;
 
     int index;
+
+    float frameTime;
 };
 
 #endif
