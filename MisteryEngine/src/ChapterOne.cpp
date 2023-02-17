@@ -20,7 +20,7 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
   background->AddComponent(background_sprite);
 
 
-  Character *bianca_character = new Character(*bianca, "assets/img/spritesheet.png", 7);
+  Character *bianca_character = new Character(*bianca, "assets/img/bianca.png", 6);
 
   bianca->AddComponent(bianca_character);
 
@@ -116,7 +116,7 @@ void ChapterOne::LoadAssets() {
   Collider *phone_collider = static_cast<Collider *>(phone->GetComponent("Collider"));
   Sprite *phone_sprite = static_cast<Sprite *>(phone->GetComponent("Image"));
 
-  phone_collider->SetScale({1.8, 1.8});
+  phone_collider->SetScale({1.0, 1.0});
   phone_sprite->SetScale(3.5, 3.5);
 
   phone->box.x = 1300 * Game::GetInstance().GetScreenScale().x;
