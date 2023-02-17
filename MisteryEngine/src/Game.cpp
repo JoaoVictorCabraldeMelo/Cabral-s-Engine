@@ -79,7 +79,7 @@ Game::Game(const std::string& title, const int width, const int height)
     std::cout << "Couldn't open Audio format configuration !!" << std::endl;
   }
 
-  Mix_AllocateChannels(32);
+  Mix_AllocateChannels(64);
 
 
   /*Font Initialization*/

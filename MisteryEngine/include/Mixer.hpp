@@ -18,7 +18,6 @@ class Mixer : public Component
 private:
   std::shared_ptr<Mix_Chunk> sound;
   std::shared_ptr<Mix_Music> music;
-  int channel;
 
 public:
   explicit Mixer(GameObject &associated);
@@ -52,5 +51,9 @@ public:
   bool Is(const std::string& type) override;
 
   void ControlVolume(const int channel, const int volume) const;
+
+  void static StopAllSounds();
+
+  int channel;
 };
 #endif

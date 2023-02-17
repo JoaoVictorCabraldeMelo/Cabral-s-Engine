@@ -13,7 +13,7 @@ using namespace std;
 
 ChapterOne::ChapterOne() 
 : inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()), tv(new GameObject()), phone(new GameObject()),
-background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject())
+background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), timer(Timer())
 {
   Sprite *background_sprite = new Sprite(*background);
 
@@ -58,14 +58,17 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
 
   loading_screen->AddComponent(loading_obj);
 
-  GameObject *fade_go = new GameObject();
-  Mixer *fade_sound = new Mixer(*fade_go);
+  GameObject *music_go = new GameObject();
 
-  fade_go->AddComponent(fade_sound);
+  Mixer *music = new Mixer(*music_go);
 
-  fade_sound->OpenSound("assets/audio/fade_sound.mp3");
+  music->OpenMusic("assets/audio/happy_theme.mp3");
 
-  fade_sound->PlaySound(0);
+  music->OpenSound("assets/audio/fade_sound.mp3");
+
+  this->music = music;
+
+  music->PlaySound(0);
 
 
   AddObject(background);
@@ -84,7 +87,7 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
 
   AddObject(loading_screen);
 
-  AddObject(fade_go);
+  AddObject(music_go);
 }
 
 ChapterOne::~ChapterOne(){}
@@ -132,6 +135,8 @@ void ChapterOne::LoadAssets() {
 
 void ChapterOne::Update(float dt) {
 
+  timer.Update(dt);
+
   InputManager &input = InputManager::GetInstance();
 
   Component *inventory_cpt = inventory->GetComponent("Image");
@@ -150,6 +155,14 @@ void ChapterOne::Update(float dt) {
   else if (input.KeyPress(TAB_KEY) &&  inventory_cpt != nullptr)
   {
     inventory->RemoveComponent(inventory_cpt);
+  }
+
+  if(timer.Get() > 3.0F){
+    if (first_time == 0)
+    {
+      music->PlayMusic(-1);
+      first_time = 1;
+    }
   }
 
   UpdateArray(dt);

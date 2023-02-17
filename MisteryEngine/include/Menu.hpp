@@ -37,8 +37,6 @@ class Menu : public State {
     Mixer *music;
 
     Mixer *switch_button;
-
-    Mixer *click;
 };
 
 #endif

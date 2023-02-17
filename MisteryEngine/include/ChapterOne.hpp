@@ -3,6 +3,8 @@
 
 #include "State.hpp"
 #include "GameObject.hpp"
+#include "Timer.hpp"
+#include "Mixer.hpp"
 
 class ChapterOne : public State {
   public:
@@ -39,7 +41,12 @@ class ChapterOne : public State {
     GameObject *loading_screen;
 
   private:
-    void CreateLoadingScreen();
+
+    Timer timer;
+
+    Mixer *music;
+
+    int first_time = 0;
 };
 
 #endif
