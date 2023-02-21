@@ -4,6 +4,7 @@
 #include "../include/Game.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Quarto.hpp"
+#include "../include/Sala.hpp"
 #include "../include/Text.hpp"
 
 using namespace std;
@@ -190,8 +191,13 @@ void Menu::Update(float dt) {
     switch_button->OpenSound("assets/audio/click.mp3");
     switch_button->PlaySound(1);
 
+    // Sala *sala = new Sala();
+    // Game::GetInstance().Push(sala);
     Quarto *quarto = new Quarto();
     Game::GetInstance().Push(quarto);
+  } else if (input.KeyPress(P_KEY)) {
+    Sala *sala = new Sala();
+    Game::GetInstance().Push(sala);
   }
 
   UpdateArray(dt);

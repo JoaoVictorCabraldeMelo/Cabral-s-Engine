@@ -1,14 +1,14 @@
-#ifndef _ARMARIO_H_
-#define _ARMARIO_H_
+#ifndef _TV_H_
+#define _TV_H_
 
 #include "Component.hpp"
 #include "Sprite.hpp"
 
-class Armario : public Component {
+class TV : public Component {
   public:
-    Armario(GameObject &associated, const std::string &file, std::vector<std::string>& actions, GameObject &mouse, const Vec2 &scale);
+    TV(GameObject &associated, const std::string &file, std::vector<std::string>& actions, GameObject &mouse, const Vec2 &scale);
 
-    ~Armario();
+    ~TV();
 
     void Update(float dt) override;
 

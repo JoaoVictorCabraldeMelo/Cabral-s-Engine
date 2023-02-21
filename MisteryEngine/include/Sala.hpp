@@ -1,16 +1,16 @@
-#ifndef _CHAPTER_ONE_H_
-#define _CHAPTER_ONE_H_
+#ifndef _Sala_H_
+#define _Sala_H_
 
 #include "State.hpp"
 #include "GameObject.hpp"
 #include "Timer.hpp"
 #include "Mixer.hpp"
 
-class ChapterOne : public State {
+class Sala : public State {
   public:
-    ChapterOne();
+    Sala();
 
-    ~ChapterOne();
+    ~Sala();
 
     void LoadAssets() override;
 

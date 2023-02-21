@@ -19,6 +19,7 @@
 #define S_KEY SDLK_s
 #define A_KEY SDLK_a
 #define D_KEY SDLK_d
+#define P_KEY SDLK_CAPSLOCK
 #define SPACE_KEY SDLK_SPACE
 #define ENTER_KEY SDLK_RETURN
 #define TAB_KEY SDLK_TAB

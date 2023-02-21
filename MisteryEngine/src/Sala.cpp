@@ -1,8 +1,10 @@
-#include "../include/ChapterOne.hpp"
+#include "../include/Sala.hpp"
 #include "../include/Character.hpp"
 #include "../include/Game.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Phone.hpp"
+#include "../include/TV.hpp"
 #include "../include/Mouse.hpp"
 #include "../include/Object.hpp"
 #include "../include/Collider.hpp"
@@ -11,7 +13,7 @@
 
 using namespace std;
 
-ChapterOne::ChapterOne() 
+Sala::Sala() 
 : inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()), tv(new GameObject()), phone(new GameObject()),
 background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), timer(Timer())
 {
@@ -33,11 +35,22 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
 
   mouse->AddComponent(mouse_cpt);
 
-  Object *phone_obj = new Object(*phone, "assets/img/telefone.png", *mouse, {3.5, 3.5});
+
+  vector<string> actions_tv = {};
+
+  actions_tv.push_back("Procurar");
+  actions_tv.push_back("Voltar");
+
+  vector<string> actions_phone = {};
+
+  actions_phone.push_back("Procurar");
+  actions_phone.push_back("Voltar");
+
+  Phone *phone_obj = new Phone(*phone, "assets/img/phone.png", actions_phone, *mouse, {3.5, 3.5});
 
   phone->AddComponent(phone_obj);
 
-  Object *tv_obj = new Object(*tv, "assets/img/tvOutline.png", *mouse);
+  TV *tv_obj = new TV(*tv, "assets/img/tvOutline.png", actions_tv, *mouse, {3.5, 3.5});
 
   tv->AddComponent(tv_obj);
 
@@ -90,10 +103,10 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
   AddObject(music_go);
 }
 
-ChapterOne::~ChapterOne(){}
+Sala::~Sala(){}
 
 
-void ChapterOne::LoadAssets() {
+void Sala::LoadAssets() {
   GameObject *go = static_cast<GameObject *>(objectArray[0].get());
 
   GameObject *inventory_go = static_cast<GameObject *>(objectArray[2].get());
@@ -124,16 +137,15 @@ void ChapterOne::LoadAssets() {
 
 
   Collider *tv_collider = static_cast<Collider *>(tv->GetComponent("Collider"));
-
   tv_collider->SetScale({3.5, 3.5});
 
-  tv->box.x = 535 * Game::GetInstance().GetScreenScale().x;
-  tv->box.y = 430 * Game::GetInstance().GetScreenScale().y;
+  tv->box.x = 530 * Game::GetInstance().GetScreenScale().x;
+  tv->box.y = 420 * Game::GetInstance().GetScreenScale().y;
 
   background->Render();
 }
 
-void ChapterOne::Update(float dt) {
+void Sala::Update(float dt) {
 
   timer.Update(dt);
 
@@ -168,11 +180,11 @@ void ChapterOne::Update(float dt) {
   UpdateArray(dt);
 }
 
-void ChapterOne::Render() {
+void Sala::Render() {
   RenderArray();
 }
 
-void ChapterOne::Start() {
+void Sala::Start() {
   LoadAssets();
 
   StartArray();
@@ -180,8 +192,8 @@ void ChapterOne::Start() {
   started = true;
 }
 
-void ChapterOne::Pause() {}
+void Sala::Pause() {}
 
-void ChapterOne::Resume(){
+void Sala::Resume(){
   Camera::Unfollow();
 }

@@ -1,4 +1,5 @@
 #include "../include/Quarto.hpp"
+#include "../include/Sala.hpp"
 #include "../include/Sprite.hpp"
 #include "../include/Character.hpp"
 #include "../include/Mouse.hpp"
@@ -7,7 +8,9 @@
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Dialog.hpp"
-#include "../include/Armario.hpp"
+#include "../include/Wardrobe.hpp"
+#include "../include/Bed.hpp"
+#include "../include/Door.hpp"
 
 using namespace std;
 
@@ -37,24 +40,37 @@ Quarto::Quarto()
   actions_wardrobe.push_back("Procurar");
   actions_wardrobe.push_back("Voltar");
 
-  Armario *wardrobe_obj = new Armario(*wardrobe, "assets/img/wardrobe.png", actions_wardrobe, *mouse, {1.0f, 1.0f});
+  vector<string> actions_bed = {};
 
+  actions_bed.push_back("Procurar");
+  actions_bed.push_back("Voltar");
+
+  vector<string> actions_door = {};
+
+  actions_door.push_back("Procurar");
+  actions_door.push_back("Voltar");
+
+  Wardrobe *wardrobe_obj = new Wardrobe(*wardrobe, "assets/img/wardrobe.png", actions_wardrobe, *mouse, {1.0f, 1.0f});
   wardrobe->AddComponent(wardrobe_obj);
 
+  Bed *bed_obj = new Bed(*bed, "assets/img/bed.png", actions_bed, *mouse, {1.0f, 1.0f});
+  bed->AddComponent(bed_obj);
 
+  Door *door_obj = new Door(*door, "assets/img/door.png", actions_door, *mouse, {1.0f, 1.0f});
+  door->AddComponent(door_obj);
 
   vector<string> loading = {};
 
-  loading.push_back("assets/img/loading1.1.png");
-  loading.push_back("assets/img/loading1.2.png");
-  loading.push_back("assets/img/loading1.3.png");
-  loading.push_back("assets/img/loading1.4.png");
-  loading.push_back("assets/img/loading1.5.png");
-  loading.push_back("assets/img/loading1.6.png");
-  loading.push_back("assets/img/loading1.7.png");
-  loading.push_back("assets/img/loading1.8.png");
-  loading.push_back("assets/img/loading1.9.png");
-  loading.push_back("assets/img/loading1.10.png");
+  // loading.push_back("assets/img/loading1.1.png");
+  // loading.push_back("assets/img/loading1.2.png");
+  // loading.push_back("assets/img/loading1.3.png");
+  // loading.push_back("assets/img/loading1.4.png");
+  // loading.push_back("assets/img/loading1.5.png");
+  // loading.push_back("assets/img/loading1.6.png");
+  // loading.push_back("assets/img/loading1.7.png");
+  // loading.push_back("assets/img/loading1.8.png");
+  // loading.push_back("assets/img/loading1.9.png");
+  // loading.push_back("assets/img/loading1.10.png");
 
   Loading *loading_obj = new Loading(*loading_screen, loading);
 
@@ -78,6 +94,10 @@ Quarto::Quarto()
   AddObject(background);
 
   AddObject(wardrobe);
+
+  AddObject(bed);
+
+  AddObject(door);
 
   AddObject(bianca);
 
@@ -103,7 +123,6 @@ void Quarto::LoadAssets() {
 
   GameObject *inventory_go = static_cast<GameObject *>(objectArray[2].get());
 
-
   Sprite *background = static_cast<Sprite *>(go->GetComponent("Image"));
 
   background->Open("assets/img/Quarto.png");
@@ -115,6 +134,12 @@ void Quarto::LoadAssets() {
 
   wardrobe->box.x = 3 * Game::GetInstance().GetScreenScale().x;
   wardrobe->box.y = 350 * Game::GetInstance().GetScreenScale().y;
+
+  bed->box.x = 50 * Game::GetInstance().GetScreenScale().x;
+  bed->box.y = 250 * Game::GetInstance().GetScreenScale().y;
+
+  door->box.x = 1655 * Game::GetInstance().GetScreenScale().x;
+  door->box.y = 280 * Game::GetInstance().GetScreenScale().y;
 
   inventory_go->box.x = 30 * Game::GetInstance().GetScreenScale().x;
   inventory_go->box.y = 30 * Game::GetInstance().GetScreenScale().y;
@@ -136,6 +161,12 @@ void Quarto::Update(float dt) {
 
   input.Update();
 
+ if (input.KeyPress(P_KEY)) {
+    std::cout << "check";
+    Sala *sala = new Sala();
+    Game::GetInstance().Push(sala);
+  }
+  
   if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY))
   {
     quitRequested = true;
@@ -150,9 +181,11 @@ void Quarto::Update(float dt) {
     inventory->RemoveComponent(inventory_cpt);
   }
 
+
+
   if (timer.Get() > 2.0F)
   {
-    if (first_time == 0)
+    if (first_time != 0)
     {
       vector<string> dialog = {};
 
