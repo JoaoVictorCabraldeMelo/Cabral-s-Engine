@@ -1,11 +1,10 @@
-#include "../include/Sala.hpp"
+#include "../include/Hospital.hpp"
 #include "../include/Character.hpp"
 #include "../include/Game.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Phone.hpp"
-#include "../include/TV.hpp"
-#include "../include/PortaSala.hpp"
+#include "../include/Soro.hpp"
 #include "../include/Mouse.hpp"
 #include "../include/Object.hpp"
 #include "../include/Collider.hpp"
@@ -14,9 +13,9 @@
 
 using namespace std;
 
-Sala::Sala() 
-: inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()), tv(new GameObject()), phone(new GameObject()),
-porta(new GameObject()), background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), timer(Timer())
+Hospital::Hospital() 
+: inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()), soro(new GameObject()),
+background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), timer(Timer())
 {
   Sprite *background_sprite = new Sprite(*background);
 
@@ -37,32 +36,14 @@ porta(new GameObject()), background(new GameObject()), mouse(new GameObject()), 
   mouse->AddComponent(mouse_cpt);
 
 
-  vector<string> actions_tv = {};
+  vector<string> actions_soro = {};
 
-  actions_tv.push_back("Procurar");
-  actions_tv.push_back("Voltar");
+  actions_soro.push_back("Procurar");
+  actions_soro.push_back("Voltar");
 
-  vector<string> actions_phone = {};
+  Soro *soro_obj = new Soro(*soro, "assets/img/soro.png", actions_soro, *mouse, {3.5, 3.5});
 
-  actions_phone.push_back("Procurar");
-  actions_phone.push_back("Voltar");
-
-  vector<string> actions_porta = {};
-
-  actions_porta.push_back("Procurar");
-  actions_porta.push_back("Voltar");
-
-  Phone *phone_obj = new Phone(*phone, "assets/img/phone.png", actions_phone, *mouse, {3.5, 3.5});
-
-  phone->AddComponent(phone_obj);
-
-  TV *tv_obj = new TV(*tv, "assets/img/tvOutline.png", actions_tv, *mouse, {3.5, 3.5});
-
-  tv->AddComponent(tv_obj);
-
-  PortaSala *porta_sala_obj = new PortaSala(*porta, "assets/img/porta_sala.png", actions_tv, *mouse, {3.5, 3.5});
-
-  porta->AddComponent(porta_sala_obj);
+  soro->AddComponent(soro_obj);
 
   vector<string> loading = {};
 
@@ -102,11 +83,7 @@ porta(new GameObject()), background(new GameObject()), mouse(new GameObject()), 
 
   AddObject(inventory);
 
-  AddObject(tv);
-
-  AddObject(phone);
-
-  AddObject(porta);
+  AddObject(soro);
 
   AddObject(mouse);
 
@@ -115,17 +92,17 @@ porta(new GameObject()), background(new GameObject()), mouse(new GameObject()), 
   AddObject(music_go);
 }
 
-Sala::~Sala(){}
+Hospital::~Hospital(){}
 
 
-void Sala::LoadAssets() {
+void Hospital::LoadAssets() {
   GameObject *go = static_cast<GameObject *>(objectArray[0].get());
 
   GameObject *inventory_go = static_cast<GameObject *>(objectArray[2].get());
 
   Sprite *background = static_cast<Sprite *>(go->GetComponent("Image"));
 
-  background->Open("assets/img/Sala.png");
+  background->Open("assets/img/Hospital.png");
 
   background->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
 
@@ -138,32 +115,17 @@ void Sala::LoadAssets() {
   inventory->box.x = 300 * Game::GetInstance().GetScreenScale().x;
   inventory->box.y = 30 * Game::GetInstance().GetScreenScale().y;
 
-  Collider *phone_collider = static_cast<Collider *>(phone->GetComponent("Collider"));
-  Sprite *phone_sprite = static_cast<Sprite *>(phone->GetComponent("Image"));
 
-  phone_collider->SetScale({1.0, 1.0});
-  phone_sprite->SetScale(3.5, 3.5);
+  Collider *soro_collider = static_cast<Collider *>(soro->GetComponent("Collider"));
+  soro_collider->SetScale({1.0, 1.0});
 
-  phone->box.x = 1300 * Game::GetInstance().GetScreenScale().x;
-  phone->box.y = 485 * Game::GetInstance().GetScreenScale().y;
-
-
-  Collider *tv_collider = static_cast<Collider *>(tv->GetComponent("Collider"));
-  tv_collider->SetScale({3.5, 3.5});
-
-  tv->box.x = 530 * Game::GetInstance().GetScreenScale().x;
-  tv->box.y = 420 * Game::GetInstance().GetScreenScale().y;
-
-  Collider *porta_collider = static_cast<Collider *>(porta->GetComponent("Collider"));
-  porta_collider->SetScale({1.0, 1.0});
-
-  porta->box.x = 922 * Game::GetInstance().GetScreenScale().x;
-  porta->box.y = 222 * Game::GetInstance().GetScreenScale().y;
+  soro->box.x = 375 * Game::GetInstance().GetScreenScale().x;
+  soro->box.y = 380 * Game::GetInstance().GetScreenScale().y;
 
   background->Render();
 }
 
-void Sala::Update(float dt) {
+void Hospital::Update(float dt) {
 
   timer.Update(dt);
 
@@ -198,11 +160,11 @@ void Sala::Update(float dt) {
   UpdateArray(dt);
 }
 
-void Sala::Render() {
+void Hospital::Render() {
   RenderArray();
 }
 
-void Sala::Start() {
+void Hospital::Start() {
   LoadAssets();
 
   StartArray();
@@ -210,8 +172,8 @@ void Sala::Start() {
   started = true;
 }
 
-void Sala::Pause() {}
+void Hospital::Pause() {}
 
-void Sala::Resume(){
+void Hospital::Resume(){
   Camera::Unfollow();
 }

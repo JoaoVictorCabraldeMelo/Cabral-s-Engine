@@ -1,16 +1,16 @@
-#ifndef _Sala_H_
-#define _Sala_H_
+#ifndef _Bar_H_
+#define _Bar_H_
 
 #include "State.hpp"
 #include "GameObject.hpp"
 #include "Timer.hpp"
 #include "Mixer.hpp"
 
-class Sala : public State {
+class Bar : public State {
   public:
-    Sala();
+    Bar();
 
-    ~Sala();
+    ~Bar();
 
     void LoadAssets() override;
 
@@ -30,11 +30,7 @@ class Sala : public State {
 
     GameObject *bianca;
 
-    GameObject *tv;
-
     GameObject *phone;
-
-    GameObject *porta;
 
     GameObject *background;
 

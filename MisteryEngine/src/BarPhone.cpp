@@ -1,31 +1,29 @@
-#include "../include/Door.hpp"
-#include "../include/Sala.hpp"
-#include "../include/Game.hpp"
+#include "../include/BarPhone.hpp"
 #include "../include/Collider.hpp"
 #include "../include/Collision.hpp"
 
 using namespace std;
 
-Door::Door(GameObject& associated, const std::string& file, vector<string>& actions, GameObject& mouse, const Vec2& scale)
+BarPhone::BarPhone(GameObject& associated, const std::string& file, vector<string>& actions, GameObject& mouse, const Vec2& scale)
 : Component(associated), file(file), sprite(nullptr), mouse(mouse), scale(scale)
 {
 
-  Sprite *door_sprite = new Sprite(associated, file);
+  Sprite *phone_sprite = new Sprite(associated, file);
 
-  sprite = door_sprite;
+  sprite = phone_sprite;
 
-  associated.box.w = door_sprite->GetWidth();
+  associated.box.w = phone_sprite->GetWidth();
 
-  associated.box.h = door_sprite->GetHeight();
+  associated.box.h = phone_sprite->GetHeight();
 
-  associated.AddComponent(door_sprite);
+  associated.AddComponent(phone_sprite);
 
   associated.AddComponent(new Collider(associated));
 }
 
-Door::~Door() {}
+BarPhone::~BarPhone() {}
 
-void Door::Update(float dt) {
+void BarPhone::Update(float dt) {
   Collider *object_collider = static_cast<Collider *>(associated.GetComponent("Collider"));
   Collider *mouse_collider = static_cast<Collider *>(mouse.GetComponent("Collider"));
 
@@ -40,9 +38,9 @@ void Door::Update(float dt) {
   }
 }
 
-void Door::Render() {}
+void BarPhone::Render() {}
 
-void Door::Start() {
+void BarPhone::Start() {
   if (sprite)
   {
     associated.RemoveComponent(sprite);
@@ -50,22 +48,20 @@ void Door::Start() {
   } /*segfault protection*/
 }
 
-bool Door::Is(const std::string& type){
-  if (type == "Door")
+bool BarPhone::Is(const std::string& type){
+  if (type == "BarPhone")
     return true;
   return false;
 }
 
-void Door::NotifyCollision(GameObject &other) {
+void BarPhone::NotifyCollision(GameObject &other) {
   if (sprite == nullptr)
   {
-    Sprite *object_sprite = new Sprite(associated, "assets/img/door.png");
+    Sprite *object_sprite = new Sprite(associated, "assets/img/bar_phone.png");
 
     sprite = object_sprite;
 
     associated.AddComponent(object_sprite);
-    Sala *sala = new Sala();
-    Game::GetInstance().Push(sala);
 
   }
 }

@@ -5,6 +5,10 @@
 #include "../include/InputManager.hpp"
 #include "../include/Quarto.hpp"
 #include "../include/Sala.hpp"
+#include "../include/Rua.hpp"
+#include "../include/Cativeiro.hpp"
+#include "../include/Bar.hpp"
+#include "../include/Hospital.hpp"
 #include "../include/Text.hpp"
 
 using namespace std;
@@ -191,13 +195,17 @@ void Menu::Update(float dt) {
     switch_button->OpenSound("assets/audio/click.mp3");
     switch_button->PlaySound(1);
 
-    // Sala *sala = new Sala();
-    // Game::GetInstance().Push(sala);
+
     Quarto *quarto = new Quarto();
     Game::GetInstance().Push(quarto);
-  } else if (input.KeyPress(P_KEY)) {
-    Sala *sala = new Sala();
-    Game::GetInstance().Push(sala);
+    // Rua *rua = new Rua();
+    // Game::GetInstance().Push(rua);
+    // Bar *bar = new Bar();
+    // Game::GetInstance().Push(bar);
+    // Hospital *hospital = new Hospital();
+    // Game::GetInstance().Push(hospital);
+    // Cativeiro *cativiero = new Cativeiro();
+    // Game::GetInstance().Push(cativiero);
   }
 
   UpdateArray(dt);

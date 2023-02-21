@@ -1,11 +1,10 @@
-#include "../include/Sala.hpp"
+#include "../include/Rua.hpp"
 #include "../include/Character.hpp"
 #include "../include/Game.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Phone.hpp"
 #include "../include/TV.hpp"
-#include "../include/PortaSala.hpp"
 #include "../include/Mouse.hpp"
 #include "../include/Object.hpp"
 #include "../include/Collider.hpp"
@@ -14,9 +13,9 @@
 
 using namespace std;
 
-Sala::Sala() 
-: inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()), tv(new GameObject()), phone(new GameObject()),
-porta(new GameObject()), background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), timer(Timer())
+Rua::Rua() 
+: inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()), stand(new GameObject()), phone(new GameObject()),
+background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), timer(Timer())
 {
   Sprite *background_sprite = new Sprite(*background);
 
@@ -47,22 +46,13 @@ porta(new GameObject()), background(new GameObject()), mouse(new GameObject()), 
   actions_phone.push_back("Procurar");
   actions_phone.push_back("Voltar");
 
-  vector<string> actions_porta = {};
-
-  actions_porta.push_back("Procurar");
-  actions_porta.push_back("Voltar");
-
   Phone *phone_obj = new Phone(*phone, "assets/img/phone.png", actions_phone, *mouse, {3.5, 3.5});
 
   phone->AddComponent(phone_obj);
 
-  TV *tv_obj = new TV(*tv, "assets/img/tvOutline.png", actions_tv, *mouse, {3.5, 3.5});
+  TV *stand_obj = new TV(*stand, "assets/img/tvOutline.png", actions_tv, *mouse, {3.5, 3.5});
 
-  tv->AddComponent(tv_obj);
-
-  PortaSala *porta_sala_obj = new PortaSala(*porta, "assets/img/porta_sala.png", actions_tv, *mouse, {3.5, 3.5});
-
-  porta->AddComponent(porta_sala_obj);
+  stand->AddComponent(stand_obj);
 
   vector<string> loading = {};
 
@@ -102,11 +92,9 @@ porta(new GameObject()), background(new GameObject()), mouse(new GameObject()), 
 
   AddObject(inventory);
 
-  AddObject(tv);
+  AddObject(stand);
 
   AddObject(phone);
-
-  AddObject(porta);
 
   AddObject(mouse);
 
@@ -115,17 +103,17 @@ porta(new GameObject()), background(new GameObject()), mouse(new GameObject()), 
   AddObject(music_go);
 }
 
-Sala::~Sala(){}
+Rua::~Rua(){}
 
 
-void Sala::LoadAssets() {
+void Rua::LoadAssets() {
   GameObject *go = static_cast<GameObject *>(objectArray[0].get());
 
   GameObject *inventory_go = static_cast<GameObject *>(objectArray[2].get());
 
   Sprite *background = static_cast<Sprite *>(go->GetComponent("Image"));
 
-  background->Open("assets/img/Sala.png");
+  background->Open("assets/img/Rua.png");
 
   background->SetClip(0, 0, Game::GetInstance().GetWidth(), Game::GetInstance().GetHeight());
 
@@ -148,22 +136,16 @@ void Sala::LoadAssets() {
   phone->box.y = 485 * Game::GetInstance().GetScreenScale().y;
 
 
-  Collider *tv_collider = static_cast<Collider *>(tv->GetComponent("Collider"));
+  Collider *tv_collider = static_cast<Collider *>(stand->GetComponent("Collider"));
   tv_collider->SetScale({3.5, 3.5});
 
-  tv->box.x = 530 * Game::GetInstance().GetScreenScale().x;
-  tv->box.y = 420 * Game::GetInstance().GetScreenScale().y;
-
-  Collider *porta_collider = static_cast<Collider *>(porta->GetComponent("Collider"));
-  porta_collider->SetScale({1.0, 1.0});
-
-  porta->box.x = 922 * Game::GetInstance().GetScreenScale().x;
-  porta->box.y = 222 * Game::GetInstance().GetScreenScale().y;
+  stand->box.x = 530 * Game::GetInstance().GetScreenScale().x;
+  stand->box.y = 420 * Game::GetInstance().GetScreenScale().y;
 
   background->Render();
 }
 
-void Sala::Update(float dt) {
+void Rua::Update(float dt) {
 
   timer.Update(dt);
 
@@ -198,11 +180,11 @@ void Sala::Update(float dt) {
   UpdateArray(dt);
 }
 
-void Sala::Render() {
+void Rua::Render() {
   RenderArray();
 }
 
-void Sala::Start() {
+void Rua::Start() {
   LoadAssets();
 
   StartArray();
@@ -210,8 +192,8 @@ void Sala::Start() {
   started = true;
 }
 
-void Sala::Pause() {}
+void Rua::Pause() {}
 
-void Sala::Resume(){
+void Rua::Resume(){
   Camera::Unfollow();
 }
