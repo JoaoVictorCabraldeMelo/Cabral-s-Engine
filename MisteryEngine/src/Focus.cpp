@@ -26,8 +26,6 @@ void Focus::MakeFocus(float dt) {
     Quarto::focus->AddComponent(background);
 
     current_background = background;
-
-    cout << "Entrei aqui no primeiro " << endl;
   }
   else if (animation_timer.Get() >= .2F && animation_timer.Get() < .3F)
   {
@@ -38,8 +36,6 @@ void Focus::MakeFocus(float dt) {
     Quarto::focus->AddComponent(background);
 
     current_background = background;
-
-    cout << "Entrei aqui no segundo " << endl;
   }
   else if (animation_timer.Get() >= .3F && animation_timer.Get() < .4F)
   {
@@ -50,8 +46,6 @@ void Focus::MakeFocus(float dt) {
     Quarto::focus->AddComponent(background);
 
     current_background = background;
-
-    cout << "Entrei aqui no terceiro " << endl;
   }
   else if (animation_timer.Get() >= .4F && animation_timer.Get() < .5F)
   {
@@ -62,8 +56,6 @@ void Focus::MakeFocus(float dt) {
     Quarto::focus->AddComponent(background);
 
     current_background = background;
-
-    cout << "Entrei aqui no quarto " << endl;
   }
   else if (animation_timer.Get() >= .5F && animation_timer.Get() < .6F)
   {
@@ -74,8 +66,6 @@ void Focus::MakeFocus(float dt) {
     Quarto::focus->AddComponent(background);
 
     current_background = background;
-
-    cout << "Entrei aqui no quinto " << endl;
   }
   else if (animation_timer.Get() >= .6F && animation_timer.Get() < .7F)
   {
@@ -86,8 +76,6 @@ void Focus::MakeFocus(float dt) {
     Quarto::focus->AddComponent(background);
 
     current_background = background;
-
-    cout << "Entrei aqui no sexto " << endl;
   }
 }
 
