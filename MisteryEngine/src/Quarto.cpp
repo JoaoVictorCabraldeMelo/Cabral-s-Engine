@@ -17,6 +17,10 @@ using namespace std;
 
 GameObject *Quarto::focus = nullptr;
 
+GameObject *Quarto::chooser = nullptr;
+
+GameObject *Quarto::text = nullptr;
+
 Quarto::Quarto()
     : inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()),
       background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), dialog_screen(new GameObject()), 
@@ -24,6 +28,10 @@ Quarto::Quarto()
 {
 
   focus = new GameObject();
+
+  chooser = new GameObject();
+
+  text = new GameObject();
 
   Sprite *background_sprite = new Sprite(*background);
 
@@ -44,17 +52,14 @@ Quarto::Quarto()
   vector<string> actions_wardrobe = {};
 
   actions_wardrobe.push_back("Procurar");
-  actions_wardrobe.push_back("Voltar");
 
   vector<string> actions_bed = {};
 
   actions_bed.push_back("Procurar");
-  actions_bed.push_back("Voltar");
 
   vector<string> actions_door = {};
 
-  actions_door.push_back("Procurar");
-  actions_door.push_back("Voltar");
+  actions_door.push_back("Ir para sala");
 
   Armario *wardrobe_obj = new Armario(*wardrobe, "assets/img/wardrobe.png", actions_wardrobe, *mouse, {1.0f, 1.0f});
   
@@ -118,6 +123,10 @@ Quarto::Quarto()
   AddObject(music_go);
 
   AddObject(focus);
+
+  AddObject(chooser);
+
+  AddObject(text);
 }
 
 Quarto::~Quarto() {
