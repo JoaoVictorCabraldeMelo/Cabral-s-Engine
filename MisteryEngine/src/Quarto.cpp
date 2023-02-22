@@ -8,14 +8,20 @@
 #include "../include/Camera.hpp"
 #include "../include/Dialog.hpp"
 #include "../include/Armario.hpp"
+#include "../include/Focus.hpp"
 
 using namespace std;
+
+GameObject *Quarto::focus = nullptr;
 
 Quarto::Quarto()
     : inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()),
       background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), dialog_screen(new GameObject()), 
       dialogs(new GameObject()), timer(Timer()), wardrobe(new GameObject()), bed(new GameObject()), door(new GameObject())
 {
+
+  focus = new GameObject();
+
   Sprite *background_sprite = new Sprite(*background);
 
   background->AddComponent(background_sprite);
@@ -41,8 +47,6 @@ Quarto::Quarto()
 
   wardrobe->AddComponent(wardrobe_obj);
 
-
-
   vector<string> loading = {};
 
   loading.push_back("assets/img/loading1.1.png");
@@ -60,8 +64,7 @@ Quarto::Quarto()
 
   loading_screen->AddComponent(loading_obj);
 
-
-
+  makeFocus = new Focus();
 
   GameObject *music_go = new GameObject();
 
@@ -91,6 +94,7 @@ Quarto::Quarto()
 
   AddObject(music_go);
 
+  AddObject(focus);
 }
 
 Quarto::~Quarto() {
@@ -189,6 +193,14 @@ void Quarto::Update(float dt) {
     dialogs->AddComponent(dialogs_obj);
 
     AddObject(dialogs);
+  }
+
+  Armario *armario = static_cast<Armario *>(wardrobe->GetComponent("Armario"));
+
+  if (armario && armario->isColliding) {
+    makeFocus->MakeFocus(dt);
+  } else if (armario && !armario->isColliding) {
+    makeFocus->UnmakeFocus();
   }
 
   UpdateArray(dt);

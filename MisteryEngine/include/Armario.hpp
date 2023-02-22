@@ -28,6 +28,8 @@ class Armario : public Component {
 
     GameObject &mouse;
 
+    bool isColliding;
+
   private:
     Vec2 scale;
 };

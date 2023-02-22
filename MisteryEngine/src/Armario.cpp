@@ -1,11 +1,12 @@
 #include "../include/Armario.hpp"
 #include "../include/Collider.hpp"
 #include "../include/Collision.hpp"
+#include "../include/Quarto.hpp"
 
 using namespace std;
 
-Armario::Armario(GameObject& associated, const std::string& file, vector<string>& actions, GameObject& mouse, const Vec2& scale)
-: Component(associated), file(file), sprite(nullptr), mouse(mouse), scale(scale)
+Armario::Armario(GameObject &associated, const std::string &file, vector<string> &actions, GameObject &mouse, const Vec2 &scale)
+    : Component(associated), file(file), sprite(nullptr), mouse(mouse), isColliding(false), scale(scale)
 {
 
   Sprite *wardrobe_sprite = new Sprite(associated, file);
@@ -34,6 +35,7 @@ void Armario::Update(float dt) {
     if (sprite) {
       associated.RemoveComponent(sprite);
       sprite = nullptr;
+      isColliding = false;
     }
   }
 }
@@ -63,5 +65,6 @@ void Armario::NotifyCollision(GameObject &other) {
 
     associated.AddComponent(object_sprite);
 
+    isColliding = true;
   }
 }
