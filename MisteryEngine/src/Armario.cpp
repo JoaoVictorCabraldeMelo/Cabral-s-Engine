@@ -1,13 +1,13 @@
-#include "../include/Wardrobe.hpp"
+#include "../include/Armario.hpp"
 #include "../include/Collider.hpp"
 #include "../include/Collision.hpp"
+#include "../include/Quarto.hpp"
 
 using namespace std;
 
-Wardrobe::Wardrobe(GameObject& associated, const std::string& file, vector<string>& actions, GameObject& mouse, const Vec2& scale)
-: Component(associated), file(file), sprite(nullptr), mouse(mouse), scale(scale)
+Armario::Armario(GameObject &associated, const std::string &file, vector<string> &actions, GameObject &mouse, const Vec2 &scale)
+    : Component(associated), file(file), sprite(nullptr), mouse(mouse), isColliding(false) , scale(scale)
 {
-
   Sprite *wardrobe_sprite = new Sprite(associated, file);
 
   sprite = wardrobe_sprite;
@@ -21,9 +21,9 @@ Wardrobe::Wardrobe(GameObject& associated, const std::string& file, vector<strin
   associated.AddComponent(new Collider(associated));
 }
 
-Wardrobe::~Wardrobe() {}
+Armario::~Armario() {}
 
-void Wardrobe::Update(float dt) {
+void Armario::Update(float dt) {
   Collider *object_collider = static_cast<Collider *>(associated.GetComponent("Collider"));
   Collider *mouse_collider = static_cast<Collider *>(mouse.GetComponent("Collider"));
 
@@ -34,13 +34,14 @@ void Wardrobe::Update(float dt) {
     if (sprite) {
       associated.RemoveComponent(sprite);
       sprite = nullptr;
+      isColliding = false;
     }
   }
 }
 
-void Wardrobe::Render() {}
+void Armario::Render() {}
 
-void Wardrobe::Start() {
+void Armario::Start() {
   if (sprite)
   {
     associated.RemoveComponent(sprite);
@@ -48,13 +49,13 @@ void Wardrobe::Start() {
   } /*segfault protection*/
 }
 
-bool Wardrobe::Is(const std::string& type){
-  if (type == "Wardrobe")
+bool Armario::Is(const std::string& type){
+  if (type == "Armario")
     return true;
   return false;
 }
 
-void Wardrobe::NotifyCollision(GameObject &other) {
+void Armario::NotifyCollision(GameObject &other) {
   if (sprite == nullptr)
   {
     Sprite *object_sprite = new Sprite(associated, "assets/img/wardrobe.png");
@@ -63,5 +64,6 @@ void Wardrobe::NotifyCollision(GameObject &other) {
 
     associated.AddComponent(object_sprite);
 
+    isColliding = true;
   }
 }
