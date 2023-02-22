@@ -1,11 +1,12 @@
 #include "../include/Bed.hpp"
 #include "../include/Collider.hpp"
 #include "../include/Collision.hpp"
+#include "../include/Mouse.hpp"
 
 using namespace std;
 
 Bed::Bed(GameObject& associated, const std::string& file, vector<string>& actions, GameObject& mouse, const Vec2& scale)
-: Component(associated), file(file), sprite(nullptr), mouse(mouse), scale(scale)
+: Component(associated), file(file), sprite(nullptr), mouse(mouse), isColliding(false) ,scale(scale)
 {
 
   Sprite *bed_sprite = new Sprite(associated, file);
@@ -34,6 +35,7 @@ void Bed::Update(float dt) {
     if (sprite) {
       associated.RemoveComponent(sprite);
       sprite = nullptr;
+      isColliding = false;
     }
   }
 }
@@ -62,6 +64,10 @@ void Bed::NotifyCollision(GameObject &other) {
     sprite = object_sprite;
 
     associated.AddComponent(object_sprite);
+    
+    Mouse *cpt = static_cast<Mouse *>(other.GetComponent("Mouse"));
 
+    if (cpt)
+      isColliding = true;
   }
 }

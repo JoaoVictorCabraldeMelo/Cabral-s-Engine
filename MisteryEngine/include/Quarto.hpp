@@ -4,7 +4,7 @@
 #include "State.hpp"
 #include "Mixer.hpp"
 #include "Timer.hpp"
-
+#include "Focus.hpp"
 
 class Quarto : public State {
   public:
@@ -50,6 +50,10 @@ class Quarto : public State {
 
     GameObject *door;
 
+    static GameObject *focus;
+
+    Focus *makeFocus;
+    
   private:
     int first_time = 0;
 

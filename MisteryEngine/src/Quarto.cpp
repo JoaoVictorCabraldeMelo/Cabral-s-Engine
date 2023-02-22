@@ -8,17 +8,23 @@
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Dialog.hpp"
-#include "../include/Wardrobe.hpp"
+#include "../include/Armario.hpp"
 #include "../include/Bed.hpp"
 #include "../include/Door.hpp"
+#include "../include/Focus.hpp"
 
 using namespace std;
+
+GameObject *Quarto::focus = nullptr;
 
 Quarto::Quarto()
     : inventory(new GameObject()), inventory_icon(new GameObject()), bianca(new GameObject()),
       background(new GameObject()), mouse(new GameObject()), loading_screen(new GameObject()), dialog_screen(new GameObject()), 
       dialogs(new GameObject()), timer(Timer()), wardrobe(new GameObject()), bed(new GameObject()), door(new GameObject())
 {
+
+  focus = new GameObject();
+
   Sprite *background_sprite = new Sprite(*background);
 
   background->AddComponent(background_sprite);
@@ -50,7 +56,8 @@ Quarto::Quarto()
   actions_door.push_back("Procurar");
   actions_door.push_back("Voltar");
 
-  Wardrobe *wardrobe_obj = new Wardrobe(*wardrobe, "assets/img/wardrobe.png", actions_wardrobe, *mouse, {1.0f, 1.0f});
+  Armario *wardrobe_obj = new Armario(*wardrobe, "assets/img/wardrobe.png", actions_wardrobe, *mouse, {1.0f, 1.0f});
+  
   wardrobe->AddComponent(wardrobe_obj);
 
   Bed *bed_obj = new Bed(*bed, "assets/img/bed.png", actions_bed, *mouse, {1.0f, 1.0f});
@@ -61,23 +68,22 @@ Quarto::Quarto()
 
   vector<string> loading = {};
 
-  // loading.push_back("assets/img/loading1.1.png");
-  // loading.push_back("assets/img/loading1.2.png");
-  // loading.push_back("assets/img/loading1.3.png");
-  // loading.push_back("assets/img/loading1.4.png");
-  // loading.push_back("assets/img/loading1.5.png");
-  // loading.push_back("assets/img/loading1.6.png");
-  // loading.push_back("assets/img/loading1.7.png");
-  // loading.push_back("assets/img/loading1.8.png");
-  // loading.push_back("assets/img/loading1.9.png");
-  // loading.push_back("assets/img/loading1.10.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.2.png");
+  loading.push_back("assets/img/loading1.3.png");
+  loading.push_back("assets/img/loading1.4.png");
+  loading.push_back("assets/img/loading1.5.png");
+  loading.push_back("assets/img/loading1.6.png");
+  loading.push_back("assets/img/loading1.7.png");
+  loading.push_back("assets/img/loading1.8.png");
+  loading.push_back("assets/img/loading1.9.png");
+  loading.push_back("assets/img/loading1.10.png");
 
   Loading *loading_obj = new Loading(*loading_screen, loading);
 
   loading_screen->AddComponent(loading_obj);
 
-
-
+  makeFocus = new Focus();
 
   GameObject *music_go = new GameObject();
 
@@ -111,6 +117,7 @@ Quarto::Quarto()
 
   AddObject(music_go);
 
+  AddObject(focus);
 }
 
 Quarto::~Quarto() {
@@ -121,7 +128,7 @@ Quarto::~Quarto() {
 void Quarto::LoadAssets() {
   GameObject *go = static_cast<GameObject *>(objectArray[0].get());
 
-  GameObject *inventory_go = static_cast<GameObject *>(objectArray[2].get());
+  GameObject *inventory_go = static_cast<GameObject *>(objectArray[5].get());
 
   Sprite *background = static_cast<Sprite *>(go->GetComponent("Image"));
 
@@ -135,8 +142,8 @@ void Quarto::LoadAssets() {
   wardrobe->box.x = 3 * Game::GetInstance().GetScreenScale().x;
   wardrobe->box.y = 350 * Game::GetInstance().GetScreenScale().y;
 
-  bed->box.x = 50 * Game::GetInstance().GetScreenScale().x;
-  bed->box.y = 250 * Game::GetInstance().GetScreenScale().y;
+  bed->box.x = 400 * Game::GetInstance().GetScreenScale().x;
+  bed->box.y = 600 * Game::GetInstance().GetScreenScale().y;
 
   door->box.x = 1655 * Game::GetInstance().GetScreenScale().x;
   door->box.y = 280 * Game::GetInstance().GetScreenScale().y;
@@ -161,12 +168,6 @@ void Quarto::Update(float dt) {
 
   input.Update();
 
- if (input.KeyPress(P_KEY)) {
-    std::cout << "check";
-    Sala *sala = new Sala();
-    Game::GetInstance().Push(sala);
-  }
-  
   if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY))
   {
     quitRequested = true;
@@ -181,11 +182,9 @@ void Quarto::Update(float dt) {
     inventory->RemoveComponent(inventory_cpt);
   }
 
-
-
   if (timer.Get() > 2.0F)
   {
-    if (first_time != 0)
+    if (first_time == 0)
     {
       vector<string> dialog = {};
 
@@ -224,6 +223,18 @@ void Quarto::Update(float dt) {
     AddObject(dialogs);
   }
 
+  Armario *armario = static_cast<Armario *>(wardrobe->GetComponent("Armario"));
+
+  Bed *bed_cpt = static_cast<Bed *>(bed->GetComponent("Bed"));
+
+  Door *door_cpt = static_cast<Door *>(door->GetComponent("Door"));
+
+  if (armario && (armario->isColliding || bed_cpt->isColliding || door_cpt->isColliding)) {
+    makeFocus->MakeFocus(dt);
+  } else if (armario && !armario->isColliding && !bed_cpt->isColliding && !door_cpt->isColliding) {
+    makeFocus->UnmakeFocus();
+  }
+
   UpdateArray(dt);
 }
 
@@ -238,7 +249,7 @@ void Quarto::Start() {
 
   started = true;
 
-  GameObject *bianca_go = static_cast<GameObject *>(objectArray[2].get());
+  GameObject *bianca_go = static_cast<GameObject *>(objectArray[4].get());
 
   bianca_go->box.x = 700 * Game::GetInstance().GetScreenScale().x;
   bianca_go->box.y = 400 * Game::GetInstance().GetScreenScale().y;

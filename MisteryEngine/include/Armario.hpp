@@ -4,11 +4,11 @@
 #include "Component.hpp"
 #include "Sprite.hpp"
 
-class Wardrobe : public Component {
+class Armario : public Component {
   public:
-    Wardrobe(GameObject &associated, const std::string &file, std::vector<std::string>& actions, GameObject &mouse, const Vec2 &scale);
+    Armario(GameObject &associated, const std::string &file, std::vector<std::string>& actions, GameObject &mouse, const Vec2 &scale);
 
-    ~Wardrobe();
+    ~Armario();
 
     void Update(float dt) override;
 
@@ -27,6 +27,8 @@ class Wardrobe : public Component {
     Sprite *sprite;
 
     GameObject &mouse;
+
+    bool isColliding;
 
   private:
     Vec2 scale;
