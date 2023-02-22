@@ -60,6 +60,12 @@ Quarto::Quarto()
   
   wardrobe->AddComponent(wardrobe_obj);
 
+  Bed *bed_obj = new Bed(*bed, "assets/img/bed.png", actions_bed, *mouse, {1.0f, 1.0f});
+  bed->AddComponent(bed_obj);
+
+  Door *door_obj = new Door(*door, "assets/img/door.png", actions_door, *mouse, {1.0f, 1.0f});
+  door->AddComponent(door_obj);
+
   vector<string> loading = {};
 
   loading.push_back("assets/img/loading1.1.png");
@@ -122,7 +128,7 @@ Quarto::~Quarto() {
 void Quarto::LoadAssets() {
   GameObject *go = static_cast<GameObject *>(objectArray[0].get());
 
-  // GameObject *inventory_go = static_cast<GameObject *>(objectArray[2].get());
+  GameObject *inventory_go = static_cast<GameObject *>(objectArray[5].get());
 
   Sprite *background = static_cast<Sprite *>(go->GetComponent("Image"));
 
@@ -136,14 +142,14 @@ void Quarto::LoadAssets() {
   wardrobe->box.x = 3 * Game::GetInstance().GetScreenScale().x;
   wardrobe->box.y = 350 * Game::GetInstance().GetScreenScale().y;
 
-  bed->box.x = 50 * Game::GetInstance().GetScreenScale().x;
-  bed->box.y = 250 * Game::GetInstance().GetScreenScale().y;
+  bed->box.x = 400 * Game::GetInstance().GetScreenScale().x;
+  bed->box.y = 600 * Game::GetInstance().GetScreenScale().y;
 
   door->box.x = 1655 * Game::GetInstance().GetScreenScale().x;
   door->box.y = 280 * Game::GetInstance().GetScreenScale().y;
 
-  // inventory_go->box.x = 30 * Game::GetInstance().GetScreenScale().x;
-  // inventory_go->box.y = 30 * Game::GetInstance().GetScreenScale().y;
+  inventory_go->box.x = 30 * Game::GetInstance().GetScreenScale().x;
+  inventory_go->box.y = 30 * Game::GetInstance().GetScreenScale().y;
 
   inventory->box.x = 300 * Game::GetInstance().GetScreenScale().x;
   inventory->box.y = 30 * Game::GetInstance().GetScreenScale().y;
@@ -219,9 +225,13 @@ void Quarto::Update(float dt) {
 
   Armario *armario = static_cast<Armario *>(wardrobe->GetComponent("Armario"));
 
-  if (armario && armario->isColliding) {
+  Bed *bed_cpt = static_cast<Bed *>(bed->GetComponent("Bed"));
+
+  Door *door_cpt = static_cast<Door *>(door->GetComponent("Door"));
+
+  if (armario && (armario->isColliding || bed_cpt->isColliding || door_cpt->isColliding)) {
     makeFocus->MakeFocus(dt);
-  } else if (armario && !armario->isColliding) {
+  } else if (armario && !armario->isColliding && !bed_cpt->isColliding && !door_cpt->isColliding) {
     makeFocus->UnmakeFocus();
   }
 
@@ -239,7 +249,7 @@ void Quarto::Start() {
 
   started = true;
 
-  GameObject *bianca_go = static_cast<GameObject *>(objectArray[2].get());
+  GameObject *bianca_go = static_cast<GameObject *>(objectArray[4].get());
 
   bianca_go->box.x = 700 * Game::GetInstance().GetScreenScale().x;
   bianca_go->box.y = 400 * Game::GetInstance().GetScreenScale().y;

@@ -2,6 +2,7 @@
 #include "../include/Collider.hpp"
 #include "../include/Collision.hpp"
 #include "../include/Quarto.hpp"
+#include "../include/Mouse.hpp"
 
 using namespace std;
 
@@ -64,6 +65,8 @@ void Armario::NotifyCollision(GameObject &other) {
 
     associated.AddComponent(object_sprite);
 
-    isColliding = true;
+    Mouse *cpt = static_cast<Mouse *>(other.GetComponent("Mouse"));
+
+    if (cpt) isColliding = true;
   }
 }
