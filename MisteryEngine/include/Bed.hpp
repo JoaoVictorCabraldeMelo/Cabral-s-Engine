@@ -3,6 +3,7 @@
 
 #include "Component.hpp"
 #include "Sprite.hpp"
+#include "Text.hpp"
 
 class Bed : public Component {
   public:
@@ -32,6 +33,10 @@ class Bed : public Component {
 
   private:
     Vec2 scale;
+
+    Sprite *chooser_sprite;
+
+    Text *chooser_text;
 };
 
 #endif

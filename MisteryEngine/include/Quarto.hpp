@@ -53,7 +53,11 @@ class Quarto : public State {
     static GameObject *focus;
 
     Focus *makeFocus;
-    
+
+    static GameObject *chooser;
+
+    static GameObject *text;
+
   private:
     int first_time = 0;
 
