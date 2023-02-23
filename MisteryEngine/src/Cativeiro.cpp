@@ -57,15 +57,14 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
   vector<string> loading = {};
 
   loading.push_back("assets/img/loading1.1.png");
-  loading.push_back("assets/img/loading1.2.png");
-  loading.push_back("assets/img/loading1.3.png");
-  loading.push_back("assets/img/loading1.4.png");
-  loading.push_back("assets/img/loading1.5.png");
-  loading.push_back("assets/img/loading1.6.png");
-  loading.push_back("assets/img/loading1.7.png");
-  loading.push_back("assets/img/loading1.8.png");
-  loading.push_back("assets/img/loading1.9.png");
-  loading.push_back("assets/img/loading1.10.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+    loading.push_back("assets/img/loading1.1.png");
+    loading.push_back("assets/img/loading1.1.png");
+      loading.push_back("assets/img/loading1.1.png");
 
   Loading *loading_obj = new Loading(*loading_screen, loading);
 

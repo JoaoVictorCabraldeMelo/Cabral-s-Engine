@@ -9,6 +9,7 @@
 #include "../include/Object.hpp"
 #include "../include/Collider.hpp"
 #include "../include/Loading.hpp"
+#include "../include/Cativeiro.hpp"
 #include "../include/Mixer.hpp"
 
 using namespace std;
@@ -48,15 +49,12 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
   vector<string> loading = {};
 
   loading.push_back("assets/img/loading1.1.png");
-  loading.push_back("assets/img/loading1.2.png");
-  loading.push_back("assets/img/loading1.3.png");
-  loading.push_back("assets/img/loading1.4.png");
-  loading.push_back("assets/img/loading1.5.png");
-  loading.push_back("assets/img/loading1.6.png");
-  loading.push_back("assets/img/loading1.7.png");
-  loading.push_back("assets/img/loading1.8.png");
-  loading.push_back("assets/img/loading1.9.png");
-  loading.push_back("assets/img/loading1.10.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png")  ;
+  loading.push_back("assets/img/loading1.1.png")  ;
+  loading.push_back("assets/img/loading1.1.png")  ;
 
   Loading *loading_obj = new Loading(*loading_screen, loading);
 
@@ -137,7 +135,8 @@ void Hospital::Update(float dt) {
 
   if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY))
   {
-    quitRequested = true;
+    Cativeiro *cativeiro = new Cativeiro();
+    Game::GetInstance().Push(cativeiro);
   }
   else if (input.KeyPress(TAB_KEY) && inventory_cpt == nullptr)
   {

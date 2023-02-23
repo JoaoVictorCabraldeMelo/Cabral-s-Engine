@@ -74,15 +74,13 @@ Quarto::Quarto()
   vector<string> loading = {};
 
   loading.push_back("assets/img/loading1.1.png");
-  loading.push_back("assets/img/loading1.2.png");
-  loading.push_back("assets/img/loading1.3.png");
-  loading.push_back("assets/img/loading1.4.png");
-  loading.push_back("assets/img/loading1.5.png");
-  loading.push_back("assets/img/loading1.6.png");
-  loading.push_back("assets/img/loading1.7.png");
-  loading.push_back("assets/img/loading1.8.png");
-  loading.push_back("assets/img/loading1.9.png");
-  loading.push_back("assets/img/loading1.10.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png")  ;
+  loading.push_back("assets/img/loading1.1.png")  ;
+  loading.push_back("assets/img/loading1.1.png")  ;
+
 
   Loading *loading_obj = new Loading(*loading_screen, loading);
 
@@ -179,7 +177,8 @@ void Quarto::Update(float dt) {
 
   if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY))
   {
-    quitRequested = true;
+    Sala *sala = new Sala();
+    Game::GetInstance().Push(sala);
   }
   else if (input.KeyPress(TAB_KEY) && inventory_cpt == nullptr)
   {
@@ -243,6 +242,8 @@ void Quarto::Update(float dt) {
   } else if (armario && !armario->isColliding && !bed_cpt->isColliding && !door_cpt->isColliding) {
     makeFocus->UnmakeFocus();
   }
+
+
 
   UpdateArray(dt);
 }

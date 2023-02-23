@@ -6,6 +6,7 @@
 #include "../include/Phone.hpp"
 #include "../include/TV.hpp"
 #include "../include/Mouse.hpp"
+#include "../include/Bar.hpp"
 #include "../include/Object.hpp"
 #include "../include/Collider.hpp"
 #include "../include/Loading.hpp"
@@ -46,27 +47,24 @@ background(new GameObject()), mouse(new GameObject()), loading_screen(new GameOb
   actions_phone.push_back("Procurar");
   actions_phone.push_back("Voltar");
 
-  Phone *phone_obj = new Phone(*phone, "assets/img/phone.png", actions_phone, *mouse, {3.5, 3.5});
+  Phone *phone_obj = new Phone(*phone, "assets/img/phone.png", actions_phone, *mouse, {0.1, 0.1});
 
   phone->AddComponent(phone_obj);
 
-  TV *stand_obj = new TV(*stand, "assets/img/tvOutline.png", actions_tv, *mouse, {3.5, 3.5});
+  TV *stand_obj = new TV(*stand, "assets/img/tvOutline.png", actions_tv, *mouse, {0.1, 0.1});
 
   stand->AddComponent(stand_obj);
 
   vector<string> loading = {};
 
   loading.push_back("assets/img/loading1.1.png");
-  loading.push_back("assets/img/loading1.2.png");
-  loading.push_back("assets/img/loading1.3.png");
-  loading.push_back("assets/img/loading1.4.png");
-  loading.push_back("assets/img/loading1.5.png");
-  loading.push_back("assets/img/loading1.6.png");
-  loading.push_back("assets/img/loading1.7.png");
-  loading.push_back("assets/img/loading1.8.png");
-  loading.push_back("assets/img/loading1.9.png");
-  loading.push_back("assets/img/loading1.10.png");
-
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png");
+  loading.push_back("assets/img/loading1.1.png")  ;
+  loading.push_back("assets/img/loading1.1.png")  ;
+  loading.push_back("assets/img/loading1.1.png")  ;
+  
   Loading *loading_obj = new Loading(*loading_screen, loading);
 
   loading_screen->AddComponent(loading_obj);
@@ -157,7 +155,8 @@ void Rua::Update(float dt) {
 
   if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY))
   {
-    quitRequested = true;
+    Bar *bar = new Bar();
+    Game::GetInstance().Push(bar);
   }
   else if (input.KeyPress(TAB_KEY) && inventory_cpt == nullptr)
   {
